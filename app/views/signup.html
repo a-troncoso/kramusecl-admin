@@ -8,7 +8,6 @@
 
     <div class="container w-420 p-20 bg-blue-karamuse mt-40 text-center">
 
-
       <h2 class="text-light text-black">Registro</h2>
 
       <form name="form" class="form-validation mt-20" novalidate>
@@ -22,33 +21,32 @@
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.bar.show">
-          <input type="password" placeholder="Bar..." class="form-control b-0" ng-model="signup.page.user.password" ng-change="removeMsg()" required>
+          <input type="text" placeholder="Bar..." class="form-control b-0" ng-model="signup.user.data.bar" ng-change="removeMsg()" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.rut.show">
-          <input type="password" placeholder="Rut..." class="form-control b-0" ng-model="signup.page.user.password" ng-change="removeMsg()" required>
+          <input type="text" placeholder="Rut..." class="form-control b-0" ng-model="signup.user.data.rut" ng-change="removeMsg()" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.address.show">
-          <input type="password" placeholder="Dirección..." class="form-control b-0" ng-model="signup.page.user.password" ng-change="removeMsg()" required>
-        </div>
-
-        <div class="form-group" ng-show="signup.page.formGroups.city.show">
-        	<select class="form-control"></select>
+          <input type="text" placeholder="Dirección..." class="form-control b-0" ng-model="signup.user.data.address" ng-change="removeMsg()" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.region.show">
-        	<select class="form-control"></select>
+          <select class="form-control" ng-options="region.nombre for region in signup.page.regions.list track by region.codigo" ng-model="signup.user.data.region" ng-change="signup.getProvinces(signup.user.data.region.codigo)" required></select>
+        </div>
+
+        <div class="form-group" ng-show="signup.page.formGroups.province.show">
+        	<select class="form-control" ng-options="province.nombre for province in signup.page.provinces.list track by province.codigo" ng-model="signup.user.data.province" ng-change="signup.getCommunes(signup.user.data.region.codigo,signup.user.data.province.codigo)" required></select>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.commune.show">
-        	<select class="form-control"></select>
+        	<select class="form-control" ng-options="commune.nombre for commune in signup.page.communes.list track by commune.codigo" ng-model="signup.user.data.commune" required></select>
         </div>
 
         <div class="form-group text-center mt-20">
-          <button type="submit" class="btn btn-border btn-white  text-black b-0 text-md pl-20 pr-20" ng-click="signup.signup()" ng-disabled=''>Vamos!</button>
+          <button type="submit" class="btn btn-border btn-white  text-black b-0 text-md pl-20 pr-20" ng-click="signup.signup()" ng-disabled='form.$invalid'>Vamos!</button>
         </div>
-
 
       </form>
 

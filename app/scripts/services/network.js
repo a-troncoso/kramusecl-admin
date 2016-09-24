@@ -35,4 +35,39 @@ angular
 			}
 		}
 	});
+})
+
+.factory('ChileRegions', function($resource) {
+
+	return $resource('https://apis.modernizacion.cl/dpa/regiones', {}, {
+		query: {
+			method: 'GET',
+			isArray: true
+		}
+	});
+})
+
+.factory('ChileProvinces', function($resource) {
+
+	return $resource('https://apis.modernizacion.cl/dpa/regiones/:regionId/provincias', {
+		regionId: '@regionId'
+	}, {
+		query: {
+			method: 'GET',
+			isArray: true
+		}
+	});
+})
+
+.factory('ChileCommunes', function($resource) {
+
+	return $resource('https://apis.modernizacion.cl/dpa/regiones/:regionId/provincias/:provinceId/comunas', {
+		regionId: '@regionId',
+		provinceId: '@provinceId'
+	}, {
+		query: {
+			method: 'GET',
+			isArray: true
+		}
+	});
 });
