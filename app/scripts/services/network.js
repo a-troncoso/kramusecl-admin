@@ -8,8 +8,23 @@ angular
 
 .factory('Signup', function($resource) {
 
-	return $resource(API_URL_BASE + '/register', {}, {
+	return $resource(API_URL_BASE + '/register/:action', {
+		action: '@action'
+	}, {
 		save: {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			},
+			transformRequest: function(obj) {
+				var str = [];
+				for (var p in obj) {
+					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+				}
+				return str.join("&");
+			}
+		},
+		validateToken: {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'

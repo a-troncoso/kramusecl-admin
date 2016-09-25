@@ -8,33 +8,65 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('SignupCtrl', function($scope, $log, $routeParams, ChileRegions, ChileProvinces, ChileCommunes, Signup) {
+	.controller('SignupCtrl', function($log, $routeParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup) {
 
 		this.page = {
+			messages: {
+				registryResponse: {
+					title: {
+						text: '',
+						color: '',
+						show: false
+					},
+					subtitle: {
+						text: '',
+						color: '',
+						show: false
+					}
+				},
+				show: false
+			},
 			formGroups: {
 				email: {
-					show: true
+					show: true,
+					disabled: false
 				},
 				phone: {
-					show: true
+					show: true,
+					disabled: false
 				},
 				bar: {
-					show: false
+					show: false,
+					required: false
 				},
 				rut: {
-					show: false
+					show: false,
+					required: false
 				},
 				address: {
-					show: false
+					show: false,
+					required: false
 				},
 				region: {
-					show: false
+					show: false,
+					required: false
 				},
 				province: {
-					show: false
+					show: false,
+					required: false
 				},
 				commune: {
-					show: false
+					show: false,
+					required: false
+				},
+				password: {
+					show: false,
+					required: false,
+					type: 'password'
+				},
+				repassword: {
+					show: false,
+					required: false
 				},
 			},
 			regions: {
@@ -45,6 +77,12 @@ angular.module('karamuseclAdminApp')
 			},
 			communes: {
 				list: []
+			},
+			buttons: {
+				send: {
+					disabled: false,
+					text: 'Contáctanos'
+				}
 			}
 		};
 
@@ -57,19 +95,38 @@ angular.module('karamuseclAdminApp')
 				address: '',
 				region: {},
 				province: {},
-				commune: {}
+				commune: {},
+				password: '',
+				repassword: ''
 			}
 		};
 
 		var self = this,
-			tokenIsValid = false;
+			tokenIsValid = false,
+			data = {};
 
 		var validateToken = function(token) {
-			// PENDIENTE
-			if (token) {
-				return true;
-			}
-			return false;
+			var deferred = $q.defer();
+
+			data = {
+				token: token,
+				action: 'validate_token'
+			};
+
+			Signup.validateToken(data, function(success) {
+				if (success.status === 200) {
+					self.user.data.email = success.data.email;
+					self.user.data.phone = success.data.phone;
+					deferred.resolve(true);
+				} else {
+					deferred.reject(false);
+				}
+			}, function(error) {
+				$log.error(error);
+				deferred.reject(false);
+			});
+
+			return deferred.promise;
 		};
 
 		var getRegions = function() {
@@ -106,49 +163,101 @@ angular.module('karamuseclAdminApp')
 			});
 		};
 
+		this.hideShowPassword = function() {
+			if (self.page.formGroups.password.type === 'password') {
+				self.page.formGroups.password.type = 'text';
+			} else {
+				self.page.formGroups.password.type = 'password';
+			}
+		};
+
 		this.signup = function() {
 
-			var data = {};
-			tokenIsValid = validateToken($routeParams.token);
+			data = {};
+
+			if ($routeParams.token) {
+				tokenIsValid = validateToken($routeParams.token);
+			}
 
 			if (tokenIsValid) {
 				data = {
+					action: '',
 					email: self.user.data.email,
 					phone: self.user.data.phone,
-					bar: self.user.data.bar,
+					name: self.user.data.bar,
 					rut: self.user.data.rut,
 					address: self.user.data.address,
 					region: self.user.data.region.nombre,
-					province: self.user.data.province.nombre,
-					commune: self.user.data.commune.nombre
+					city: self.user.data.province.nombre,
+					commune: self.user.data.commune.nombre,
+					password: self.user.data.password,
+					repassword: self.user.data.repassword,
+					token: $routeParams.token
 				};
 			} else {
 				data = {
-					email: this.user.data.email,
-					phone: this.user.data.phone
+					action: '',
+					email: self.user.data.email,
+					phone: self.user.data.phone
 				};
 			}
 
 			$log.log(data);
 
+			self.page.buttons.send.disabled = true;
+
 			Signup.save(data, function(success) {
+				self.page.messages.registryResponse.show = true;
+				if (success.status === 200) {
+					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
+					if (tokenIsValid) {
+						self.page.messages.registryResponse.subtitle.text = 'Pronto nos pondremos en contacto contigo';
+					} else {
+						self.page.messages.registryResponse.subtitle.text = 'Te damos la bienvenida a Karamuse';
+					}
+					self.page.messages.registryResponse.title.color = 'white';
+					self.page.messages.registryResponse.subtitle.color = 'white';
+					self.page.buttons.send.disabled = true;
+				} else if (success.status === 403) {
+					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
+					self.page.messages.registryResponse.subtitle.text = 'Tu email ya está registrado';
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.subtitle.color = 'danger';
+					self.page.buttons.send.disabled = false;
+				}
+
 				$log.info(success);
 			}, function(error) {
-				$log.log('soy un error');
 				$log.error(error);
 			});
 		};
 
 		if ($routeParams.token) {
+			self.page.buttons.send.text = 'Registrar';
+
 			tokenIsValid = validateToken($routeParams.token);
 
 			if (tokenIsValid) {
-				this.page.formGroups.bar.show = true;
-				this.page.formGroups.rut.show = true;
-				this.page.formGroups.address.show = true;
-				this.page.formGroups.region.show = true;
-				this.page.formGroups.province.show = true;
-				this.page.formGroups.commune.show = true;
+				self.page.formGroups.email.disabled = true;
+				self.page.formGroups.phone.disabled = true;
+				self.page.formGroups.bar.show = true;
+				self.page.formGroups.rut.show = true;
+				self.page.formGroups.address.show = true;
+				self.page.formGroups.region.show = true;
+				self.page.formGroups.province.show = true;
+				self.page.formGroups.commune.show = true;
+				self.page.formGroups.password.show = true;
+				self.page.formGroups.repassword.show = true;
+
+				self.page.formGroups.bar.required = true;
+				self.page.formGroups.rut.required = true;
+				self.page.formGroups.address.required = true;
+				self.page.formGroups.region.required = true;
+				self.page.formGroups.province.required = true;
+				self.page.formGroups.commune.required = true;
+				self.page.formGroups.password.required = true;
+				self.page.formGroups.repassword.required = true;
+
 				getRegions();
 			}
 		}

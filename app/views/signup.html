@@ -10,42 +10,55 @@
 
       <h2 class="text-light text-black">Registro</h2>
 
+      <div ng-show="signup.page.messages.registryResponse.show">
+        <h4 class="text-light text-{{signup.page.messages.registryResponse.title.color}}">{{signup.page.messages.registryResponse.title.text}}</h4>
+        <h4 class="text-light text-{{signup.page.messages.registryResponse.subtitle.color}}">{{signup.page.messages.registryResponse.subtitle.text}}</h4>
+      </div>
+
       <form name="form" class="form-validation mt-20" novalidate>
 
         <div class="form-group" ng-show="signup.page.formGroups.email.show">
-          <input type="email" class="form-control b-0" placeholder="Email de usuario..." ng-model="signup.user.data.email" ng-change="removeMsg()" required>
+          <input type="email" class="form-control b-0" placeholder="Email del bar..." ng-model="signup.user.data.email" ng-disabled="signup.page.formGroups.email.disabled" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.phone.show">
-          <input type="phone" placeholder="Teléfono..." class="form-control b-0" ng-model="signup.user.data.phone" ng-change="removeMsg()" required>
+          <input type="tel" placeholder="Teléfono de contacto..." class="form-control b-0" ng-model="signup.user.data.phone" ng-disabled="signup.page.formGroups.phone.disabled" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.bar.show">
-          <input type="text" placeholder="Bar..." class="form-control b-0" ng-model="signup.user.data.bar" ng-change="removeMsg()" required>
+          <input type="text" placeholder="Nombre del bar..." class="form-control b-0" ng-model="signup.user.data.bar" ng-required="signup.page.formGroups.bar.required">
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.rut.show">
-          <input type="text" placeholder="Rut..." class="form-control b-0" ng-model="signup.user.data.rut" ng-change="removeMsg()" required>
+          <input type="text" placeholder="Rut del bar..." class="form-control b-0" ng-model="signup.user.data.rut" ng-required="signup.page.formGroups.rut.required">
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.address.show">
-          <input type="text" placeholder="Dirección..." class="form-control b-0" ng-model="signup.user.data.address" ng-change="removeMsg()" required>
+          <input type="text" placeholder="Dirección..." class="form-control b-0" ng-model="signup.user.data.address" ng-required="signup.page.formGroups.address.required">
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.region.show">
-          <select class="form-control" ng-options="region.nombre for region in signup.page.regions.list track by region.codigo" ng-model="signup.user.data.region" ng-change="signup.getProvinces(signup.user.data.region.codigo)" required></select>
+          <select class="form-control" ng-options="region.nombre for region in signup.page.regions.list track by region.codigo" ng-model="signup.user.data.region" ng-change="signup.getProvinces(signup.user.data.region.codigo)" title="Selecciona tu región" ng-required="signup.page.formGroups.region.required"></select>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.province.show">
-        	<select class="form-control" ng-options="province.nombre for province in signup.page.provinces.list track by province.codigo" ng-model="signup.user.data.province" ng-change="signup.getCommunes(signup.user.data.region.codigo,signup.user.data.province.codigo)" required></select>
+        	<select class="form-control" ng-options="province.nombre for province in signup.page.provinces.list track by province.codigo" ng-model="signup.user.data.province" ng-change="signup.getCommunes(signup.user.data.region.codigo,signup.user.data.province.codigo)" title="Selecciona tu provincia" ng-required="signup.page.formGroups.province.required"></select>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.commune.show">
-        	<select class="form-control" ng-options="commune.nombre for commune in signup.page.communes.list track by commune.codigo" ng-model="signup.user.data.commune" required></select>
+        	<select class="form-control" ng-options="commune.nombre for commune in signup.page.communes.list track by commune.codigo" ng-model="signup.user.data.commune" title="Selecciona tu comuna" ng-required="signup.page.formGroups.commune.required"></select>
+        </div>
+
+        <div class="form-group" ng-show="signup.page.formGroups.password.show">
+          <input type="{{signup.page.formGroups.password.type}}" placeholder="Crea una contraseña..." class="form-control b-0" ng-model="signup.user.data.password" ng-required="signup.page.formGroups.password.required">
+          <input type="checkbox" ng-click="signup.hideShowPassword()"> ver password
+        </div>
+        <div class="form-group" ng-show="signup.page.formGroups.repassword.show">
+          <input type="password" placeholder="Repite la contraseña..." class="form-control b-0" ng-model="signup.user.data.repassword" ng-required="signup.page.formGroups.repassword.required">
         </div>
 
         <div class="form-group text-center mt-20">
-          <button type="submit" class="btn btn-border btn-white  text-black b-0 text-md pl-20 pr-20" ng-click="signup.signup()" ng-disabled='form.$invalid'>Vamos!</button>
+          <button type="submit" class="btn btn-border btn-white  text-black b-0 text-md pl-20 pr-20" ng-click="signup.signup()" ng-disabled='form.$invalid || signup.page.buttons.send.disabled'>{{signup.page.buttons.send.text}}</button>
         </div>
 
       </form>
