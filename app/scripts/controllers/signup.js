@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('SignupCtrl', function($log, $routeParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup) {
+	.controller('SignupCtrl', function($log, $routeParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
 			messages: {
@@ -19,6 +19,12 @@ angular.module('karamuseclAdminApp')
 						show: false
 					},
 					subtitle: {
+						text: '',
+						color: '',
+						show: false
+					},
+					link: {
+						href: '',
 						text: '',
 						color: '',
 						show: false
@@ -171,6 +177,18 @@ angular.module('karamuseclAdminApp')
 			}
 		};
 
+		this.formatRut = function(rut) {
+			if (Validators.validateRutCheckDigit(rut)) {
+				self.user.data.rut = Utils.formatRut(rut);
+			}
+		};
+
+		this.hideRegistryResponse = function() {
+			if (self.page.messages.registryResponse.show) {
+				self.page.messages.registryResponse.show = false;
+			}
+		};
+
 		this.signup = function() {
 
 			data = {};
@@ -188,12 +206,27 @@ angular.module('karamuseclAdminApp')
 					rut: self.user.data.rut,
 					address: self.user.data.address,
 					region: self.user.data.region.nombre,
-					city: self.user.data.province.nombre,
+					province: self.user.data.province.nombre,
 					commune: self.user.data.commune.nombre,
 					password: self.user.data.password,
 					repassword: self.user.data.repassword,
 					token: $routeParams.token
 				};
+
+				if (!Validators.comparePasswords(data.password, data.repassword)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Las contraseñas no coinciden';
+					return;
+				}
+
+				if (!Validators.validateStringLength(data.password, 6)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'La contaseña debe tener un largo mínimo de 6 caracteres';
+					return;
+				}
+
 			} else {
 				data = {
 					action: '',
@@ -202,25 +235,34 @@ angular.module('karamuseclAdminApp')
 				};
 			}
 
-			$log.log(data);
-
 			self.page.buttons.send.disabled = true;
 
 			Signup.save(data, function(success) {
 				self.page.messages.registryResponse.show = true;
 				if (success.status === 200) {
 					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
-					if (tokenIsValid) {
-						self.page.messages.registryResponse.subtitle.text = 'Pronto nos pondremos en contacto contigo';
-					} else {
-						self.page.messages.registryResponse.subtitle.text = 'Te damos la bienvenida a Karamuse';
-					}
+					self.page.messages.registryResponse.subtitle.text = 'Pronto nos pondremos en contacto contigo';
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
+					self.page.buttons.send.disabled = true;
+				} else if (success.status === 201) {
+					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
+					self.page.messages.registryResponse.subtitle.text = 'Te damos la bienvenida a Karamuse';
+					self.page.messages.registryResponse.link.text = 'ir al login';
+					self.page.messages.registryResponse.title.color = 'white';
+					self.page.messages.registryResponse.subtitle.color = 'white';
+					self.page.messages.registryResponse.link.color = 'black';
+					self.page.messages.registryResponse.link.href = '#/';
 					self.page.buttons.send.disabled = true;
 				} else if (success.status === 403) {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.registryResponse.subtitle.text = 'Tu email ya está registrado';
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.subtitle.color = 'danger';
+					self.page.buttons.send.disabled = false;
+				} else {
+					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
+					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;

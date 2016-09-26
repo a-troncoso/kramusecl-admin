@@ -13,6 +13,7 @@
       <div ng-show="signup.page.messages.registryResponse.show">
         <h4 class="text-light text-{{signup.page.messages.registryResponse.title.color}}">{{signup.page.messages.registryResponse.title.text}}</h4>
         <h4 class="text-light text-{{signup.page.messages.registryResponse.subtitle.color}}">{{signup.page.messages.registryResponse.subtitle.text}}</h4>
+        <a ng-href="{{signup.page.messages.registryResponse.link.href}}" class="text-{{signup.page.messages.registryResponse.link.color}}">{{signup.page.messages.registryResponse.link.text}}</a>
       </div>
 
       <form name="form" class="form-validation mt-20" novalidate>
@@ -30,7 +31,7 @@
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.rut.show">
-          <input type="text" placeholder="Rut del bar..." class="form-control b-0" ng-model="signup.user.data.rut" ng-required="signup.page.formGroups.rut.required">
+          <input type="text" placeholder="Rut del bar..." class="form-control b-0" ng-model="signup.user.data.rut" ng-blur="signup.formatRut(signup.user.data.rut)" ng-required="signup.page.formGroups.rut.required">
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.address.show">
@@ -50,11 +51,11 @@
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.password.show">
-          <input type="{{signup.page.formGroups.password.type}}" placeholder="Crea una contraseña..." class="form-control b-0" ng-model="signup.user.data.password" ng-required="signup.page.formGroups.password.required">
+          <input type="{{signup.page.formGroups.password.type}}" placeholder="Crea una contraseña..." class="form-control b-0" ng-model="signup.user.data.password" ng-required="signup.page.formGroups.password.required" ng-change="signup.hideRegistryResponse()">
           <input type="checkbox" ng-click="signup.hideShowPassword()"> ver password
         </div>
         <div class="form-group" ng-show="signup.page.formGroups.repassword.show">
-          <input type="password" placeholder="Repite la contraseña..." class="form-control b-0" ng-model="signup.user.data.repassword" ng-required="signup.page.formGroups.repassword.required">
+          <input type="password" placeholder="Repite la contraseña..." class="form-control b-0" ng-model="signup.user.data.repassword" ng-required="signup.page.formGroups.repassword.required" ng-change="signup.hideRegistryResponse()">
         </div>
 
         <div class="form-group text-center mt-20">
