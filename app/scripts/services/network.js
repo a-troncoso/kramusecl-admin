@@ -40,14 +40,20 @@ angular
 	});
 })
 
-.factory('Login', function($resource) {
+.factory('RenewPass', function($resource) {
 
-	return $resource(API_URL_BASE + '/login', {}, {
-		save: {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+	return $resource(API_URL_BASE + '/register/renewpass/:step', {
+		step: '@step'
+	}, {
+		query: {
+			method: 'POST'
+		},
+		transformRequest: function(obj) {
+			var str = [];
+			for (var p in obj) {
+				str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
 			}
+			return str.join("&");
 		}
 	});
 })
