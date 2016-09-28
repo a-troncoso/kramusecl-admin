@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($log, $auth, deviceDetector) {
+	.controller('LoginCtrl', function($log, $auth, $location, deviceDetector) {
 
 		this.page = {
 			messages: {
@@ -30,8 +30,8 @@ angular.module('karamuseclAdminApp')
 
 		this.user = {
 			data: {
-				email: '',
-				password: '',
+				email: 'alvaro.mc2@gmail.com',
+				password: '123456',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
@@ -47,9 +47,11 @@ angular.module('karamuseclAdminApp')
 			$auth.login(data)
 				.then(function(success) {
 					if (success.data.status === 200) {
+						$auth.setToken(success.data.data.token);
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Login correcto';
 						self.page.messages.loginResponse.title.color = 'white';
+						$location.path('home');
 					} else if (success.data.status === 401) {
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Usuario y/o password incorrectos';

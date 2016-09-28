@@ -1585,3 +1585,16 @@ input[type="file"].custom-input-file {
   z-index: 3;
   background: white;
 }
+
+.progress-cursor{
+  cursor: progress;
+}
+.pointer-cursor {
+  cursor: pointer;
+}
+.move-cursor {
+  cursor: move;
+}
+.not-allowed-cursor {
+  cursor: not-allowed
+}

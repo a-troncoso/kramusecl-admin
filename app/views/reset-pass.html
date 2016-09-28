@@ -1,17 +1,18 @@
-<div class="">
+<div class="" id='topPage'>
 
   <div class="mt-70">
     <div class="text-center">
       <img style="width:50%" ng-src="images/karamuse-logo.png">
     </div>
 
-    <div class="container w-420 p-20 bg-blue-karamuse mt-40 text-center">
+    <div class="container w-420 p-20 bg-blue-karamuse mt-40 text-center" ng-class="{'progress-cursor': resetPass.page.container.progressCursor}">
 
       <h2 class="text-light text-black">Restablece tu contraseña</h2>
 
       <div ng-show="resetPass.page.messages.resetPassResponse.show">
         <h4 class="text-light text-{{resetPass.page.messages.resetPassResponse.title.color}}">{{resetPass.page.messages.resetPassResponse.title.text}}</h4>
         <h4 class="text-light text-{{resetPass.page.messages.resetPassResponse.subtitle.color}}">{{resetPass.page.messages.resetPassResponse.subtitle.text}}</h4>
+        <a ng-href="{{resetPass.page.messages.resetPassResponse.link.href}}" class="text-{{resetPass.page.messages.resetPassResponse.link.color}}">{{resetPass.page.messages.resetPassResponse.link.text}}</a>
       </div>
 
       <form name="form" class="form-validation mt-20" novalidate>

@@ -11,6 +11,9 @@ angular.module('karamuseclAdminApp')
 	.controller('SignupCtrl', function($log, $routeParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
+			container: {
+				progressCursor: false
+			},
 			messages: {
 				registryResponse: {
 					title: {
@@ -47,7 +50,9 @@ angular.module('karamuseclAdminApp')
 				},
 				rut: {
 					show: false,
-					required: false
+					required: false,
+					hasError: false,
+					withoutBorder: true
 				},
 				address: {
 					show: false,
@@ -197,6 +202,7 @@ angular.module('karamuseclAdminApp')
 				tokenIsValid = validateToken($routeParams.token);
 			}
 
+			//Si es que está completando el registro 2:
 			if (tokenIsValid) {
 				data = {
 					action: '',
@@ -213,10 +219,43 @@ angular.module('karamuseclAdminApp')
 					token: $routeParams.token
 				};
 
+				if (!Validators.validaRequiredField(self.user.data.email)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Por favor indica el nombre de tu bar';
+					Utils.gotoAnyPartOfPage('topPage');
+					return;
+				}
+
+				if (!Validators.validaRequiredField(self.user.data.rut)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Por favor indica el rut de tu bar';
+					Utils.gotoAnyPartOfPage('topPage');
+					return;
+				}
+
+				if (!Validators.validaRequiredField(self.user.data.address)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Por favor invalidaRequiredFielddica la dirección de tu bar';
+					Utils.gotoAnyPartOfPage('topPage');
+					return;
+				}
+
+				if (!Validators.validateRutCheckDigit(self.user.data.rut)) {
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Revisa que el rut esté bien escrito';
+					Utils.gotoAnyPartOfPage('topPage');
+					return;
+				}
+
 				if (!Validators.comparePasswords(data.password, data.repassword)) {
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Las contraseñas no coinciden';
+					Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -224,9 +263,10 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'La contaseña debe tener un largo mínimo de 6 caracteres';
+					Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
-
+				//Si es que está completando el registro 1:
 			} else {
 				data = {
 					action: '',
@@ -236,6 +276,7 @@ angular.module('karamuseclAdminApp')
 			}
 
 			self.page.buttons.send.disabled = true;
+			self.page.container.progressCursor = true;
 
 			Signup.save(data, function(success) {
 				self.page.messages.registryResponse.show = true;
@@ -245,6 +286,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
 					self.page.buttons.send.disabled = true;
+					Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 201) {
 					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
 					self.page.messages.registryResponse.subtitle.text = 'Te damos la bienvenida a Karamuse';
@@ -254,20 +296,23 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.link.color = 'black';
 					self.page.messages.registryResponse.link.href = '#/';
 					self.page.buttons.send.disabled = true;
+					Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 403) {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.registryResponse.subtitle.text = 'Tu email ya está registrado';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
+					Utils.gotoAnyPartOfPage('topPage');
 				} else {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
+					Utils.gotoAnyPartOfPage('topPage');
 				}
-
+				self.page.container.progressCursor = false;
 				$log.info(success);
 			}, function(error) {
 				$log.error(error);

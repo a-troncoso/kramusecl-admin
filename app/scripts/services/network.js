@@ -1,12 +1,9 @@
 'use strict';
 
-var API_URL_BASE = 'http://dev.karamuse.cl/public/api';
-// var API_URL_BASE = 'http://192.168.1.194/public/api';
-
 angular
 	.module('karamuseclAdminApp')
 
-.factory('Signup', function($resource) {
+.factory('Signup', function($resource, API_URL_BASE) {
 
 	return $resource(API_URL_BASE + '/register/:action', {
 		action: '@action'
@@ -40,7 +37,7 @@ angular
 	});
 })
 
-.factory('RenewPass', function($resource) {
+.factory('RenewPass', function($resource, API_URL_BASE) {
 
 	return $resource(API_URL_BASE + '/register/renewpass/:step', {
 		step: '@step'

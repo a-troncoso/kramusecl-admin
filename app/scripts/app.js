@@ -20,21 +20,10 @@ angular
     'ng.deviceDetector' //detecta el device
   ])
 
-.config(function($authProvider) {
+.constant('API_URL_BASE', 'http://dev.karamuse.cl/public/api')
 
-  $authProvider.oauth2({
-    name: 'karamuse',
-    url: '/auth/foursquare',
-    clientId: 'Foursquare Client ID',
-    redirectUri: window.location.origin,
-    authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
-  });
-
-})
-
-.config(function($authProvider) {
-  $authProvider.loginUrl = "http://dev.karamuse.cl/public/api/login";
-  $authProvider.tokenName = "token";
+.config(function($authProvider, API_URL_BASE) {
+  $authProvider.loginUrl = API_URL_BASE + "/login";
 })
 
 .config(function($routeProvider) {
@@ -69,6 +58,11 @@ angular
       templateUrl: 'views/reset-pass.html',
       controller: 'ResetPassCtrl',
       controllerAs: 'resetPass'
+    })
+    .when('/home', {
+      templateUrl: 'views/home.html',
+      controller: 'HomeCtrl',
+      controllerAs: 'home'
     })
     .otherwise({
       redirectTo: '/'
