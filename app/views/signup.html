@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.phone.show">
-          <input type="tel" placeholder="Teléfono de contacto..." class="form-control b-0" ng-model="signup.user.data.phone" ng-disabled="signup.page.formGroups.phone.disabled" required>
+          <input type="number" placeholder="Teléfono de contacto..." class="form-control b-0" ng-model="signup.user.data.phone" ng-disabled="signup.page.formGroups.phone.disabled" ng-maxlength="9" max-length="9" required>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.bar.show">

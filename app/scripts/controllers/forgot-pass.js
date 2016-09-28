@@ -61,29 +61,29 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.forgotPassResponse.subtitle.text = '(puedes cerrar esta página)';
 					self.page.messages.forgotPassResponse.title.color = 'white';
 					self.page.messages.forgotPassResponse.subtitle.color = 'white';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 400) {
 					self.page.messages.forgotPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor intenta de nuevo';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 404) {
 					self.page.messages.forgotPassResponse.title.text = 'Revisa que tu correo esté bien escrito';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 405) {
 					self.page.messages.forgotPassResponse.title.text = 'Correo no enviado';
 					self.page.messages.forgotPassResponse.subtitle.text = 'Tenemos un problema al enviar el correo, por favor intenta de nuevo';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else {
 					self.page.messages.forgotPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				}
 				self.page.container.progressCursor = false;
 

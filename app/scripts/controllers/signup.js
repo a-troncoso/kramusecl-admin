@@ -223,7 +223,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Por favor indica el nombre de tu bar';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -231,7 +231,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Por favor indica el rut de tu bar';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -239,7 +239,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Por favor invalidaRequiredFielddica la dirección de tu bar';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -247,7 +247,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Revisa que el rut esté bien escrito';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -255,7 +255,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Las contraseñas no coinciden';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
@@ -263,7 +263,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'La contaseña debe tener un largo mínimo de 6 caracteres';
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 				//Si es que está completando el registro 1:
@@ -271,7 +271,7 @@ angular.module('karamuseclAdminApp')
 				data = {
 					action: '',
 					email: self.user.data.email,
-					phone: self.user.data.phone
+					phone: '56' + self.user.data.phone
 				};
 			}
 
@@ -286,7 +286,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
 					self.page.buttons.send.disabled = true;
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 201) {
 					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
 					self.page.messages.registryResponse.subtitle.text = 'Te damos la bienvenida a Karamuse';
@@ -296,25 +296,31 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.link.color = 'black';
 					self.page.messages.registryResponse.link.href = '#/';
 					self.page.buttons.send.disabled = true;
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 403) {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.registryResponse.subtitle.text = 'Tu email ya está registrado';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				} else {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
-					Utils.gotoAnyPartOfPage('topPage');
+					// Utils.gotoAnyPartOfPage('topPage');
 				}
 				self.page.container.progressCursor = false;
 				$log.info(success);
 			}, function(error) {
+				self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
+				self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+				self.page.messages.registryResponse.title.color = 'danger';
+				self.page.messages.registryResponse.subtitle.color = 'danger';
+				self.page.buttons.send.disabled = false;
+				self.page.container.progressCursor = false;
 				$log.error(error);
 			});
 		};

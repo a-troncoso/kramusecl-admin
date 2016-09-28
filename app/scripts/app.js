@@ -22,6 +22,26 @@ angular
 
 .constant('API_URL_BASE', 'http://dev.karamuse.cl/public/api')
 
+.run(function($rootScope) {
+
+  $rootScope.$on('$stateChangeStart', function() {
+
+    //   var isLogin = toState.name === 'login' || toState.name === 'core.forgotpass' || toState.name === 'core.resetpass' || toState.name === 'core.signup' || toState.name === 'core.page404';
+
+    //   if (isLogin) {
+    //     return;
+    //   }
+
+    //   if (Utils.getInStorage('loggedIn') === false || Utils.getInStorage('loggedIn') === null) {
+    //     e.preventDefault(); // stop current execution
+    //     $state.go('login'); // go to login
+    //   }
+
+    // });
+
+  });
+})
+
 .config(function($authProvider, API_URL_BASE) {
   $authProvider.loginUrl = API_URL_BASE + "/login";
 })
