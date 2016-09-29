@@ -10,20 +10,19 @@
 
 angular.module('karamuseclAdminApp')
 
-.service('Utils', function($log, $anchorScroll, $location) {
-// .service('Utils', function($state, $log, $anchorScroll, $location, $window, $auth, localStorageService) {
+.service('Utils', function($log, $anchorScroll, $location, localStorageService) {
 
-	// this.setInStorage = function(key, val) {
-	// 	return localStorageService.set(key, val);
-	// };
+	this.setInStorage = function(key, val) {
+		return localStorageService.set(key, val);
+	};
 
-	// this.getInStorage = function(key) {
-	// 	return localStorageService.get(key);
-	// };
+	this.getInStorage = function(key) {
+		return localStorageService.get(key);
+	};
 
-	// this.clearAllStorage = function() {
-	// 	return localStorageService.clearAll();
-	// };
+	this.clearAllStorage = function() {
+		return localStorageService.clearAll();
+	};
 
 	// El flag debe ser el id del algún tag
 	this.gotoAnyPartOfPage = function(flag) {

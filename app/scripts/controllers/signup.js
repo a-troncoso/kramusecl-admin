@@ -127,7 +127,7 @@ angular.module('karamuseclAdminApp')
 			Signup.validateToken(data, function(success) {
 				if (success.status === 200) {
 					self.user.data.email = success.data.email;
-					self.user.data.phone = success.data.phone;
+					self.user.data.phone = parseInt(success.data.phone);
 					deferred.resolve(true);
 				} else {
 					deferred.reject(false);
@@ -295,6 +295,15 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.registryResponse.subtitle.color = 'white';
 					self.page.messages.registryResponse.link.color = 'black';
 					self.page.messages.registryResponse.link.href = '#/';
+					self.page.buttons.send.disabled = true;
+					// Utils.gotoAnyPartOfPage('topPage');
+				} else if (success.status === 202) {
+					self.page.messages.registryResponse.title.text = 'No se ha completado el registro :(';
+					self.page.messages.registryResponse.subtitle.text = 'El bar ya está registrado';
+					self.page.messages.registryResponse.link.text = 'ir al login';
+					self.page.messages.registryResponse.title.color = 'white';
+					self.page.messages.registryResponse.subtitle.color = 'white';
+					self.page.messages.registryResponse.link.color = 'black';
 					self.page.buttons.send.disabled = true;
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 403) {

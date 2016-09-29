@@ -17,27 +17,28 @@ angular
     'ngSanitize',
     'ngTouch',
     'satellizer',
-    'ng.deviceDetector' //detecta el device
+    'ng.deviceDetector', //detecta el device
+    'LocalStorageModule'
   ])
 
 .constant('API_URL_BASE', 'http://dev.karamuse.cl/public/api')
 
 .run(function($rootScope) {
 
-  $rootScope.$on('$stateChangeStart', function() {
+  $rootScope.$on('$stateChangeStart', function(e, toState) {
 
-    //   var isLogin = toState.name === 'login' || toState.name === 'core.forgotpass' || toState.name === 'core.resetpass' || toState.name === 'core.signup' || toState.name === 'core.page404';
+    $log.log(toState);
 
-    //   if (isLogin) {
-    //     return;
-    //   }
+      var isSafe = toState.name === 'login' || toState.name === 'reset-pass' || toState.name === 'forgot-pass' || toState.name === 'signup' || toState.name === 'page404';
 
-    //   if (Utils.getInStorage('loggedIn') === false || Utils.getInStorage('loggedIn') === null) {
-    //     e.preventDefault(); // stop current execution
-    //     $state.go('login'); // go to login
-    //   }
+      if (isSafe) {
+        return;
+      }
 
-    // });
+      if (!Utils.getInStorage('logged')) {
+        e.preventDefault(); // stop current execution
+        $location.path('login'); // go to login
+      }
 
   });
 })

@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($log, $auth, $location, deviceDetector) {
+	.controller('LoginCtrl', function($log, $auth, $location, deviceDetector, Utils) {
 
 		this.page = {
 			messages: {
@@ -51,6 +51,7 @@ angular.module('karamuseclAdminApp')
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Login correcto';
 						self.page.messages.loginResponse.title.color = 'white';
+						Utils.setInStorage('logged', true);
 						$location.path('home');
 					} else if (success.data.status === 401) {
 						self.page.messages.loginResponse.show = true;
