@@ -48,9 +48,9 @@
       </div>
     </div> -->
 
-    <div class="container">
-    <div ng-view=""></div>
-    </div>
+    <!-- <div id="wrap" class="container"> -->
+    <div ui-view></div>
+    <!-- </div> -->
 
     <!-- <div class="footer">
       <div class="container">
@@ -85,6 +85,8 @@
     <script src="bower_components/re-tree/re-tree.js"></script>
     <script src="bower_components/ng-device-detector/ng-device-detector.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -98,10 +100,14 @@
         <script src="scripts/services/network.js"></script>
         <script src="scripts/services/utils.js"></script>
         <script src="scripts/services/validators.js"></script>
+        <script src="scripts/services/states.js"></script>
+        <script src="scripts/services/constants.js"></script>
+        <script src="scripts/services/configs.js"></script>
         <script src="scripts/controllers/forgot-pass.js"></script>
         <script src="scripts/controllers/reset-pass.js"></script>
         <script src="scripts/controllers/home.js"></script>
         <script src="scripts/directives/maxlength.js"></script>
+        <script src="scripts/controllers/active-session-modal-instance.js"></script>
         <!-- endbuild -->
 </body>
 </html>

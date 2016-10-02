@@ -650,6 +650,52 @@ body {
 
 .bg-blue-karamuse {
   background-color: $blue-karamuse!important;
+  color: white!important;
+  
+  &.dk {
+    background-color: $darken-gray-ps-3!important;
+  }
+
+  &.dker {
+    background-color: $darker-gray-ps-3!important;
+  }
+
+  &.lt {
+    background-color: $lighten-gray-ps-3!important;
+  }
+
+  &.lter {
+    background-color: $lighter-gray-ps-3!important;
+  }
+
+  &.bright {
+    background-color: $bright-gray-ps-3!important;
+  }
+}
+
+.bg-gray-karamuse {
+  background-color: $gray-karamuse!important;
+  color: white!important;
+  
+  &.dk {
+    background-color: $darken-gray-ps-3!important;
+  }
+
+  &.dker {
+    background-color: $darker-gray-ps-3!important;
+  }
+
+  &.lt {
+    background-color: $lighten-gray-ps-3!important;
+  }
+
+  &.lter {
+    background-color: $lighter-gray-ps-3!important;
+  }
+
+  &.bright {
+    background-color: $bright-gray-ps-3!important;
+  }
 }
 
 .no-bg {
@@ -812,6 +858,14 @@ body {
 
 .text-gray {
   color: #969696;
+}
+
+.text-gray-karamuse {
+  color: $gray-karamuse!important;
+}
+
+.text-blue-karamuse {
+  color: $blue-karamuse!important;
 }
 
 // text sizes

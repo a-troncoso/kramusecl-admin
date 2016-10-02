@@ -1517,6 +1517,41 @@ button {
     }
   }
 
+  &.btn-blue-karamuse {
+    background-color: $blue-karamuse;
+    color: $blue-karamuse;
+    border-color: $darken-blue-karamuse;
+
+    &:hover,&:active,&.active {
+      background-color: $darken-blue-karamuse;
+      border-color: $darker-blue-karamuse;
+      color: $blue-karamuse;
+    }
+
+    &:active,&.active {
+      background-color: $darker-blue-karamuse;
+      border-color: $darkest-blue-karamuse;
+    }
+  }
+
+
+  &.btn-gray-karamuse {
+    background-color: $gray-karamuse;
+    color: $gray-karamuse;
+    border-color: $darken-gray-karamuse;
+
+    &:hover,&:active,&.active {
+      background-color: $darken-gray-karamuse;
+      border-color: $darker-gray-karamuse;
+      color: $gray-karamuse;
+    }
+
+    &:active,&.active {
+      background-color: $darker-gray-karamuse;
+      border-color: $darkest-gray-karamuse;
+    }
+  }
+
   &.btn-border {
     background-color: transparent;
     border-width: 2px;
@@ -1560,6 +1595,7 @@ button {
       }
     }
     &.btn-red {
+
       color: $red;
 
       &:hover,&:active,&.active {
@@ -1670,6 +1706,20 @@ button {
 
       &:hover,&:active,&.active {
         color: $darken-blue-ps-2;
+      }
+    }
+    &.btn-gray-karamuse {
+      color: $gray-karamuse;
+
+      &:hover,&:active,&.active {
+        color: $darken-gray-karamuse;
+      }
+    }
+    &.btn-blue-karamuse {
+      color: $blue-karamuse;
+
+      &:hover,&:active,&.active {
+        color: $darken-blue-karamuse;
       }
     }
   }

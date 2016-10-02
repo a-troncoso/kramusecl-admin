@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('SignupCtrl', function($log, $routeParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
+	.controller('SignupCtrl', function($log, $stateParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
 			container: {
@@ -198,8 +198,8 @@ angular.module('karamuseclAdminApp')
 
 			data = {};
 
-			if ($routeParams.token) {
-				tokenIsValid = validateToken($routeParams.token);
+			if ($stateParams.token) {
+				tokenIsValid = validateToken($stateParams.token);
 			}
 
 			//Si es que está completando el registro 2:
@@ -216,7 +216,7 @@ angular.module('karamuseclAdminApp')
 					commune: self.user.data.commune.nombre,
 					password: self.user.data.password,
 					repassword: self.user.data.repassword,
-					token: $routeParams.token
+					token: $stateParams.token
 				};
 
 				if (!Validators.validaRequiredField(self.user.data.email)) {
@@ -334,10 +334,10 @@ angular.module('karamuseclAdminApp')
 			});
 		};
 
-		if ($routeParams.token) {
+		if ($stateParams.token) {
 			self.page.buttons.send.text = 'Registrar';
 
-			tokenIsValid = validateToken($routeParams.token);
+			tokenIsValid = validateToken($stateParams.token);
 
 			if (tokenIsValid) {
 				self.page.formGroups.email.disabled = true;

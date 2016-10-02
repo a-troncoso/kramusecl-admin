@@ -8,7 +8,9 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($log, $auth, $location, deviceDetector, Utils) {
+	.controller('LoginCtrl', function($log, $auth, $location, $uibModal, $state, deviceDetector, Utils) {
+
+		var self = this;
 
 		this.page = {
 			messages: {
@@ -31,12 +33,10 @@ angular.module('karamuseclAdminApp')
 		this.user = {
 			data: {
 				email: 'alvaro.mc2@gmail.com',
-				password: '123456',
+				password: '12345678',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
-
-		var self = this;
 
 		var data = {};
 
@@ -52,7 +52,11 @@ angular.module('karamuseclAdminApp')
 						self.page.messages.loginResponse.title.text = 'Login correcto';
 						self.page.messages.loginResponse.title.color = 'white';
 						Utils.setInStorage('logged', true);
-						$location.path('home');
+						success.data.session_active = true; // SIMULO QUE TENGO UNA SESION ABIERTA
+						if (success.data.session_active) {
+							self.openModalActiveSession();
+						}
+						// $state.go('home');
 					} else if (success.data.status === 401) {
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Usuario y/o password incorrectos';
@@ -74,4 +78,24 @@ angular.module('karamuseclAdminApp')
 					$log.error(error);
 				});
 		};
+
+		this.openModalActiveSession = function() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'active-session.html',
+				controller: 'ActiveSessionModalInstanceCtrl',
+				controllerAs: 'activeSession',
+				size: 'md',
+				resolve: {
+					// items: function() {
+					// 	return $ctrl.items;
+					// }
+				}
+			});
+		};
+
+
 	});

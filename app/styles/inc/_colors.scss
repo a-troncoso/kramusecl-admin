@@ -25,7 +25,7 @@ $gray-ps-1: #a8a9ac;
 $gray-ps-2: #6d6e71;
 $gray-ps-3: #221f1f;
 
-
+$gray-karamuse: #4C4C4C;
 $blue-karamuse: #009BCF;
 
 //darken
@@ -49,6 +49,9 @@ $darken-warning: darken($brand-warning, 5%);
 $darken-danger: darken($brand-danger, 5%);
 $darken-info: darken($brand-info, 5%);
 $darken-default: darken($brand-default, 5%);
+
+$darken-gray-karamuse: darken($gray-karamuse, 5%);
+$darken-blue-karamuse: darken($blue-karamuse, 5%);
 
 $darken-blue-ps-1: darken($blue-ps-1, 5%);
 $darken-blue-ps-2: darken($blue-ps-2, 5%);
@@ -80,6 +83,9 @@ $darker-danger: darken($brand-danger, 9%);
 $darker-info: darken($brand-info, 9%);
 $darker-default: darken($brand-default, 5%);
 
+$darker-gray-karamuse: darken($gray-karamuse, 9%);
+$darker-blue-karamuse: darken($blue-karamuse, 9%);
+
 $darker-blue-ps-1: darken($blue-ps-1, 9%);
 $darker-blue-ps-2: darken($blue-ps-2, 9%);
 $darker-blue-ps-3: darken($blue-ps-3, 9%);
@@ -108,6 +114,9 @@ $darkest-warning: darken($brand-warning, 12%);
 $darkest-danger: darken($brand-danger, 12%);
 $darkest-info: darken($brand-info, 12%);
 $darkest-default: darken($brand-default, 7%);
+
+$darkest-gray-karamuse: darken($gray-karamuse, 12%);
+$darkest-blue-karamuse: darken($blue-karamuse, 12%);
 
 $darkest-blue-ps-1: darken($blue-ps-1, 12%);
 $darkest-blue-ps-2: darken($blue-ps-2, 12%);
@@ -138,6 +147,9 @@ $lighten-danger: lighten($brand-danger, 5%);
 $lighten-info: lighten($brand-info, 5%);
 $lighten-default: lighten($brand-default, 5%);
 
+$lighten-gray-karamuse: lighten($gray-karamuse, 5%);
+$lighten-blue-karamuse: lighten($blue-karamuse, 5%);
+
 $lighten-blue-ps-1: lighten($blue-ps-1, 5%);
 $lighten-blue-ps-2: lighten($blue-ps-2, 5%);
 $lighten-blue-ps-3: lighten($blue-ps-3, 5%);
@@ -167,6 +179,9 @@ $lighter-danger: lighten($brand-danger, 10%);
 $lighter-info: lighten($brand-info, 10%);
 $lighter-default: lighten($brand-default, 10%);
 
+$lighter-gray-karamuse: lighten($gray-karamuse, 10%);
+$lighter-blue-karamuse: lighten($blue-karamuse, 10%);
+
 $lighter-blue-ps-1: lighten($blue-ps-1, 10%);
 $lighter-blue-ps-2: lighten($blue-ps-2, 10%);
 $lighter-blue-ps-3: lighten($blue-ps-3, 10%);
@@ -195,6 +210,9 @@ $bright-warning: lighten($brand-warning, 35%);
 $bright-danger: lighten($brand-danger, 40%);
 $bright-info: lighten($brand-info, 35%);
 $bright-default: lighten($brand-default, 45%);
+
+$bright-gray-karamuse: lighten($gray-karamuse, 45%);
+$bright-blue-karamuse: lighten($blue-karamuse, 45%);
 
 $bright-blue-ps-1: lighten($blue-ps-1, 50%);
 $bright-blue-ps-2: lighten($blue-ps-2, 50%);
