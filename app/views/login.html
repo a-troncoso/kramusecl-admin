@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group text-center mt-20">
-          <button type="submit" class="btn btn-border btn-blue-karamuse text-black text-light text-md pl-20 pr-20" ng-click="login.login()" ng-disabled='form.$invalid'>Ingresa</button>
+          <button type="submit" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20" ng-click="login.login()" ng-disabled='form.$invalid'>Ingresa</button>
         </div>
 
         <div class="form-group mt-20">
@@ -46,15 +46,34 @@
 
 <script type="text/ng-template" id="active-session.html">
   <div class="modal-header">
-  <h3 class="modal-title" id="modal-title">¡Vaya, vaya!</h3>
+  <h3 class="modal-title text-center" id="modal-title">¡Vaya, vaya!</h3>
   </div>
-  <div class="modal-body" id="modal-body">
-    <h4>Tienes una sesión abierta</h4>
-    <p>Fecha: dd/MM/yyyy</p>
-    <p>¿Quieres seguir en esta o crear una nueva?</p>
+  <div class="modal-body text-center" id="modal-body">
+    <p class="text-lg">Tienes una sesión abierta</p>
+    <p class="text-md">Del día {{activeSession.modal.session.data.createdAt | date:"MM/dd/yyyy ' a las ' HH:mm a"}}</p>
+    <p class="text-md text-blue-karamuse">¿Quieres seguir en esta o crear una nueva?</p>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="activeSession.ok()">Seguir</button>
-    <button class="btn btn-warning" type="button" ng-click="activeSession.cancel()">Nueva</button>
+  <div class="modal-footer" style="text-align:center">
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="activeSession.follow()">Seguir</button>
+    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="activeSession.openSession()">Nueva</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="generate-codes.html">
+  <div class="modal-header">
+  <h3 class="modal-title text-center text-light" id="modal-title">¿Cuántos códigos quieres?</h3>
+  </div>
+  <div class="modal-body text-center" id="modal-body">
+    <form class="form-inline" name="form">
+      <div class="form-group">
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
+        <input class="form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step">
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer" style="text-align:center">
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid" ng-click="generateCodes.generateCodes()">Enviar</button>
   </div>
 </script>

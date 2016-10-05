@@ -74,37 +74,37 @@ angular.module('karamuseclAdminApp')
 
 			RenewPass.query(data, function(success) {
 				if (success.status === 200) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Tu contraseña se ha actualizado correctamente';
 					self.page.messages.resetPassResponse.title.color = 'white';
 					self.page.messages.resetPassResponse.link.href = '#/';
 					self.page.messages.resetPassResponse.link.color = 'black';
 					self.page.messages.resetPassResponse.link.text = 'Ir al login';
-					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 400) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.resetPassResponse.subtitle.text = 'Por favor vuelve a intentar';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 					self.page.messages.resetPassResponse.subtitle.color = 'danger';
-					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 401) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'El código de verificación no es válido';
 					self.page.messages.resetPassResponse.title.color = 'danger';
-					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 402) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Por favor indica la nueva contraseña';
 					self.page.messages.resetPassResponse.title.color = 'danger';
-					// Utils.gotoAnyPartOfPage('topPage');
 				} else {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.resetPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 					self.page.messages.resetPassResponse.subtitle.color = 'danger';
-					// Utils.gotoAnyPartOfPage('topPage');
 				}
 				self.page.container.progressCursor = false;
 				$log.log(success);

@@ -1,12 +1,19 @@
 //default modals
 
 .modal-content {
-  border-radius: 15px;
+  border-radius: 0px;
+  background-color: $gray-karamuse;
+  color: white;
+}
+
+.modal-header {
+  padding: 15px;
+  border: 0px;
 }
 
 .modal-footer {
-  background-color: #f8f8f8;
-  border-radius: 0 0 15px 15px;
+  padding: 25px;
+  border: 0px;
 }
 
 .modal-backdrop {

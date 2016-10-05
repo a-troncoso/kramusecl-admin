@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($log, $auth, $location, $uibModal, $state, deviceDetector, Utils) {
+	.controller('LoginCtrl', function($log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
 
 		var self = this;
 
@@ -32,8 +32,8 @@ angular.module('karamuseclAdminApp')
 
 		this.user = {
 			data: {
-				email: 'alvaro.mc2@gmail.com',
-				password: '12345678',
+				email: 'nicolascanto1@gmail.com',
+				password: '123',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
@@ -52,11 +52,12 @@ angular.module('karamuseclAdminApp')
 						self.page.messages.loginResponse.title.text = 'Login correcto';
 						self.page.messages.loginResponse.title.color = 'white';
 						Utils.setInStorage('logged', true);
-						success.data.session_active = true; // SIMULO QUE TENGO UNA SESION ABIERTA
-						if (success.data.session_active) {
-							self.openModalActiveSession();
+						$log.log(success.data.data.session);
+						if (success.data.data.session.active) {
+							self.openModalActiveSession(success);
+						} else {
+							self.openSession();
 						}
-						// $state.go('home');
 					} else if (success.data.status === 401) {
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Usuario y/o password incorrectos';
@@ -72,14 +73,55 @@ angular.module('karamuseclAdminApp')
 						self.page.messages.loginResponse.title.color = 'danger';
 						self.page.messages.loginResponse.subtitle.color = 'danger';
 					}
-					$log.log(success);
+					//$log.log(success);
 				})
 				.catch(function(error) {
 					$log.error(error);
 				});
 		};
 
-		this.openModalActiveSession = function() {
+		this.openSession = function() {
+
+			data = {
+				action: 'open',
+				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version,
+				token: $auth.getToken()
+			};
+
+			Session.save(data, function(success){
+				$log.log(success);
+				self.validateCodes();
+			}, function(error){
+				$log.log(error);
+			});
+		};
+
+		this.validateCodes = function() {
+
+			//simulo que no tiene codigos
+			var noCodes = true;
+			if (noCodes) {
+				self.openModalGenerateCodes();
+			} else {
+				$state.go('home');
+			}
+
+			//var deferred = $q.defer();
+
+			// Codes.get({}, function(success) {
+			// 	$log.log(success);
+			// 	if (success.status === 200) {
+			// 		// llevar al home
+			// 	} else {
+			// 		// abrir modal crear codigos
+			// 		self.openModalGenerateCodes();
+			// 	}
+			// }, function(error) {
+			// 	$log.log(error);
+			// });
+		};
+
+		this.openModalActiveSession = function(data) {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: 'static',
@@ -90,11 +132,33 @@ angular.module('karamuseclAdminApp')
 				controllerAs: 'activeSession',
 				size: 'md',
 				resolve: {
-					// items: function() {
-					// 	return $ctrl.items;
+					success: function() {
+						return data;
+					}
+				}
+			});
+
+			modalInstance.result.then(function () {}, function () {});
+		};
+
+		this.openModalGenerateCodes = function() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'generate-codes.html',
+				controller: 'GenerateCodesModalInstanceCtrl',
+				controllerAs: 'generateCodes',
+				size: 'md',
+				resolve: {
+					// success: function() {
+					// 	return data;
 					// }
 				}
 			});
+
+			modalInstance.result.then(function () {}, function () {});
 		};
 
 

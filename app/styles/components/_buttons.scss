@@ -1483,40 +1483,6 @@ button {
     }
   }
 
-  &.btn-orange-ps {
-    background-color: $blue-ps-2;
-    color: white;
-    border-color: $darken-blue-ps-2;
-
-    &:hover,&:active,&.active {
-      background-color: $darken-blue-ps-2;
-      border-color: $darker-blue-ps-2;
-      color: white;
-    }
-
-    &:active,&.active {
-      background-color: $darker-blue-ps-2;
-      border-color: $darkest-blue-ps-2;
-    }
-  }
-
-  &.btn-blue-ps-1 {
-    background-color: $blue-ps-1;
-    color: $blue-ps-1;
-    border-color: $darken-blue-ps-1;
-
-    &:hover,&:active,&.active {
-      background-color: $darken-blue-ps-1;
-      border-color: $darker-blue-ps-1;
-      color: $blue-ps-1;
-    }
-
-    &:active,&.active {
-      background-color: $darker-blue-ps-1;
-      border-color: $darkest-blue-ps-1;
-    }
-  }
-
   &.btn-blue-karamuse {
     background-color: $blue-karamuse;
     color: $blue-karamuse;
@@ -1534,7 +1500,6 @@ button {
     }
   }
 
-
   &.btn-gray-karamuse {
     background-color: $gray-karamuse;
     color: $gray-karamuse;
@@ -1551,6 +1516,22 @@ button {
       border-color: $darkest-gray-karamuse;
     }
   }
+
+  &.btn-bright-gray-karamuse {
+      background-color: $bright-gray-karamuse;
+      color: $bright-gray-karamuse;
+      border-color: $bright-gray-karamuse;
+
+      &:hover,&:active,&.active {
+        background-color: $lighter-gray-karamuse;
+        border-color: $lighter-gray-karamuse;
+        color: $lighter-gray-karamuse;
+      }
+      &:active,&.active {
+        background-color: $darkest-gray-karamuse;
+        border-color: $darkest-gray-karamuse;
+      }
+    }
 
   &.btn-border {
     background-color: transparent;

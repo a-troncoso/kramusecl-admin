@@ -15,8 +15,8 @@ angular.module('karamuseclAdminApp')
 				angular.element(elem).on("keypress", function(e) {
 					if (this.value.length === limit) {
 						e.preventDefault();
-					};
-				})
+					}
+				});
 			}
 		};
 	});

@@ -1392,7 +1392,7 @@ body {
 }
 
 .w-xxs, .w-60 {
-  width: 60px;
+  width: 60px!important;
 }
 
 .w-xs, .w-100 {
@@ -1651,4 +1651,15 @@ input[type="file"].custom-input-file {
 }
 .not-allowed-cursor {
   cursor: not-allowed
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  -o-appearance: textfield;
 }

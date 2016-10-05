@@ -88,4 +88,30 @@ angular
 			isArray: true
 		}
 	});
+})
+
+.factory('Session', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/sessions/:action', {
+		action: '@action'
+	}, {
+		save: {
+			method: 'POST',
+			params: {
+				token: '@token'
+			}
+		}
+	});
+})
+
+.factory('Codes', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/codes', {}, {
+		get: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		}
+	});
 });
