@@ -13,6 +13,7 @@ angular.module('karamuseclAdminApp')
 		var self = this;
 
 		this.page = {
+			progressCursor: false,
 			messages: {
 				loginResponse: {
 					show: false,
@@ -26,6 +27,11 @@ angular.module('karamuseclAdminApp')
 						text: '',
 						show: false
 					}
+				}
+			},
+			buttons: {
+				login: {
+					disabled: false
 				}
 			}
 		};
@@ -43,30 +49,53 @@ angular.module('karamuseclAdminApp')
 		this.login = function() {
 
 			data = self.user.data;
-
+			self.page.buttons.login.disabled = true;
+			self.page.progressCursor = true;
+			self.page.messages.loginResponse.show = false;
+			self.page.messages.loginResponse.title.text = '';
+			self.page.messages.loginResponse.subtitle.text = '';
+			
 			$auth.login(data)
 				.then(function(success) {
 					if (success.data.status === 200) {
+						self.page.buttons.login.disabled = false;
+						self.page.progressCursor = false;
 						$auth.setToken(success.data.data.token);
 						self.page.messages.loginResponse.show = true;
-						self.page.messages.loginResponse.title.text = 'Login correcto';
+						self.page.messages.loginResponse.title.text = 'Login correcto...';
 						self.page.messages.loginResponse.title.color = 'white';
 						Utils.setInStorage('logged', true);
 						$log.log(success.data.data.session);
 						if (success.data.data.session.active) {
 							self.openModalActiveSession(success);
 						} else {
+							var openSession = self.openSession();
+							openSession.then(function() {
+								$state.go('home');
+							}, function() {
+								self.page.buttons.login.disabled = false;
+								self.page.progressCursor = false;
+								self.page.messages.loginResponse.show = true;
+								self.page.messages.loginResponse.title.text = 'No pudimos abrir una nueva sesión, porfa vuelve a intentar';
+								self.page.messages.loginResponse.title.color = 'danger';
+							});
 							self.openSession();
 						}
 					} else if (success.data.status === 401) {
+						self.page.buttons.login.disabled = false;
+						self.page.progressCursor = false;
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Usuario y/o password incorrectos';
 						self.page.messages.loginResponse.title.color = 'danger';
 					} else if (success.data.status === 404) {
+						self.page.buttons.login.disabled = false;
+						self.page.progressCursor = false;
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Usuario no encontrado';
 						self.page.messages.loginResponse.title.color = 'danger';
 					} else {
+						self.page.buttons.login.disabled = false;
+						self.page.progressCursor = false;
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Ha ocurrido un error :(';
 						self.page.messages.loginResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
@@ -77,10 +106,19 @@ angular.module('karamuseclAdminApp')
 				})
 				.catch(function(error) {
 					$log.error(error);
+					self.page.buttons.login.disabled = false;
+					self.page.progressCursor = false;
+					self.page.messages.loginResponse.show = true;
+					self.page.messages.loginResponse.title.text = 'Algo salió mal';
+					self.page.messages.loginResponse.subtitle.text = 'Por favor vuelve a interntar logearte';
+					self.page.messages.loginResponse.title.color = 'danger';
+					self.page.messages.loginResponse.subtitle.color = 'danger';
 				});
 		};
 
 		this.openSession = function() {
+
+			var deferred = $q.defer();
 
 			data = {
 				action: 'open',
@@ -89,36 +127,20 @@ angular.module('karamuseclAdminApp')
 			};
 
 			Session.save(data, function(success){
-				$log.log(success);
-				self.validateCodes();
+				if (success.status === 200 || success.status === 201) {
+					$log.info('Se abre sesión: OK');
+					deferred.resolve();
+				} else {
+					$log.info('Se abre sesión: ERROR');
+					deferred.reject();
+				}
+				// llamar a servicio codigos
 			}, function(error){
-				$log.log(error);
+				$log.error(error);
+				$log.info('Se abre sesión: ERROR');
+				deferred.reject();
 			});
-		};
-
-		this.validateCodes = function() {
-
-			//simulo que no tiene codigos
-			var noCodes = true;
-			if (noCodes) {
-				self.openModalGenerateCodes();
-			} else {
-				$state.go('home');
-			}
-
-			//var deferred = $q.defer();
-
-			// Codes.get({}, function(success) {
-			// 	$log.log(success);
-			// 	if (success.status === 200) {
-			// 		// llevar al home
-			// 	} else {
-			// 		// abrir modal crear codigos
-			// 		self.openModalGenerateCodes();
-			// 	}
-			// }, function(error) {
-			// 	$log.log(error);
-			// });
+			return deferred.promise;
 		};
 
 		this.openModalActiveSession = function(data) {
@@ -151,15 +173,10 @@ angular.module('karamuseclAdminApp')
 				controller: 'GenerateCodesModalInstanceCtrl',
 				controllerAs: 'generateCodes',
 				size: 'md',
-				resolve: {
-					// success: function() {
-					// 	return data;
-					// }
-				}
+				resolve: {}
 			});
 
 			modalInstance.result.then(function () {}, function () {});
 		};
-
 
 	});

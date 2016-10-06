@@ -8,13 +8,24 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-  .controller('GenerateCodesModalInstanceCtrl', function ($log, $interval) {
+  .controller('GenerateCodesModalInstanceCtrl', function ($log, $uibModalInstance, $timeout, $auth, $state, $interval, Codes) {
     
-    var self = this;
+    var self = this, data = {};
 
     this.modal = {
+      title: {
+        text: '¿Cuántos códigos quieres?',
+        show: true
+      },
+      subtitle: {
+        text: '',
+        danger: true,
+        show: false
+      },
     	buttons: {
-
+        send: {
+          disabled: false
+        }
     	},
     	form: {
     		codes: {
@@ -30,6 +41,11 @@ angular.module('karamuseclAdminApp')
 
     this.keyDown = function(action, value){
     	self.modal.form.codes.value = value;
+      if ( self.modal.subtitle.show ) {
+        $timeout(function() {
+          self.modal.subtitle.show = false;
+        }, 800);
+      }
 
     	if (timer) {
     		return;
@@ -64,7 +80,38 @@ angular.module('karamuseclAdminApp')
     };
 
     this.generateCodes = function() {
-    	$log.log('voy a generar codigos');
+      self.modal.subtitle.show = false;
+
+      data = {
+        action: self.modal.form.codes.value,
+        token: $auth.getToken()
+      };
+
+      self.modal.buttons.send.disabled = true;
+
+      Codes.generate(data, function(success) {
+        $log.log(success);
+        if (success.status === 200) {
+          $uibModalInstance.close();
+          $state.go('home');
+        } else if(success.status === 201) {
+          self.modal.buttons.send.disabled = false;
+          self.modal.subtitle.text = '¡Esos son muchos códigos!, pueden ser máximo ' + self.modal.form.codes.max ;
+          self.modal.subtitle.show = true;
+        } else if(success.status === 400) {
+          self.modal.buttons.send.disabled = false;
+          self.modal.subtitle.text = '¡Pst!, debes indicar un número en el cajón del medio' ;
+          self.modal.subtitle.show = true;
+        } else {
+          self.modal.buttons.send.disabled = false;
+          self.modal.subtitle.text = '¡Ups!, ocurrió un problema al generar los códigos' ;
+          self.modal.subtitle.show = true;
+        }
+      }, function(error) {
+        $log.log(error);
+        self.modal.subtitle.text = 'Mmm.. parece que tienes que recargar la página' ;
+        self.modal.subtitle.show = true;
+      });
     };
 
   });

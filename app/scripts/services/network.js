@@ -96,22 +96,36 @@ angular
 		action: '@action'
 	}, {
 		save: {
-			method: 'POST',
-			params: {
-				token: '@token'
-			}
+			method: 'POST'
 		}
 	});
 })
 
 .factory('Codes', function($resource, API_URL_BASE) {
 
-	return $resource(API_URL_BASE + '/codes', {}, {
-		get: {
+	return $resource(API_URL_BASE + '/codes/:action', {
+		action: '@action'
+	}, {
+		verify: {
 			method: 'GET',
 			params: {
 				token: '@token'
 			}
+		},
+		generate: {
+			method: 'POST'
+		}
+	});
+})
+
+.factory('CodeState', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/codes/:code/state/:state', {
+		code: '@code',
+		state: '@state'
+	}, {
+		set: {
+			method: 'PUT'
 		}
 	});
 });

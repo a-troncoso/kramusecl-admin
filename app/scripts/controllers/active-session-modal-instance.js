@@ -8,38 +8,68 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('ActiveSessionModalInstanceCtrl', function($log, $q, $uibModalInstance, $state, $auth, success, deviceDetector, Session
+	.controller('ActiveSessionModalInstanceCtrl', function($log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes
 		) {
 
-		var self = this, data = {};
+		var self = this, data = {}, deferred = null;
 
 		this.modal = {
 			session: {
 				data: {
 					createdAt: new Date(success.data.data.session.created_at)
 				}
+			},
+			buttons: {
+				createNew: {
+					disabled: false
+				},
+				follow: {
+					disabled: false
+				}
 			}
 		};
 
 		this.follow = function() {
+			self.modal.buttons.follow.disabled = true;
 			$uibModalInstance.close();
-			//$state.go('home');
 
-			// llamar a servicio codigos
-		};
+			var verifyCodes = self.verifyCodes();
 
-		this.openCloseSession = function() {
+			verifyCodes.then(function(success) {
+				$log.log('success');
+				$log.log(success);
+				if (success.status === 200) {
+					$state.go('home');
+				} else if (success.status === 201) {
+					$uibModalInstance.close();
+					self.openModalGenerateCodes();
+				} else if(success.status === 202) {
+					self.openModalDialog({
+						title: '¡Vaya, vaya!',
+						subtitle: 'No tienes una sesión abierta',
+						submit: {
+							text: 'Abrir sesión',
+							function: function() {
+								return self.openSession();
+							}
+						},
+						cancel: {
+							text: 'Cancelar',
+							function:  null
+						}
+					});
+				}
+			}, function(error) {
 
+			});
 		};
 
 		this.openSession = function() {
-			//$uibModalInstance.dismiss('cancel');
-			$log.log('openSession');
 
+			self.modal.buttons.createNew.disabled = true;
 			var closeSession = self.closeSession();
 
-			if (closeSession) {
-				$log.log('voy a abrir una sesion');
+			closeSession.then(function() {
 				
 				data = {
 					action: 'open',
@@ -48,20 +78,78 @@ angular.module('karamuseclAdminApp')
 				};
 
 				Session.save(data, function(success){
-					$log.log(success);
-					// llamar a servicio codigos
+					if (success.status === 200 || success.status === 201) {
+						$log.info('Se abre sesión: OK');
+						var verifyCodes = self.verifyCodes();
+						verifyCodes.then(function(success) {
+							$log.log('success');
+							$log.log(success);
+							if (success.status === 200) {
+								$state.go('home');
+							} else if (success.status === 201) {
+								$uibModalInstance.close();
+								self.openModalGenerateCodes();
+							} else if(success.status === 202) {
+								self.openModalDialog({
+									title: '¡Vaya, vaya!',
+									subtitle: 'No tienes una sesión abierta',
+									submit: {
+										text: 'Abrir sesión',
+										function: function() {
+											return self.openSession();
+										}
+									},
+									cancel: {
+										text: 'Cancelar',
+										function:  null
+									}
+								});
+							}
+						}, function(error) {
+							self.openModalDialog({
+								title: ':(',
+								subtitle: 'Tuvimos problemas al cargar tu información',
+								submit: {
+									text: 'Reintentar',
+									function: function() {
+										return self.openSession();
+									}
+								},
+								cancel: {
+									text: 'Cancelar',
+									function:  null
+								}
+							});
+						});
+					} else {
+						self.modal.buttons.createNew.disabled = false;
+						$log.info('Se abre sesión: ERROR');
+					}
 				}, function(error){
-					$log.log(error);
+					$log.error(error);
+					$log.info('Se abre sesión: ERROR');
 				});
-			} else {
-				$log.log('hubo un error al cerrar sesion');
-			}
-
+			}, function() {
+				self.openModalDialog({
+					title: 'Wow!',
+					subtitle: 'Ocurrió un problema al cerrar la sesión anterior',
+					submit: {
+						text: 'Reintentar',
+						function: function() {
+							return self.openSession();
+						}
+					},
+					cancel: {
+						text: 'Cancelar',
+						function:  null
+					}
+				});
+			});
 		};
 		
 		this.closeSession = function() {
 
-			var deferred = $q.defer();
+			deferred = $q.defer();
 			
 			data = {
 				action: 'close',
@@ -69,16 +157,72 @@ angular.module('karamuseclAdminApp')
 			};
 
 			Session.save(data, function(success){
-				if (success.status === 200) {
-					deferred.resolve(true);
+				if (success.status === 200 || success.status === 201) {
+					deferred.resolve();
+					$log.info('Se cierra sesión: OK');
 				} else {
-					deferred.resolve(false);
+					deferred.reject();
+					$log.info('Se cierra sesión: ERROR');
 				}
 			}, function(error){
-				$log.log(error);
-				deferred.resolve(false);
+				$log.error(error);
+				deferred.reject();
+				$log.info('Se cierra sesión: ERROR');
 			});
 			return deferred.promise;
+		};
+
+		this.verifyCodes = function() {
+			deferred = $q.defer();
+
+			Codes.verify({
+				action: 'verify',
+				token: $auth.getToken()
+			}, function(success) {
+				deferred.resolve({status: success.status});			
+				$log.log(success);
+			}, function(error) {
+				deferred.reject({status: 'some error'});
+				$log.error(error);
+			});
+
+			return deferred.promise;
+		};
+
+		this.openModalDialog = function(data) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'dialog.html',
+				controller: 'DialogModalInstanceCtrl',
+				controllerAs: 'dialogModal',
+				size: 'md',
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
+			});
+
+			modalInstance.result.then(function () {}, function () {});
+		};
+
+		this.openModalGenerateCodes = function() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'generate-codes.html',
+				controller: 'GenerateCodesModalInstanceCtrl',
+				controllerAs: 'generateCodes',
+				size: 'md',
+				resolve: {}
+			});
+
+			modalInstance.result.then(function () {}, function () {});
 		};
 
 	});

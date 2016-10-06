@@ -1,5 +1,5 @@
 <!-- <div class="p-0 page page-core page-login"> -->
-<div class="">
+<div class="" ng-class="{'progress-cursor': login.page.progressCursor}">
 
   <div>
     <div class="text-center">
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group text-center mt-20">
-          <button type="submit" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20" ng-click="login.login()" ng-disabled='form.$invalid'>Ingresa</button>
+          <button type="submit" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20" ng-click="login.login()" ng-disabled='form.$invalid || login.page.buttons.login.disabled'>Ingresa</button>
         </div>
 
         <div class="form-group mt-20">
@@ -54,26 +54,44 @@
     <p class="text-md text-blue-karamuse">¿Quieres seguir en esta o crear una nueva?</p>
   </div>
   <div class="modal-footer" style="text-align:center">
-    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="activeSession.follow()">Seguir</button>
-    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="activeSession.openSession()">Nueva</button>
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="activeSession.follow()" ng-disabled="activeSession.modal.buttons.follow.disabled">Seguir</button>
+    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="activeSession.openSession()" ng-disabled="activeSession.modal.buttons.createNew.disabled">Crear nueva</button>
   </div>
 </script>
 
 <script type="text/ng-template" id="generate-codes.html">
   <div class="modal-header">
-  <h3 class="modal-title text-center text-light" id="modal-title">¿Cuántos códigos quieres?</h3>
+    <h3 class="modal-title text-center text-light" id="modal-title">{{generateCodes.modal.title.text}}</h3>
+    <h4 class="text-light text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
   </div>
   <div class="modal-body text-center" id="modal-body">
     <form class="form-inline" name="form">
       <div class="form-group">
         <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
-        <input class="form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step">
+        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" required>
         <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
       </div>
     </form>
 
   </div>
   <div class="modal-footer" style="text-align:center">
-    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid" ng-click="generateCodes.generateCodes()">Enviar</button>
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Enviar</button>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="dialog.html">
+  <div class="modal-header">
+    <h3 class="modal-title text-center" id="modal-title" ng-show="dialogModal.modal.title.show">{{dialogModal.modal.title.text}}</h3>
+  </div>
+  <div class="modal-body text-center" id="modal-body">
+    <p class="text-lg" ng-show="dialogModal.modal.subtitle.show">{{dialogModal.modal.subtitle.text}}</p>
+    <p class="text-md" ng-show="dialogModal.modal.paragraph1.show">{{dialogModal.modal.paragraph1.text}}</p>
+    <p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph2.show">{{dialogModal.modal.paragraph2.text}}</p>
+    <p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph3.show">{{dialogModal.modal.paragrap3.text}}</p>
+  </div>
+  <div class="modal-footer" style="text-align:center">
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">{{dialogModal.modal.buttons.submit.text}}</button>
+    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()">{{dialogModal.modal.buttons.cancel.text}}</button>
   </div>
 </script>
