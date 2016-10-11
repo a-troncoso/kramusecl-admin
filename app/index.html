@@ -22,7 +22,8 @@
 
     <!-- Add your site or application content here -->
 
-    <div ui-view></div>
+    <div ui-view style="height:100%"></div>
+    <div class="loading" ng-show="loader.show">Cargando&#8230;</div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -69,6 +70,7 @@
         <script src="scripts/services/states.js"></script>
         <script src="scripts/services/constants.js"></script>
         <script src="scripts/services/configs.js"></script>
+        <script src="scripts/services/run.js"></script>
         <script src="scripts/controllers/forgot-pass.js"></script>
         <script src="scripts/controllers/reset-pass.js"></script>
         <script src="scripts/controllers/home.js"></script>

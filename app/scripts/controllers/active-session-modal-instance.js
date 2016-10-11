@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('ActiveSessionModalInstanceCtrl', function($log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes
+	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes
 		) {
 
 		var self = this, data = {}, deferred = null;
@@ -66,6 +66,7 @@ angular.module('karamuseclAdminApp')
 
 		this.openSession = function() {
 
+			$rootScope.loader.show = true;
 			self.modal.buttons.createNew.disabled = true;
 			var closeSession = self.closeSession();
 
@@ -84,6 +85,7 @@ angular.module('karamuseclAdminApp')
 						verifyCodes.then(function(success) {
 							$log.log('success');
 							$log.log(success);
+							$rootScope.loader.show = false;
 							if (success.status === 200) {
 								$state.go('home');
 							} else if (success.status === 201) {
@@ -106,6 +108,7 @@ angular.module('karamuseclAdminApp')
 								});
 							}
 						}, function(error) {
+							$rootScope.loader.show = false;
 							self.openModalDialog({
 								title: ':(',
 								subtitle: 'Tuvimos problemas al cargar tu información',

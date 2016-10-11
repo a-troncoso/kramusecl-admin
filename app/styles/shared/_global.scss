@@ -1,3 +1,7 @@
+html, body, ui-view {
+  height:100%;
+}
+
 body {
   font-family: $font-lato;
   font-size: $font-size-base;
@@ -675,6 +679,31 @@ body {
 
 .bg-gray-karamuse {
   background-color: $gray-karamuse!important;
+  color: white!important;
+  
+  &.dk {
+    background-color: $darken-gray-ps-3!important;
+  }
+
+  &.dker {
+    background-color: $darker-gray-ps-3!important;
+  }
+
+  &.lt {
+    background-color: $lighten-gray-ps-3!important;
+  }
+
+  &.lter {
+    background-color: $lighter-gray-ps-3!important;
+  }
+
+  &.bright {
+    background-color: $bright-gray-ps-3!important;
+  }
+}
+
+.bg-gray-karamuse-o50p {
+  background-color: rgba(76, 76, 76, 0.5)!important;
   color: white!important;
   
   &.dk {

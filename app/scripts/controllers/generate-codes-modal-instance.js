@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-  .controller('GenerateCodesModalInstanceCtrl', function ($log, $uibModalInstance, $timeout, $auth, $state, $interval, Codes) {
+  .controller('GenerateCodesModalInstanceCtrl', function ($rootScope, $log, $uibModalInstance, $timeout, $auth, $state, $interval, Codes) {
     
     var self = this, data = {};
 
@@ -29,8 +29,8 @@ angular.module('karamuseclAdminApp')
     	},
     	form: {
     		codes: {
-    			value: 30,
-    			max: 200,
+    			value: 20,
+    			max: 30,
     			min: 1,
     			step: 5
     		}
@@ -80,6 +80,7 @@ angular.module('karamuseclAdminApp')
     };
 
     this.generateCodes = function() {
+      $rootScope.loader.show = true;
       self.modal.subtitle.show = false;
 
       data = {
@@ -91,6 +92,7 @@ angular.module('karamuseclAdminApp')
 
       Codes.generate(data, function(success) {
         $log.log(success);
+        $rootScope.loader.show = false;
         if (success.status === 200) {
           $uibModalInstance.close();
           $state.go('home');
@@ -109,6 +111,7 @@ angular.module('karamuseclAdminApp')
         }
       }, function(error) {
         $log.log(error);
+        $rootScope.loader.show = false;
         self.modal.subtitle.text = 'Mmm.. parece que tienes que recargar la página' ;
         self.modal.subtitle.show = true;
       });

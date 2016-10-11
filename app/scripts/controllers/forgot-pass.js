@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('ForgotPassCtrl', function($log, RenewPass, Utils) {
+	.controller('ForgotPassCtrl', function($rootScope, $log, RenewPass, Utils) {
 
 		this.page = {
 			container: {
@@ -53,6 +53,7 @@ angular.module('karamuseclAdminApp')
 
 			self.page.buttons.send.disabled = true;
 			self.page.container.progressCursor = true;
+			$rootScope.loader.show = true;
 
 			RenewPass.query(data, function(success) {
 				self.page.messages.forgotPassResponse.show = 'true';
@@ -64,28 +65,33 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.forgotPassResponse.subtitle.color = 'white';
 				} else if (success.status === 400) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.forgotPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor intenta de nuevo';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
 				} else if (success.status === 404) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.forgotPassResponse.title.text = 'Revisa que tu correo esté bien escrito';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 				} else if (success.status === 405) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.forgotPassResponse.title.text = 'Correo no enviado';
 					self.page.messages.forgotPassResponse.subtitle.text = 'Tenemos un problema al enviar el correo, por favor intenta de nuevo';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
 				} else {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.forgotPassResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com y repórtanos este error';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
 				}
 				self.page.container.progressCursor = false;
+				$rootScope.loader.show = false;
 
 				$log.log(success);
 			}, function(error) {

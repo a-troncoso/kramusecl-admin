@@ -35,8 +35,8 @@ angular
 			controller: 'ForgotPassCtrl',
 			controllerAs: 'forgotPass'
 		})
-		.state('reset-pass/:token?', {
-			url: '/reset-pass/:token?',
+		.state('reset-pass?', {
+			url: '/reset-pass?token',
 			templateUrl: 'views/reset-pass.html',
 			controller: 'ResetPassCtrl',
 			controllerAs: 'resetPass'

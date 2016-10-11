@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('ResetPassCtrl', function($log, $routeParams, RenewPass, Validators, Utils) {
+	.controller('ResetPassCtrl', function($rootScope, $log, $stateParams, RenewPass, Validators, Utils) {
 
 		this.page = {
 			container: {
@@ -31,10 +31,13 @@ angular.module('karamuseclAdminApp')
 						text: ''
 					}
 				}
+			},
+			buttons: {
+				send: {
+					disabled: false
+				}
 			}
 		};
-
-
 
 		this.user = {
 			data: {
@@ -49,28 +52,30 @@ angular.module('karamuseclAdminApp')
 		this.resetPass = function() {
 
 			if (!Validators.comparePasswords(self.user.data.password, self.user.data.repassword)) {
+				Utils.gotoAnyPartOfPage('topPage');
 				self.page.messages.resetPassResponse.show = true;
 				self.page.messages.resetPassResponse.title.text = 'Las contraseñas deben ser iguales';
 				self.page.messages.resetPassResponse.title.color = 'danger';
-				// Utils.gotoAnyPartOfPage('topPage');
 				return;
 			}
 
 			if (!Validators.validateStringLength(self.user.data.password, 6)) {
+				Utils.gotoAnyPartOfPage('topPage');
 				self.page.messages.resetPassResponse.show = true;
 				self.page.messages.resetPassResponse.title.text = 'La contraseña debe tener un largo mínimo de 6 caracteres';
 				self.page.messages.resetPassResponse.title.color = 'danger';
-				// Utils.gotoAnyPartOfPage('topPage');
 				return;
 			}
 
 			data = {
-				token: $routeParams.token,
+				token: $stateParams.token,
 				new_pass: '',
 				step: 2
 			};
 
+			self.page.buttons.send.disabled = true;
 			self.page.container.progressCursor = true;
+			$rootScope.loader.show = true;
 
 			RenewPass.query(data, function(success) {
 				if (success.status === 200) {
@@ -83,6 +88,7 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.resetPassResponse.link.text = 'Ir al login';
 				} else if (success.status === 400) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Ha ocurrido un error :(';
 					self.page.messages.resetPassResponse.subtitle.text = 'Por favor vuelve a intentar';
@@ -90,30 +96,34 @@ angular.module('karamuseclAdminApp')
 					self.page.messages.resetPassResponse.subtitle.color = 'danger';
 				} else if (success.status === 401) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'El código de verificación no es válido';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 				} else if (success.status === 402) {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Por favor indica la nueva contraseña';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 				} else {
 					Utils.gotoAnyPartOfPage('topPage');
+					self.page.buttons.send.disabled = false;
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.resetPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+					self.page.messages.resetPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com y repórtanos este error';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 					self.page.messages.resetPassResponse.subtitle.color = 'danger';
 				}
 				self.page.container.progressCursor = false;
+				$rootScope.loader.show = false;
 				$log.log(success);
 			}, function(error) {
 				$log.error(error);
 			});
 		};
 
-		if (!$routeParams.token) {
+		if (!$stateParams.token) {
 			$log.error('No viene el token');
 		}
 

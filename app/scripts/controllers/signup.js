@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('SignupCtrl', function($log, $stateParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
+	.controller('SignupCtrl', function($rootScope, $log, $stateParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
 			container: {
@@ -277,6 +277,7 @@ angular.module('karamuseclAdminApp')
 
 			self.page.buttons.send.disabled = true;
 			self.page.container.progressCursor = true;
+			$rootScope.loader.show = true;
 
 			Signup.save(data, function(success) {
 				self.page.messages.registryResponse.show = true;
@@ -322,6 +323,7 @@ angular.module('karamuseclAdminApp')
 					// Utils.gotoAnyPartOfPage('topPage');
 				}
 				self.page.container.progressCursor = false;
+				$rootScope.loader.show = false;
 				$log.info(success);
 			}, function(error) {
 				self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
@@ -330,6 +332,7 @@ angular.module('karamuseclAdminApp')
 				self.page.messages.registryResponse.subtitle.color = 'danger';
 				self.page.buttons.send.disabled = false;
 				self.page.container.progressCursor = false;
+				$rootScope.loader.show = false;
 				$log.error(error);
 			});
 		};
