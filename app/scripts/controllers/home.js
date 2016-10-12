@@ -8,10 +8,22 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-  .controller('HomeCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('HomeCtrl', function (Utils) {
+    
+    var self = this;
+
+    this.page = {
+
+    };
+
+    this.bar = {
+    	info: {
+    		email: Utils.getInStorage('email'),
+    		perfilPic: Utils.getInStorage('perfil_pic'),
+    		name: Utils.getInStorage('name'),
+    		address: Utils.getInStorage('address'),
+    		ordersLimit: 60
+    	}
+    };
+
   });

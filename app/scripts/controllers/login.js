@@ -55,15 +55,17 @@ angular.module('karamuseclAdminApp')
 			self.page.messages.loginResponse.show = false;
 			self.page.messages.loginResponse.title.text = '';
 			self.page.messages.loginResponse.subtitle.text = '';
-			
+
 			$auth.login(data)
 				.then(function(success) {
 					if (success.data.status === 200) {
 						self.page.buttons.login.disabled = false;
 						$auth.setToken(success.data.data.token);
+						Utils.setInStorage('email', success.data.data.email);
+						Utils.setInStorage('perfil_pic', success.data.data.avatar);
+						Utils.setInStorage('name', success.data.data.name);
+						Utils.setInStorage('address', success.data.data.address);
 						self.page.messages.loginResponse.show = true;
-						Utils.setInStorage('logged', true);
-						$log.log(success.data.data.session);
 						if (success.data.data.session.active) {
 							self.openModalActiveSession(success);
 						} else {
@@ -122,7 +124,7 @@ angular.module('karamuseclAdminApp')
 				token: $auth.getToken()
 			};
 
-			Session.save(data, function(success){
+			Session.save(data, function(success) {
 				if (success.status === 200 || success.status === 201) {
 					$log.info('Se abre sesión: OK');
 					deferred.resolve();
@@ -131,7 +133,7 @@ angular.module('karamuseclAdminApp')
 					deferred.reject();
 				}
 				// llamar a servicio codigos
-			}, function(error){
+			}, function(error) {
 				$log.error(error);
 				$log.info('Se abre sesión: ERROR');
 				deferred.reject();
@@ -156,7 +158,7 @@ angular.module('karamuseclAdminApp')
 				}
 			});
 
-			modalInstance.result.then(function () {}, function () {});
+			modalInstance.result.then(function() {}, function() {});
 		};
 
 		this.openModalGenerateCodes = function() {
@@ -172,7 +174,7 @@ angular.module('karamuseclAdminApp')
 				resolve: {}
 			});
 
-			modalInstance.result.then(function () {}, function () {});
+			modalInstance.result.then(function() {}, function() {});
 		};
 
 	});
