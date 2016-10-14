@@ -60,7 +60,7 @@ angular.module('karamuseclAdminApp')
 					});
 				}
 			}, function(error) {
-
+				$log.error(error);
 			});
 		};
 
@@ -108,6 +108,7 @@ angular.module('karamuseclAdminApp')
 								});
 							}
 						}, function(error) {
+							$log.error(error);
 							$rootScope.loader.show = false;
 							self.openModalDialog({
 								title: ':(',

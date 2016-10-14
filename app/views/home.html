@@ -55,22 +55,192 @@
 	</div>
 </header>
 
-<!-- home Section -->
-<section id="home" class="container content-section text-center">
+<!-- orders Section -->
+<section id="orders" class="container content-section text-center">
 	<div class="row">
-		<div class="col-lg-12">
-			<!-- <img class="" src="http://ultraimg.com/images/2016/07/29/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg" alt="perfil_pic"> -->
+		<div class="col-lg-8 col-lg-offset-2">
+			<div class="btn-group">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20">
+					Buscar
+				</button>
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.getOrders()">
+					Recargar
+				</button>
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalAddOrder()">
+					Pedir
+				</button>
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20">
+					Bloquear
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-10">
+		<div class="col-lg-8 col-lg-offset-2">
+			<table class="table footable">
+				<thead>
+					<tr>
+						<th>
+							Ticket
+						</th>
+						<th>
+							Título
+						</th>
+						<th data-hide="phone">
+							Hora
+						</th>
+						<th data-hide="phone">
+							Opciones
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="tr in home.orders.list" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}">
+						<td>{{tr.ticket}}</td>
+						<td class="text-left">{{tr.title}}</td>
+						<td>{{tr.createdAt | date:"HH:mm"}}</td>
+						<td>
+							<div class="btn-group" uib-dropdown is-open="false">
+								<button type="button" class="btn btn-border btn-blue-karamuse text-xs pl-10 pr-10" ng-click="" uib-dropdown-toggle>. . .</button>
+								<ul class="dropdown-menu" uib-dropdown-menu template-url="orderOptions.html" aria-labelledby="button-template-url"></ul>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </section>
 
-<!-- orders Section -->
-<section id="orders" class="content-section text-center">
-	<div class="orders-section">
-		<div class="container">
-			<div class="col-lg-8 col-lg-offset-2">
-				PEDIDOS
-			</div>
+<!-- codes Section -->
+<section id="codes" class="container content-section text-center">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2">
+			CÓDIGOS
 		</div>
 	</div>
 </section>
+
+<script type="text/ng-template" id="orderOptions.html">
+	<ul class="dropdown-menu bg-gray-karamuse" uib-dropdown-menu role="menu" aria-labelledby="button-template-url">
+		<li ng-if="tr.state == '0'"><a ng-click="home.changeOrderState(tr.id, 'switchToReady')">Listo</a></li>
+		<li ng-if="tr.state == '1'"><a ng-click="home.changeOrderState(tr.id, 'switchToPending')">Pendiente</a></li>
+		<li><a ng-click="home.openModalOrderInfo(tr)">Info</a></li>
+		<li><a ng-click="home.deleteOrder(tr.id, 'remove')" class="text-danger">Eliminar</a></li>
+	</ul>
+</script>
+
+<script type="text/ng-template" id="order-info.html">
+	<div class="modal-header">
+		<h3 class="modal-title text-center" id="modal-title">Información</h3>
+	</div>
+	<div class="modal-body text-center" id="modal-body">
+		<table class="table">
+			<tr>
+				<td class="text-blue-karamuse b-0">Ticket</td>
+				<td class="text-left b-0">{{orderInfo.orderData.ticket}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Título</td>
+				<td class="text-left">{{orderInfo.orderData.title}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Hora</td>
+				<td class="text-left">{{orderInfo.orderData.createdAt | date:'HH:mm'}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Estado</td>
+				<td class="text-left" ng-switch="orderInfo.orderData.state">
+					<p class="form-control-static " ng-switch-when="0">Pendiente</p>
+					<p class="form-control-static " ng-switch-when="1">Listo</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Origen</td>
+				<td class="text-left">{{orderInfo.orderData.origin}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Código</td>
+				<td class="text-left">{{orderInfo.orderData.code}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Tiempo de espera</td>
+				<td class="text-left">{{orderInfo.orderData.time}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Link</td>
+				<td class="text-left">
+					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ng-href="{{orderInfo.orderData.url}}" target="_self" rel="noopener noreferrer" specs="fullscreen=yes">Ver karaoke</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="modal-footer" style="text-align:center">
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="orderInfo.cancel()">Cerrar</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="dialog.html">
+	<div class="modal-header">
+		<h3 class="modal-title text-center" id="modal-title" ng-show="dialogModal.modal.title.show">{{dialogModal.modal.title.text}}</h3>
+	</div>
+	<div class="modal-body text-center" id="modal-body">
+		<p class="text-lg" ng-show="dialogModal.modal.subtitle.show">{{dialogModal.modal.subtitle.text}}</p>
+		<p class="text-md" ng-show="dialogModal.modal.paragraph1.show">{{dialogModal.modal.paragraph1.text}}</p>
+		<p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph2.show">{{dialogModal.modal.paragraph2.text}}</p>
+		<p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph3.show">{{dialogModal.modal.paragrap3.text}}</p>
+	</div>
+	<div class="modal-footer" style="text-align:center">
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">{{dialogModal.modal.buttons.submit.text}}</button>
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()">{{dialogModal.modal.buttons.cancel.text}}</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="add-order.html">
+	<div class="modal-header">
+		<h3 class="modal-title text-center" id="modal-title">Busca el karaoke que quieres pedir</h3>
+	</div>
+	<div class="modal-body text-center" id="modal-body">
+		<div class="row mb-10">
+			<form name="form">
+				<div class="col-xs-7 col-md-7 col-lg-7 col-xs-offset-2 col-md-offset-2 col-lg-offset-2 pr-5">
+					<input type="text" class="form-control underline-input text-white" ng-model="addOrder.catalog.criterion" placeholder="Título del karaoke..." required>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3 pl-0">
+					<button class="btn btn-border btn-blue-karamuse" type="submit" ng-click="addOrder.displayCatalog(addOrder.catalog.criterion)" ng-disabled="form.$invalid">Buscar</button>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-12 col-lg-12">
+				<table class="table" ng-show="addOrder.catalog.list.length > 0">
+					<thead>
+						<tr>
+							<th>Título</th>
+							<th>Link</th>
+							<th>Agregar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="td in addOrder.catalog.list">
+							<td class="text-blue-karamuse text-left">
+								{{td.title}}
+							</td>
+							<td class="text-left">
+								<a class="btn btn-border btn-bright-gray-karamuse" ng-href="{{td.url}}" target="_blank" rel="noopener noreferrer" specs="fullscreen=yes">Ver karaoke</a>
+							</td>
+							<td class="text-left">
+								<button type="button" class="btn btn-border btn-blue-karamuse" ng-click="addOrder.addTemporalOrder(td.id)">+</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h4 ng-show="addOrder.catalog.list.length == 0">No encontramos karaokes :(</h4>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="text-align:center">
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">Pedir</button>
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="">Cerrar</button>
+	</div>
+</script>

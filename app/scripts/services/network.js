@@ -128,4 +128,33 @@ angular
 			method: 'PUT'
 		}
 	});
+})
+
+.factory('Orders', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/orders/:idOrder', {
+		idOrder: '@idOrder'
+	}, {
+		query: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		},
+		update: {
+			method: 'PUT'
+		}
+	});
+})
+
+.factory('Catalog', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/catalog/:field', {
+		field: '@field'
+	}, {
+		query: {
+			method: 'GET',
+			isArray: true
+		}
+	});
 });

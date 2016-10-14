@@ -99,6 +99,9 @@
 
   >li {
     >a {
+      &:hover {
+        background-color: transparent;
+      }
       color: $font-color-dark;
       padding: 5px 15px;
       >i {

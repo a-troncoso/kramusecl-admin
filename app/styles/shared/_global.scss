@@ -737,7 +737,7 @@ body {
       color: $transparent-white-7;
 
       &:hover {
-        color: white;
+        color: $blue-karamuse;
       }
     }
     .dropdown-menu > li > a {
@@ -1328,6 +1328,26 @@ body {
   border-color: $brand-default!important;
 }
 
+.b-gray-karamuse {
+   border-color: $gray-karamuse!important;
+
+  &.dk {
+    border-color: $darken-gray-karamuse!important;
+  }
+
+  &.dker {
+    border-color: $darker-gray-karamuse!important;
+  }
+
+  &.lt {
+    border-color: $lighten-gray-karamuse!important;
+  }
+
+  &.lter {
+    border-color: $lighter-gray-karamuse!important;
+  }
+}
+
 //border-radius
 
 .br-50-percent {
@@ -1691,4 +1711,8 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
   -o-appearance: textfield;
+}
+
+.content-section {
+  padding-top: 100px;
 }

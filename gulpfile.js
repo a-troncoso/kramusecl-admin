@@ -150,8 +150,16 @@ gulp.task('styles', function() {
   return gulp.src('app/styles/**/*.scss')
     .pipe(sass({
       includePaths: ['styles'].concat(neat)
+      // loadPath: [
+      //   'bower_components/font-awesome/scss'
+      // ]
     }))
     .pipe(gulp.dest('app/styles'));
+});
+
+gulp.task('icons', function() { 
+  return gulp.src('/bower_components/fontawesome/fonts/**.*') 
+    .pipe(gulp.dest(yeoman.app + '/fonts')); 
 });
 
 ///////////

@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
+	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session) {
 
 		var self = this;
 
@@ -161,7 +161,7 @@ angular.module('karamuseclAdminApp')
 			modalInstance.result.then(function() {}, function() {});
 		};
 
-		this.openModalGenerateCodes = function() {
+		this.openModalGenera = function() {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: 'static',

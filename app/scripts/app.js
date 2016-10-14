@@ -20,5 +20,7 @@ angular
     'ng.deviceDetector', //detecta el device
     'LocalStorageModule',
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.footable',
+    'picardy.fontawesome'
   ]);
