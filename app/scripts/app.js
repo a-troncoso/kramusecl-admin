@@ -22,5 +22,6 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ui.footable',
-    'picardy.fontawesome'
+    'picardy.fontawesome',
+    'ngclipboard'
   ]);

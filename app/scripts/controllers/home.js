@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders) {
+	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, Settings) {
 
 		var self = this,
 			i = 0;
@@ -28,7 +28,18 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.orders = {
-			list: []
+			list: [],
+			btnGroup: {
+				show: true
+			},
+			search: {
+				title: {
+					text: ''
+				},
+				focus: false,
+				show: false
+			},
+			limit: 2
 		};
 
 		this.getOrders = function() {
@@ -166,6 +177,62 @@ angular.module('karamuseclAdminApp')
 			});
 
 			modalInstance.result.then(function() {}, function() {});
+		};
+
+		this.getOrdersLimit = function() {
+			return self.orders.limit;
+		};
+
+		this.openModalOrdersLimit = function() {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'orders-limit.html',
+				controller: 'OrdersLimitModalInstanceCtrl',
+				controllerAs: 'ordersLimit',
+				size: 'md',
+				resolve: {}
+			});
+
+			modalInstance.result.then(function() {}, function() {});
+		};
+
+		this.lockUnlockOrders = function() {
+			var currentLimit = self.getOrdersLimit();
+
+			if (currentLimit === 0) {
+				self.openModalDialog({
+					title: '¿Deseas bloquear los pedidos?',
+					subtitle: 'Con esta acción ya no recibirás más pedidos',
+					submit: {
+						text: 'Bloquear',
+						function: function() {
+							return self.setOrdersLimit(0);
+						}
+					},
+					cancel: {
+						text: 'Cancelar',
+						function: null
+					}
+				});
+			} else {
+				self.openModalOrdersLimit();
+			}
+		};
+
+		this.setOrdersLimit = function(limit) {
+
+			Settings.update({
+				setting: 'order_limit',
+				value: limit,
+				token: $auth.getToken()
+			}, function(success) {
+				$log.log(success);
+			}, function(error) {
+				$log.error(error);
+			});
 		};
 
 		this.getOrders();

@@ -59,8 +59,8 @@
 <section id="orders" class="container content-section text-center">
 	<div class="row">
 		<div class="col-lg-8 col-lg-offset-2">
-			<div class="btn-group">
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20">
+			<div class="btn-group" ng-show="home.orders.btnGroup.show">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.btnGroup.show=false;home.orders.search.focus= true;">
 					Buscar
 				</button>
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.getOrders()">
@@ -69,10 +69,11 @@
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalAddOrder()">
 					Pedir
 				</button>
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.lockUnlockOrders();">
 					Bloquear
 				</button>
 			</div>
+			<input type="text" class="form-control underline-input" placeholder="Título" ng-blur="home.orders.btnGroup.show=true;home.orders.search.show=true" ng-model="home.orders.search.title.text" ng-show="!home.orders.btnGroup.show" focus="home.orders.search.focus">
 		</div>
 	</div>
 	<div class="row mt-10">
@@ -95,7 +96,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="tr in home.orders.list" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}">
+					<tr ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}">
 						<td>{{tr.ticket}}</td>
 						<td class="text-left">{{tr.title}}</td>
 						<td>{{tr.createdAt | date:"HH:mm"}}</td>
@@ -132,7 +133,7 @@
 
 <script type="text/ng-template" id="order-info.html">
 	<div class="modal-header">
-		<h3 class="modal-title text-center" id="modal-title">Información</h3>
+		<h3 class="modal-title text-center" id="modal-title">Información del pedido</h3>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<table class="table">
@@ -170,7 +171,8 @@
 			<tr>
 				<td class="text-blue-karamuse">Link</td>
 				<td class="text-left">
-					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ng-href="{{orderInfo.orderData.url}}" target="_self" rel="noopener noreferrer" specs="fullscreen=yes">Ver karaoke</a>
+					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ng-click="orderInfo.watchKaraoke(orderInfo.orderData.url)">Ver karaoke</a>
+					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ngclipboard data-clipboard-text="{{orderInfo.orderData.url}}">Copiar link</a>
 				</td>
 			</tr>
 		</table>
@@ -198,16 +200,16 @@
 
 <script type="text/ng-template" id="add-order.html">
 	<div class="modal-header">
-		<h3 class="modal-title text-center" id="modal-title">Busca el karaoke que quieres pedir</h3>
+		<h3 class="modal-title text-center" id="modal-title">¿Qué karaoke vas a pedir?</h3>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<div class="row mb-10">
 			<form name="form">
 				<div class="col-xs-7 col-md-7 col-lg-7 col-xs-offset-2 col-md-offset-2 col-lg-offset-2 pr-5">
-					<input type="text" class="form-control underline-input text-white" ng-model="addOrder.catalog.criterion" placeholder="Título del karaoke..." required>
+					<input type="text" class="form-control underline-input text-white" ng-model="addOrder.catalog.criterion.text" placeholder="Título del karaoke..." focus="addOrder.catalog.criterion.focus" ng-init="addOrder.catalog.criterion.focus=true" required>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3 pl-0">
-					<button class="btn btn-border btn-blue-karamuse" type="submit" ng-click="addOrder.displayCatalog(addOrder.catalog.criterion)" ng-disabled="form.$invalid">Buscar</button>
+					<button class="btn btn-border btn-blue-karamuse" type="submit" ng-click="addOrder.catalog.pagination.currentPage=1;addOrder.displayCatalog(addOrder.catalog.criterion.text,addOrder.catalog.pagination.sizePage,1)" ng-disabled="form.$invalid">Buscar</button>
 				</div>
 			</form>
 		</div>
@@ -230,17 +232,37 @@
 								<a class="btn btn-border btn-bright-gray-karamuse" ng-href="{{td.url}}" target="_blank" rel="noopener noreferrer" specs="fullscreen=yes">Ver karaoke</a>
 							</td>
 							<td class="text-left">
-								<button type="button" class="btn btn-border btn-blue-karamuse" ng-click="addOrder.addTemporalOrder(td.id)">+</button>
+								<button type="button" class="btn btn-border btn-blue-karamuse" ng-click="addOrder.addOrder(td.id,$index)" uib-popover="{{td.addButton.successPopover.text}}" popover-is-open="td.addButton.successPopover.show" ng-disabled="td.addButton.disabled">+</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				<h4 ng-show="addOrder.catalog.list.length == 0">No encontramos karaokes :(</h4>
+				<ul uib-pagination total-items="addOrder.catalog.pagination.totalResults" ng-model="addOrder.catalog.pagination.currentPage" max-size="addOrder.catalog.pagination.maxSize" num-pages="addOrder.catalog.pagination.totalPages" items-per-page="addOrder.catalog.pagination.sizePage" ng-change="addOrder.displayCatalog(addOrder.catalog.criterion.text,addOrder.catalog.pagination.sizePage,addOrder.catalog.pagination.currentPage)" class="pagination-sm" boundary-link-numbers="true" rotate="false" previous-text="<" next-text=">" last-text=">>" first-text="<<"></ul>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer" style="text-align:center">
-		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">Pedir</button>
-		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="">Cerrar</button>
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="addOrder.cancel()">Cerrar</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="orders-limit.html">
+  <div class="modal-header">
+    <h3 class="modal-title text-center text-light" id="modal-title">¿Cuántos pedidos vas a permitir?</h3>
+    <h4 class="text-light text-center" ng-class="{'text-danger':ordersLimit.modal.subtitle.danger}" ng-show="ordersLimit.modal.subtitle.show">{{ordersLimit.modal.subtitle.text}}</h4>
+  </div>
+  <div class="modal-body text-center" id="modal-body">
+    <form class="form-inline" name="form">
+      <div class="form-group">
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="ordersLimit.keyDown('dec',ordersLimit.modal.form.codes.value)" ng-mouseup="ordersLimit.keyUp()" >
+        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.codes.value" ng-min="ordersLimit.modal.form.codes.min" ng-max="ordersLimit.modal.form.codes.max" ng-step="ordersLimit.modal.form.codes.step" required>
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="ordersLimit.keyDown('inc',ordersLimit.modal.form.codes.value)" ng-mouseup="ordersLimit.keyUp()" >  
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer" style="text-align:center">
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Guardar</button>
+  </div>
 </script>

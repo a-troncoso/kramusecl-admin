@@ -51,5 +51,5 @@ angular.module('karamuseclAdminApp')
       $uibModalInstance.close();
     };
 
-    $log.log(data);
+    // $log.log(data);
   });

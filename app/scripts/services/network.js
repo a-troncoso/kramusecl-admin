@@ -143,18 +143,36 @@ angular
 		},
 		update: {
 			method: 'PUT'
+		},
+		save: {
+			method: 'POST'
 		}
 	});
 })
 
 .factory('Catalog', function($resource, API_URL_BASE) {
 
-	return $resource(API_URL_BASE + '/catalog/:field', {
-		field: '@field'
+	return $resource(API_URL_BASE + '/catalog/:keyword', {
+		keyword: '@keyword'
 	}, {
 		query: {
 			method: 'GET',
-			isArray: true
+			params: {
+				sizePage: '@sizePage',
+				numPage: '@numPage'
+			}
+		}
+	});
+})
+
+.factory('Settings', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/settings/:setting/:value', {
+		setting: '@setting',
+		value: '@value'
+	}, {
+		update: {
+			method: 'PUT'
 		}
 	});
 });
