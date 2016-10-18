@@ -12,6 +12,9 @@ angular.module('karamuseclAdminApp')
 		var self = this;
 
 		this.modal = {
+			loader: {
+				show: false
+			},
 			subtitle: {
 				text: '',
 				danger: true,
@@ -75,11 +78,14 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.setOrdersLimit = function(limit) {
+			self.modal.loader.show = true;
+
 			Settings.update({
 				order_limit: limit,
 				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
+				self.modal.loader.show = false;
 				if (success.status === 200) {
 					$uibModalInstance.close({
 						newOrdersLimit: limit
@@ -89,6 +95,21 @@ angular.module('karamuseclAdminApp')
 				}
 			}, function(error) {
 				$log.error(error);
+				self.modal.loader.show = false;
+				self.openModalDialog({
+					title: 'Houston, tenemos un problema...',
+					subtitle: 'Ha ocurrido un error al cambiar el límite de pedidos!',
+					submit: {
+						text: 'Reintentar',
+						function: function() {
+							return self.setOrdersLimit(self.modal.form.ordersLimit.value);
+						}
+					},
+					cancel: {
+						text: 'Cancelar',
+						function: null
+					}
+				});
 			});
 		};
 

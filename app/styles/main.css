@@ -9995,6 +9995,19 @@ tr .no-border td {
     -o-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
+.pagination > .active > a {
+  background-color: transparent;
+  color: #bfbfbf; }
+
+.pagination > .active > a:hover {
+  background-color: transparent;
+  color: white; }
+
+.pagination > .disabled > a {
+  background-color: transparent; }
+  .pagination > .disabled > a:hover {
+    background-color: transparent; }
+
 html, body, ui-view {
   height: 100%; }
 

@@ -8,9 +8,10 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('EditDataModalInstanceCtrl', function($log, $uibModalInstance, $auth, data, Settings) {
+	.controller('EditDataModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, data, Settings) {
 
-		// var self = this;
+		var self = this,
+			i = 0;
 
 		this.modal = {
 			title: {
@@ -50,6 +51,9 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.editData = function(data) {
+			self.modal.buttons.save.disabled = true;
+			$rootScope.loader.show = true;
+
 			Settings.update({
 				token: $auth.getToken(),
 				avatar: data.avatar,
@@ -58,8 +62,20 @@ angular.module('karamuseclAdminApp')
 				address: data.address
 			}, function(success) {
 				$log.log(success);
+				self.modal.buttons.save.disabled = false;
+				$rootScope.loader.show = false;
+				if (success.status === 200) {
+					$uibModalInstance.close({
+						orderLimit: success.data[0].order_limit,
+						avatar: success.data[1].avatar,
+						barName: success.data[2].bar_name,
+						address: success.data[3].address
+					});
+				} else {
+					$log.error(success)
+				}
 			}, function(error) {
-				$log.log(error);
+				$log.error(error);
 			});
 		};
 

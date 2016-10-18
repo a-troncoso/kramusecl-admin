@@ -79,8 +79,10 @@ angular.module('karamuseclAdminApp')
 			});
 
 			modalInstance.result.then(function(data) {
-				self.bar.info.ordersLimit = data.newOrdersLimit;
-				self.orders.btnGroup.lockUnlock.text = 'Bloquear';
+				self.bar.info.avatar = data.avatar;
+				self.bar.info.name = data.barName;
+				self.bar.info.address = data.address;
+				self.bar.info.ordersLimit = data.orderLimit;
 			}, function() {});
 		};
 
@@ -293,6 +295,5 @@ angular.module('karamuseclAdminApp')
 
 		self.getOrders();
 		self.getSettings();
-
 
 	});

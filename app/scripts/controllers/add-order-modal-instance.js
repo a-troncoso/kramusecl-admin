@@ -13,11 +13,22 @@ angular.module('karamuseclAdminApp')
 		var self = this,
 			i = 0;
 
-		this.modal = {};
+		this.modal = {
+			loader: {
+				show: false
+			},
+			messages: {
+				catalog: {
+					text: '',
+					show: false
+				}
+			}
+		};
 
 		this.catalog = {
 			list: [],
 			pagination: {
+				show: false,
 				currentPage: 1,
 				sizePage: 20,
 				maxSize: 5,
@@ -32,7 +43,10 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.displayCatalog = function(keyword, sizePage, numPage) {
+			self.modal.loader.show = true;
 			self.catalog.list = [];
+			self.catalog.pagination.show = false;
+			self.modal.messages.catalog.show = false;
 
 			Catalog.query({
 				keyword: keyword,
@@ -40,10 +54,12 @@ angular.module('karamuseclAdminApp')
 				numPage: numPage,
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
-				if (success.status === 200) {
+				// $log.log(success);
+				self.modal.loader.show = false;
+				if (success.status === 200) { // 200 = hay resultados
 					self.catalog.pagination.totalPages = success.totalPages;
 					self.catalog.pagination.totalResults = success.totalResults;
+					self.catalog.pagination.show = true;
 
 					for (i = 0; i < success.data.length; i++) {
 						if (success.data[i].active === '1') {
@@ -62,12 +78,28 @@ angular.module('karamuseclAdminApp')
 							});
 						}
 					}
-				} else {
-					$log.error(success);
+				} else if (success.status === 404) {
+					// $log.error(success);
+					self.modal.messages.catalog.text = 'No encontramos karaokes :('; // 404 = no hay resultados
+					self.modal.messages.catalog.show = true;
 				}
-
 			}, function(error) {
-				$log.log(error);
+				$log.error(error);
+				self.modal.loader.show = false;
+				self.openModalDialog({
+					title: 'Houston, tenemos un problema...',
+					subtitle: 'Ha ocurrido un error al buscar tus karaokes D:',
+					submit: {
+						text: 'Reintentar',
+						function: function() {
+							return self.displayCatalog(self.catalog.criterion.text, self.catalog.pagination.sizePage, self.catalog.pagination.currentPage);
+						}
+					},
+					cancel: {
+						text: 'Cancelar',
+						function: null
+					}
+				});
 			});
 		};
 
@@ -84,7 +116,7 @@ angular.module('karamuseclAdminApp')
 					origin: deviceDetector.os
 				}]
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				self.catalog.list[index].addButton.successPopover.show = true;
 				$timeout(function() {
 					self.catalog.list[index].addButton.disabled = false;

@@ -127,10 +127,10 @@
 
 <script type="text/ng-template" id="orderOptions.html">
 	<ul class="dropdown-menu bg-gray-karamuse" uib-dropdown-menu role="menu" aria-labelledby="button-template-url">
-		<li ng-if="tr.state == '0'"><a ng-click="home.changeOrderState(tr.id, 'switchToReady')">Listo</a></li>
-		<li ng-if="tr.state == '1'"><a ng-click="home.changeOrderState(tr.id, 'switchToPending')">Pendiente</a></li>
-		<li><a ng-click="home.openModalOrderInfo(tr)">Info</a></li>
-		<li><a ng-click="home.deleteOrder(tr.id, 'remove')" class="text-danger">Eliminar</a></li>
+		<li ng-if="tr.state == '0'"><a href="" ng-click="home.changeOrderState(tr.id, 'switchToReady')">Listo</a></li>
+		<li ng-if="tr.state == '1'"><a href="" ng-click="home.changeOrderState(tr.id, 'switchToPending')">Pendiente</a></li>
+		<li><a href="" ng-click="home.openModalOrderInfo(tr)">Info</a></li>
+		<li><a href="" ng-click="home.deleteOrder(tr.id, 'remove')" class="text-danger">Eliminar</a></li>
 	</ul>
 </script>
 
@@ -202,8 +202,9 @@
 </script>
 
 <script type="text/ng-template" id="add-order.html">
+ <div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div>
 	<div class="modal-header">
-		<h3 class="modal-title text-center" id="modal-title">¿Qué karaoke vas a pedir?</h3>
+		<h3 class="modal-title text-center text-light" id="modal-title">¿Qué karaoke vas a pedir?</h3>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<div class="row mb-10">
@@ -240,8 +241,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<h4 ng-show="addOrder.catalog.list.length == 0">No encontramos karaokes :(</h4>
-				<ul uib-pagination total-items="addOrder.catalog.pagination.totalResults" ng-model="addOrder.catalog.pagination.currentPage" max-size="addOrder.catalog.pagination.maxSize" num-pages="addOrder.catalog.pagination.totalPages" items-per-page="addOrder.catalog.pagination.sizePage" ng-change="addOrder.displayCatalog(addOrder.catalog.criterion.text,addOrder.catalog.pagination.sizePage,addOrder.catalog.pagination.currentPage)" class="pagination-sm" boundary-link-numbers="true" rotate="false" previous-text="<" next-text=">" last-text=">>" first-text="<<"></ul>
+				<h4 ng-show="addOrder.modal.messages.catalog.show">{{addOrder.modal.messages.catalog.text}}</h4>
+				<ul ng-show="addOrder.catalog.pagination.show" uib-pagination total-items="addOrder.catalog.pagination.totalResults" ng-model="addOrder.catalog.pagination.currentPage" max-size="addOrder.catalog.pagination.maxSize" num-pages="addOrder.catalog.pagination.totalPages" items-per-page="addOrder.catalog.pagination.sizePage" ng-change="addOrder.displayCatalog(addOrder.catalog.criterion.text,addOrder.catalog.pagination.sizePage,addOrder.catalog.pagination.currentPage)" class="pagination-sm" boundary-link-numbers="true" rotate="false" previous-text="<" next-text=">" last-text=">>" first-text="<<" template-url="pagination.html"></ul>
 			</div>
 		</div>
 	</div>
@@ -251,6 +252,7 @@
 </script>
 
 <script type="text/ng-template" id="orders-limit.html">
+	<div class="loading" ng-show="ordersLimit.modal.loader.show">Cargando&#8230;</div>
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title">¿Cuántos pedidos vas a permitir?</h3>
 		<h4 class="text-light text-center" ng-class="{'text-danger':ordersLimit.modal.subtitle.danger}" ng-show="ordersLimit.modal.subtitle.show">{{ordersLimit.modal.subtitle.text}}</h4>
@@ -271,6 +273,8 @@
 </script>
 
 <script type="text/ng-template" id="edit-data.html">
+	<div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div>
+	<!-- <div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div> -->
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title" ng-show="editData.modal.title.show">{{editData.modal.title.text}}</h3>
 	</div>
@@ -316,4 +320,22 @@
 		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || editData.modal.buttons.save.disabled" ng-click="editData.editData(editData.bar.data)">Guardar</button>
 		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="editData.cancel()">Cancelar</button>
 	</div>
+</script>
+
+<script type="text/ng-template" id="pagination.html">
+	<li style="display:block" ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first">
+		<a href ng-click="selectPage(1, $event)" ng-disabled="noPrevious()||ngDisabled" uib-tabindex-toggle class="">{{::getText('first')}}</a>
+	</li>
+	<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev">
+		<a href ng-click="selectPage(page - 1, $event)" ng-disabled="noPrevious()||ngDisabled" uib-tabindex-toggle class="btn btn-border">{{::getText('previous')}}</a>
+	</li>
+	<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page">
+		<a href ng-click="selectPage(page.number, $event)" ng-disabled="ngDisabled&&!page.active" uib-tabindex-toggle class="btn btn-border btn-bright-gray-karamuse">{{page.text}}</a>
+	</li>
+	<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next">
+		<a href ng-click="selectPage(page + 1, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle class="btn btn-border">{{::getText('next')}}</a>
+	</li>
+	<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last">
+		<a href ng-click="selectPage(totalPages, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle class="">{{::getText('last')}}</a>
+	</li>
 </script>

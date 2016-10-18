@@ -1,0 +1,20 @@
+.pagination {
+	>.active {
+		>a{
+			background-color: transparent;
+			color: $bright-gray-karamuse;
+		}
+		>a:hover{
+			background-color: transparent;
+			color: white;
+		}
+	}
+	>.disabled {
+		>a {
+			background-color: transparent;
+			&:hover {
+				background-color: transparent;
+			}
+		}
+	}
+}
