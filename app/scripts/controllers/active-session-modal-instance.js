@@ -31,7 +31,7 @@ angular.module('karamuseclAdminApp')
 
 		this.follow = function() {
 			self.modal.buttons.follow.disabled = true;
-			$uibModalInstance.close();
+			$uibModalInstance.dismiss();
 
 			var verifyCodes = self.verifyCodes();
 
@@ -41,7 +41,7 @@ angular.module('karamuseclAdminApp')
 				if (success.status === 200) {
 					$state.go('home');
 				} else if (success.status === 201) {
-					$uibModalInstance.close();
+					$uibModalInstance.dismiss();
 					self.openModalGenerateCodes();
 				} else if(success.status === 202) {
 					self.openModalDialog({
@@ -89,7 +89,7 @@ angular.module('karamuseclAdminApp')
 							if (success.status === 200) {
 								$state.go('home');
 							} else if (success.status === 201) {
-								$uibModalInstance.close();
+								$uibModalInstance.dismiss();
 								self.openModalGenerateCodes();
 							} else if(success.status === 202) {
 								self.openModalDialog({

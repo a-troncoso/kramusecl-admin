@@ -48,7 +48,7 @@ angular.module('karamuseclAdminApp')
     };
 
     this.cancel = function() {
-      $uibModalInstance.close();
+      $uibModalInstance.dismiss();
     };
 
     // $log.log(data);

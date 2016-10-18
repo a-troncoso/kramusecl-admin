@@ -37,7 +37,8 @@ angular.module('karamuseclAdminApp')
 			Catalog.query({
 				keyword: keyword,
 				sizePage: sizePage,
-				numPage: numPage
+				numPage: numPage,
+				token: $auth.getToken()
 			}, function(success) {
 				$log.log(success);
 				if (success.status === 200) {
@@ -84,18 +85,20 @@ angular.module('karamuseclAdminApp')
 				}]
 			}, function(success) {
 				$log.log(success);
+				self.catalog.list[index].addButton.successPopover.show = true;
+				$timeout(function() {
+					self.catalog.list[index].addButton.disabled = false;
+					self.catalog.list[index].addButton.successPopover.show = false;
+				}, 3000);
 				if (success.status === 200) {
-					self.catalog.list[index].addButton.successPopover.show = true;
 					// Si el pedido se agregó
 					if (success.data[0].add_order) {
 						self.catalog.list[index].addButton.successPopover.text = 'Agregado';
 					} else {
 						self.catalog.list[index].addButton.successPopover.text = 'No se agregó porque ya está pedido';
 					}
-					$timeout(function() {
-						self.catalog.list[index].addButton.disabled = false;
-						self.catalog.list[index].addButton.successPopover.show = false;
-					}, 3000);
+				} else if (success.status === 406) {
+					self.catalog.list[index].addButton.successPopover.text = 'No se pueden hacer más pedidos';
 				} else {
 					$log.error(success);
 				}
@@ -105,7 +108,7 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.cancel = function() {
-			$uibModalInstance.close();
+			$uibModalInstance.dismiss();
 		};
 
 	});

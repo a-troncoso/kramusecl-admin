@@ -94,7 +94,7 @@ angular.module('karamuseclAdminApp')
         $log.log(success);
         $rootScope.loader.show = false;
         if (success.status === 200) {
-          $uibModalInstance.close();
+          $uibModalInstance.dismiss();
           $state.go('home');
         } else if(success.status === 201) {
           self.modal.buttons.send.disabled = false;

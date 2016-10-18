@@ -159,13 +159,29 @@ angular
 			method: 'GET',
 			params: {
 				sizePage: '@sizePage',
-				numPage: '@numPage'
+				numPage: '@numPage',
+				token: '@token'
 			}
 		}
 	});
 })
 
 .factory('Settings', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/settings', {}, {
+		update: {
+			method: 'PUT'
+		},
+		query: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		}
+	});
+})
+
+.factory('OrdersLimit', function($resource, API_URL_BASE) {
 
 	return $resource(API_URL_BASE + '/settings/:setting/:value', {
 		setting: '@setting',

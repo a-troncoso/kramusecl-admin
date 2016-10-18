@@ -26,7 +26,7 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.cancel = function() {
-			$uibModalInstance.close();
+			$uibModalInstance.dismiss();
 		};
 
 		this.watchKaraoke = function(url) {
