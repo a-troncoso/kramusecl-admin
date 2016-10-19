@@ -103,8 +103,10 @@ angular
 
 .factory('Codes', function($resource, API_URL_BASE) {
 
-	return $resource(API_URL_BASE + '/codes/:action', {
-		action: '@action'
+	return $resource(API_URL_BASE + '/codes/:action/:subAction/:value', {
+		action: '@action',
+		subAction: '@subAction',
+		value: '@value'
 	}, {
 		verify: {
 			method: 'GET',
@@ -114,6 +116,9 @@ angular
 		},
 		generate: {
 			method: 'POST'
+		},
+		update: {
+			method: 'PUT'
 		}
 	});
 })

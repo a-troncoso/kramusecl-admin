@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings) {
+	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes) {
 
 		var self = this,
 			i = 0;
@@ -29,10 +29,23 @@ angular.module('karamuseclAdminApp')
 		this.orders = {
 			list: [],
 			total: 0,
+			show: true,
 			btnGroup: {
 				show: true,
-				lockUnlock: {
-					text: 'Bloquear'
+				buttons: {
+					search: {
+						show: true
+					},
+					reload: {
+						show: true
+					},
+					order: {
+						show: true
+					},
+					lockUnlock: {
+						text: 'Bloquear',
+						show: true
+					}
 				}
 			},
 			search: {
@@ -41,6 +54,19 @@ angular.module('karamuseclAdminApp')
 				},
 				focus: false,
 				show: false
+			}
+		};
+
+		this.codes = {
+			list: []
+		};
+
+		this.catalog = {
+			title: {
+				text: ''
+			},
+			url: {
+				text: ''
 			}
 		};
 
@@ -53,7 +79,7 @@ angular.module('karamuseclAdminApp')
 					self.bar.info.avatar = success.data.avatar;
 					self.bar.info.ordersLimit = parseInt(success.data.order_limit);
 					if (self.bar.info.ordersLimit === 0) {
-						self.orders.btnGroup.lockUnlock.text = 'Desbloquear';
+						self.orders.btnGroup.buttons.lockUnlock.text = 'Desbloquear';
 					}
 				}
 			}, function(error) {
@@ -93,9 +119,12 @@ angular.module('karamuseclAdminApp')
 				idOrder: '',
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
+					self.orders.btnGroup.buttons.search.show = true;
+					self.orders.show = true;
 					self.orders.total = success.total;
+
 					for (i = 0; i < success.data.length; i++) {
 						self.orders.list.push({
 							id: success.data[i].id,
@@ -110,7 +139,9 @@ angular.module('karamuseclAdminApp')
 						});
 					}
 				} else {
-					$log.error(success);
+					// $log.error(success);
+					self.orders.btnGroup.buttons.search.show = false;
+					self.orders.show = false;
 				}
 			}, function(error) {
 				$log.log(error);
@@ -152,7 +183,7 @@ angular.module('karamuseclAdminApp')
 				state: newState,
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					self.getOrders();
 				}
@@ -247,7 +278,7 @@ angular.module('karamuseclAdminApp')
 
 			modalInstance.result.then(function(data) {
 				self.bar.info.ordersLimit = data.newOrdersLimit;
-				self.orders.btnGroup.lockUnlock.text = 'Bloquear';
+				self.orders.btnGroup.buttons.lockUnlock.text = 'Bloquear';
 			}, function() {});
 		};
 
@@ -284,7 +315,51 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				if (success.status === 200) {
 					self.bar.info.ordersLimit = limit;
-					self.orders.btnGroup.lockUnlock.text = 'Desbloquear';
+					self.orders.btnGroup.buttons.lockUnlock.text = 'Desbloquear';
+				} else {
+					$log.error(success);
+				}
+			}, function(error) {
+				$log.error(error);
+			});
+		};
+
+		this.getCodes = function() {
+			Codes.verify({
+				token: $auth.getToken(),
+				action: 'verify'
+			}, function(success) {
+				$log.log(success);
+				if (success.status === 200) {
+					self.codes.list = success.data;
+				} else {
+					$log.error(success);
+				}
+			}, function(error) {
+				$log.error(error);
+			});
+		};
+
+		this.updateCodeState = function(code, state, index) {
+			var newState;
+
+			if (state === '0') {
+				newState = '1';
+			} else if (state === '1') {
+				newState = '2';
+			} else if (state === '2') {
+				newState = '0';
+			}
+
+			Codes.update({
+				token: $auth.getToken(),
+				action: code,
+				subAction: 'state',
+				value: newState
+			}, function(success) {
+				$log.log(success);
+				if (success.status === 200) {
+					self.codes.list[index].state = newState;
 				} else {
 					$log.error(success);
 				}
@@ -295,5 +370,6 @@ angular.module('karamuseclAdminApp')
 
 		self.getOrders();
 		self.getSettings();
+		self.getCodes();
 
 	});

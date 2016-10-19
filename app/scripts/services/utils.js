@@ -24,7 +24,6 @@ angular.module('karamuseclAdminApp')
 		return localStorageService.clearAll();
 	};
 
-	// El flag debe ser el id del algún tag
 	this.gotoAnyPartOfPage = function(flag) {
 		$location.hash(flag);
 		$anchorScroll();

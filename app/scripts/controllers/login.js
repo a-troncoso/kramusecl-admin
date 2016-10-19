@@ -38,8 +38,8 @@ angular.module('karamuseclAdminApp')
 
 		this.user = {
 			data: {
-				email: 'nicolascanto1@gmail.com',
-				password: '123',
+				email: 'alvaro.mc2@gmail.com',
+				password: '11111111',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
@@ -58,6 +58,7 @@ angular.module('karamuseclAdminApp')
 
 			$auth.login(data)
 				.then(function(success) {
+					// $log.log(success);
 					if (success.data.status === 200) {
 						self.page.buttons.login.disabled = false;
 						$auth.setToken(success.data.data.token);
@@ -99,7 +100,6 @@ angular.module('karamuseclAdminApp')
 						self.page.messages.loginResponse.subtitle.color = 'danger';
 					}
 					$rootScope.loader.show = false;
-					//$log.log(success);
 				})
 				.catch(function(error) {
 					$log.error(error);
@@ -161,7 +161,7 @@ angular.module('karamuseclAdminApp')
 			modalInstance.result.then(function() {}, function() {});
 		};
 
-		this.openModalGenera = function() {
+		this.openModalGenerateCodes = function() {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: 'static',
