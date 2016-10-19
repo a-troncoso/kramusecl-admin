@@ -10,7 +10,7 @@
 
 angular.module('karamuseclAdminApp')
 
-.service('Utils', function($log, $anchorScroll, $location, localStorageService) {
+.service('Utils', function($log, $state, $anchorScroll, $location, localStorageService) {
 
 	this.setInStorage = function(key, val) {
 		return localStorageService.set(key, val);
@@ -30,9 +30,9 @@ angular.module('karamuseclAdminApp')
 		$anchorScroll();
 	};
 
-	// this.gotoPage = function(page) {
-	// 	$state.go(page);
-	// };
+	this.gotoPage = function(page) {
+		$state.go(page);
+	};
 
 	this.escapeRegExp = function(str) {
 		return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");

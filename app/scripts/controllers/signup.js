@@ -220,50 +220,74 @@ angular.module('karamuseclAdminApp')
 				};
 
 				if (!Validators.validaRequiredField(self.user.data.email)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Por favor indica el nombre de tu bar';
-					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
 				if (!Validators.validaRequiredField(self.user.data.rut)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Por favor indica el rut de tu bar';
-					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
 				if (!Validators.validaRequiredField(self.user.data.address)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
-					self.page.messages.registryResponse.title.text = 'Por favor invalidaRequiredFielddica la dirección de tu bar';
-					// Utils.gotoAnyPartOfPage('topPage');
+					self.page.messages.registryResponse.title.text = 'Por favor indica la dirección de tu bar';
 					return;
 				}
 
 				if (!Validators.validateRutCheckDigit(self.user.data.rut)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Revisa que el rut esté bien escrito';
-					// Utils.gotoAnyPartOfPage('topPage');
+					return;
+				}
+
+				if (!self.user.data.region.nombre) {
+					Utils.gotoAnyPartOfPage('topPage');
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una región';
+					return;
+				}
+
+				if (!self.user.data.region.nombre) {
+					Utils.gotoAnyPartOfPage('topPage');
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una provincia';
+					return;
+				}
+
+				if (!self.user.data.region.nombre) {
+					Utils.gotoAnyPartOfPage('topPage');
+					self.page.messages.registryResponse.show = true;
+					self.page.messages.registryResponse.title.color = 'danger';
+					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una comuna';
 					return;
 				}
 
 				if (!Validators.comparePasswords(data.password, data.repassword)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'Las contraseñas no coinciden';
-					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 
 				if (!Validators.validateStringLength(data.password, 6)) {
+					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.title.text = 'La contaseña debe tener un largo mínimo de 6 caracteres';
-					// Utils.gotoAnyPartOfPage('topPage');
 					return;
 				}
 				//Si es que está completando el registro 1:
@@ -341,8 +365,7 @@ angular.module('karamuseclAdminApp')
 			self.page.buttons.send.text = 'Registrar';
 
 			tokenIsValid = validateToken($stateParams.token);
-
-			if (tokenIsValid) {
+			tokenIsValid.then(function() {
 				self.page.formGroups.email.disabled = true;
 				self.page.formGroups.phone.disabled = true;
 				self.page.formGroups.bar.show = true;
@@ -364,7 +387,9 @@ angular.module('karamuseclAdminApp')
 				self.page.formGroups.repassword.required = true;
 
 				getRegions();
-			}
+			}, function() {
+				Utils.gotoPage('page-404');
+			});
 		}
 
 	});

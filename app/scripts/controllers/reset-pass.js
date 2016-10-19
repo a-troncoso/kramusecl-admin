@@ -10,6 +10,9 @@
 angular.module('karamuseclAdminApp')
 	.controller('ResetPassCtrl', function($rootScope, $log, $stateParams, RenewPass, Validators, Utils) {
 
+		var self = this,
+			data = {};
+
 		this.page = {
 			container: {
 				progressCursor: false
@@ -46,9 +49,6 @@ angular.module('karamuseclAdminApp')
 			}
 		};
 
-		var self = this,
-			data = {};
-
 		this.resetPass = function() {
 
 			if (!Validators.comparePasswords(self.user.data.password, self.user.data.repassword)) {
@@ -69,7 +69,7 @@ angular.module('karamuseclAdminApp')
 
 			data = {
 				token: $stateParams.token,
-				new_pass: '',
+				new_pass: self.user.data.password,
 				step: 2
 			};
 

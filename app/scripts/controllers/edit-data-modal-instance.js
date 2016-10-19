@@ -10,8 +10,7 @@
 angular.module('karamuseclAdminApp')
 	.controller('EditDataModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, data, Settings) {
 
-		var self = this,
-			i = 0;
+		var self = this;
 
 		this.modal = {
 			title: {
@@ -72,7 +71,7 @@ angular.module('karamuseclAdminApp')
 						address: success.data[3].address
 					});
 				} else {
-					$log.error(success)
+					$log.error(success);
 				}
 			}, function(error) {
 				$log.error(error);

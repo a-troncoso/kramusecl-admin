@@ -46,6 +46,12 @@ angular
 			templateUrl: 'views/home.html',
 			controller: 'HomeCtrl',
 			controllerAs: 'home'
+		})
+		.state('page-404', {
+			url: '/404',
+			templateUrl: 'views/page-404.html',
+			controller: 'Page404Ctrl',
+			controllerAs: 'page404'
 		});
 	$urlRouterProvider.otherwise("/");
 });

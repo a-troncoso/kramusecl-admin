@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('OrdersLimitModalInstanceCtrl', function($log, $interval, $uibModalInstance, $auth, data, Settings) {
+	.controller('OrdersLimitModalInstanceCtrl', function($log, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
 		var self = this;
 
 		this.modal = {

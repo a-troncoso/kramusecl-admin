@@ -1,8 +1,8 @@
 <div class="page-full" ng-class="{'progress-cursor': login.page.progressCursor}">
 
   <div>
-    <div class="text-center">
-      <img style="width:33%" ng-src="images/karamuse-logo.png">
+    <div class="container w-420">
+      <img class="img-responsive center-block" ng-src="images/karamuse-logo.png">
     </div>
 
     <div class="container w-420 p-20 bg-gray-karamuse-o50p mt-40 text-center">
@@ -10,8 +10,8 @@
       <h2 class="text-light text-blue-karamuse">Login</h2>
 
       <div ng-show="login.page.messages.loginResponse.show">
-        <h4 class="text-light text-{{login.page.messages.loginResponse.title.color}}">{{login.page.messages.loginResponse.title.text}}</h4>
-        <h4 class="text-light text-{{login.page.messages.loginResponse.subtitle.color}}">{{login.page.messages.loginResponse.subtitle.text}}</h4>
+        <h4 class="text-{{login.page.messages.loginResponse.title.color}}">{{login.page.messages.loginResponse.title.text}}</h4>
+        <h4 class="text-{{login.page.messages.loginResponse.subtitle.color}}">{{login.page.messages.loginResponse.subtitle.text}}</h4>
       </div>
 
       <form name="form" class="form-validation mt-20" novalidate>
