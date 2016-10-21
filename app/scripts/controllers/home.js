@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes) {
+	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
 
 		var self = this,
 			i = 0;
@@ -67,6 +67,11 @@ angular.module('karamuseclAdminApp')
 			},
 			url: {
 				text: ''
+			},
+			buttons: {
+				send: {
+					disabled: false
+				}
 			}
 		};
 
@@ -196,7 +201,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Reintentar',
 						function: function() {
 							return self.changeOrderState(idOrder, action);
-						}
+						},
+						show: false
 					},
 					cancel: {
 						text: 'Cancelar',
@@ -234,7 +240,8 @@ angular.module('karamuseclAdminApp')
 					text: 'Eliminar',
 					function: function() {
 						return self.changeOrderState(idOrder, action);
-					}
+					},
+					show: true
 				},
 				cancel: {
 					text: 'Cancelar',
@@ -297,7 +304,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Bloquear',
 						function: function() {
 							return self.setOrdersLimit(0);
-						}
+						},
+						show: true
 					},
 					cancel: {
 						text: 'Cancelar',
@@ -357,7 +365,7 @@ angular.module('karamuseclAdminApp')
 				subAction: 'state',
 				value: newState
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					self.codes.list[index].state = newState;
 				} else {
@@ -366,6 +374,89 @@ angular.module('karamuseclAdminApp')
 			}, function(error) {
 				$log.error(error);
 			});
+		};
+
+		this.saveKaraoke = function(title, url) {
+			self.catalog.buttons.send.disabled = true;
+
+			Catalog.save({
+				token: $auth.getToken(),
+				title: title,
+				url: url
+			}, function(success) {
+				// $log.log(success);
+				self.catalog.buttons.send.disabled = false;
+				if (success.status === 200) {
+					self.catalog.title.text = '';
+					self.catalog.url.text = '';
+
+					self.openModalDialog({
+						title: '¡Gracias!',
+						subtitle: 'Estamos revisando tu karaoke',
+						submit: {
+							text: '',
+							function: function() {
+								return null;
+							},
+							show: false
+						},
+						cancel: {
+							text: 'Cerrar',
+							function: null
+						}
+					});
+				} else if (success.status === 201) {
+					self.openModalDialog({
+						title: 'Paciencia por favor...',
+						subtitle: 'Estamos revisando tu karaoke, pronto estará disponible',
+						submit: {
+							text: '',
+							function: function() {
+								return null;
+							},
+							show: false
+						},
+						cancel: {
+							text: 'Cerrar',
+							function: null
+						}
+					});
+				} else if (success.status === 400) {
+					self.openModalDialog({
+						title: 'Houston, tenemos un problemita...',
+						subtitle: '¡No se qué pasó!, pero tu karaoke no pudo ser enviado :(',
+						submit: {
+							text: 'Reintentar',
+							function: function() {
+								return self.saveKaraoke(title, url);
+							},
+							show: true
+						},
+						cancel: {
+							text: 'Cancelar',
+							function: null
+						}
+					});
+				}
+			}, function(error) {
+				$log.error(error);
+				self.openModalDialog({
+					title: 'Houston, tenemos un problemita...',
+					subtitle: '¡No se qué pasó!, pero tu karaoke no pudo ser enviado :( ... Si el problema persiste escríbenos a karamuseapp@gmail.com',
+					submit: {
+						text: 'Reintentar',
+						function: function() {
+							return self.saveKaraoke(title, url);
+						},
+						show: true
+					},
+					cancel: {
+						text: 'Cancelar',
+						function: null
+					}
+				});
+			});
+
 		};
 
 		self.getOrders();

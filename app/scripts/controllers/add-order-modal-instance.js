@@ -93,7 +93,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Reintentar',
 						function: function() {
 							return self.displayCatalog(self.catalog.criterion.text, self.catalog.pagination.sizePage, self.catalog.pagination.currentPage);
-						}
+						},
+						show: true
 					},
 					cancel: {
 						text: 'Cancelar',

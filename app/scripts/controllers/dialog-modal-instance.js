@@ -36,7 +36,8 @@ angular.module('karamuseclAdminApp')
       buttons: {
         submit: {
           function: data.submit.function || null,
-          text: data.submit.text || null
+          text: data.submit.text || null,
+          show: data.submit.show
         },
         cancel: {
           function: data.cancel.function || function() {

@@ -54,7 +54,8 @@ angular.module('karamuseclAdminApp')
 							text: 'Abrir sesión',
 							function: function() {
 								return self.openSession();
-							}
+							},
+							show: true
 						},
 						cancel: {
 							text: 'Cancelar',
@@ -85,8 +86,6 @@ angular.module('karamuseclAdminApp')
 					if (success.status === 200 || success.status === 201) {
 						var verifyCodes = self.verifyCodes();
 						verifyCodes.then(function(success) {
-							$log.log('success');
-							$log.log(success);
 							$rootScope.loader.show = false;
 							if (success.status === 200) {
 								$state.go('home');
@@ -101,7 +100,8 @@ angular.module('karamuseclAdminApp')
 										text: 'Abrir sesión',
 										function: function() {
 											return self.openSession();
-										}
+										},
+										show: true
 									},
 									cancel: {
 										text: 'Cancelar',
@@ -119,7 +119,8 @@ angular.module('karamuseclAdminApp')
 									text: 'Reintentar',
 									function: function() {
 										return self.openSession();
-									}
+									},
+									show: true
 								},
 								cancel: {
 									text: 'Cancelar',
@@ -133,7 +134,6 @@ angular.module('karamuseclAdminApp')
 					}
 				}, function(error) {
 					$log.error(error);
-					$log.info('Se abre sesión: ERROR');
 				});
 			}, function() {
 				self.openModalDialog({
@@ -143,7 +143,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Reintentar',
 						function: function() {
 							return self.openSession();
-						}
+						},
+						show: true
 					},
 					cancel: {
 						text: 'Cancelar',
@@ -187,8 +188,7 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				deferred.resolve({
-					status: success.status,
-					codes: success.data
+					status: success.status
 				});
 			}, function(error) {
 				deferred.reject({

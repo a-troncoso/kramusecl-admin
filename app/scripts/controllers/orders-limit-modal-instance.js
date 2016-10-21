@@ -103,7 +103,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Reintentar',
 						function: function() {
 							return self.setOrdersLimit(self.modal.form.ordersLimit.value);
-						}
+						},
+						show: true
 					},
 					cancel: {
 						text: 'Cancelar',
