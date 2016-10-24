@@ -55,7 +55,8 @@ angular.module('karamuseclAdminApp')
 							text: 'Abrir sesión',
 							function: function() {
 								return self.openSession();
-							}
+							},
+							show: true
 						},
 						cancel: {
 							text: 'Cancelar',
@@ -101,7 +102,8 @@ angular.module('karamuseclAdminApp')
 										text: 'Abrir sesión',
 										function: function() {
 											return self.openSession();
-										}
+										},
+										show: true
 									},
 									cancel: {
 										text: 'Cancelar',
@@ -119,7 +121,8 @@ angular.module('karamuseclAdminApp')
 									text: 'Reintentar',
 									function: function() {
 										return self.openSession();
-									}
+									},
+									show: true
 								},
 								cancel: {
 									text: 'Cancelar',
@@ -143,7 +146,8 @@ angular.module('karamuseclAdminApp')
 						text: 'Reintentar',
 						function: function() {
 							return self.openSession();
-						}
+						},
+						show: true
 					},
 					cancel: {
 						text: 'Cancelar',
@@ -185,8 +189,7 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				deferred.resolve({
-					status: success.status,
-					codes: success.data
+					status: success.status
 				});
 			}, function(error) {
 				$log.error(error);

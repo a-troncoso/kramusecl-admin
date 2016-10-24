@@ -167,6 +167,9 @@ angular
 				numPage: '@numPage',
 				token: '@token'
 			}
+		},
+		save: {
+			method: 'POST'
 		}
 	});
 })

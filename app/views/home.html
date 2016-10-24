@@ -139,7 +139,7 @@
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
 			<h3 class="text-light mb-20">¿No encontraste tu karaoke?, ¡agrégalo y muy pronto estará disponible!</h3>
-			<form class="form-horizontal" novalidate>
+			<form class="form-horizontal" name="catalogForm" novalidate>
 				<div class="form-group">
 					<label for="title" class="col-sm-3 control-label">Título</label>
 					<div class="col-sm-8">
@@ -152,7 +152,7 @@
 						<input type="text" class="form-control underline-input text-white" id="title" placeholder="https://www.youtube.com/..." ng-model="home.catalog.url.text" required >
 					</div>
 				</div>
-				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="">Enviar</button>
+				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="home.saveKaraoke(home.catalog.title.text,home.catalog.url.text)" ng-disabled="catalogForm.$invalid || home.catalog.buttons.send.disabled">Enviar</button>
 			</form>
 		</div>
 	</div>
@@ -229,7 +229,7 @@
 		<p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph3.show">{{dialogModal.modal.paragrap3.text}}</p>
 	</div>
 	<div class="modal-footer" style="text-align:center">
-		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">{{dialogModal.modal.buttons.submit.text}}</button>
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()" ng-show="dialogModal.modal.buttons.submit.show">{{dialogModal.modal.buttons.submit.text}}</button>
 		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()">{{dialogModal.modal.buttons.cancel.text}}</button>
 	</div>
 </script>
