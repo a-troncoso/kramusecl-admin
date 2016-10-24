@@ -8,14 +8,10 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes) {
+	.controller('HomeCtrl', function($rootScope, $auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes) {
 
 		var self = this,
 			i = 0;
-
-		this.page = {
-
-		};
 
 		this.bar = {
 			info: {
@@ -58,7 +54,12 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.codes = {
-			list: []
+			list: [],
+			buttons: {
+				more: {
+					disabled: true
+				}
+			}
 		};
 
 		this.catalog = {
@@ -68,6 +69,14 @@ angular.module('karamuseclAdminApp')
 			url: {
 				text: ''
 			}
+		};
+
+		this.gotoAnyPartOfPage = function(flag) {
+			Utils.gotoAnyPartOfPage(flag);
+			// $('html, body').stop().animate({
+			// 	scrollTop: $($anchor.attr('href')).offset().top
+			// }, 1500, 'easeInOutExpo');
+			// event.preventDefault();
 		};
 
 		this.getSettings = function() {
@@ -112,7 +121,7 @@ angular.module('karamuseclAdminApp')
 			}, function() {});
 		};
 
-		this.getOrders = function() {
+		$rootScope.getOrders = function() {
 			self.orders.list = [];
 
 			Orders.query({
@@ -185,7 +194,7 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				if (success.status === 200) {
-					self.getOrders();
+					$rootScope.getOrders();
 				}
 			}, function(error) {
 				$log.log(error);
@@ -325,13 +334,17 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.getCodes = function() {
+
+			self.codes.list = [];
+
 			Codes.verify({
 				token: $auth.getToken(),
 				action: 'verify'
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					self.codes.list = success.data;
+					self.codes.buttons.more.disabled = false;
 				} else {
 					$log.error(success);
 				}
@@ -368,7 +381,31 @@ angular.module('karamuseclAdminApp')
 			});
 		};
 
-		self.getOrders();
+		this.openModalGenerateCodes = function(data) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'generate-codes.html',
+				controller: 'GenerateCodesModalInstanceCtrl',
+				controllerAs: 'generateCodes',
+				size: 'md',
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
+			});
+
+			modalInstance.result.then(function() {
+				self.getCodes();
+			}, function() {
+				// $log.log('dismiss');
+			});
+		};
+
+		$rootScope.getOrders();
 		self.getSettings();
 		self.getCodes();
 

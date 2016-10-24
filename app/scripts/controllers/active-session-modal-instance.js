@@ -11,7 +11,6 @@ angular.module('karamuseclAdminApp')
 	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes, Utils) {
 
 		var self = this,
-			data = {},
 			deferred = null;
 
 		this.modal = {
@@ -45,7 +44,9 @@ angular.module('karamuseclAdminApp')
 					$state.go('home');
 				} else if (success.status === 201) {
 					$uibModalInstance.dismiss();
-					self.openModalGenerateCodes();
+					self.openModalGenerateCodes({
+						value: 0
+					});
 				} else if (success.status === 202) {
 					self.openModalDialog({
 						title: '¡Vaya, vaya!',
@@ -75,24 +76,23 @@ angular.module('karamuseclAdminApp')
 
 			closeSession.then(function() {
 
-				data = {
+				Session.save({
 					action: 'open',
 					origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version,
 					token: $auth.getToken()
-				};
-
-				Session.save(data, function(success) {
+				}, function(success) {
+					$log.log(success);
 					if (success.status === 200 || success.status === 201) {
 						var verifyCodes = self.verifyCodes();
 						verifyCodes.then(function(success) {
-							$log.log('success');
-							$log.log(success);
 							$rootScope.loader.show = false;
 							if (success.status === 200) {
 								$state.go('home');
 							} else if (success.status === 201) {
 								$uibModalInstance.dismiss();
-								self.openModalGenerateCodes();
+								self.openModalGenerateCodes({
+									value: 0
+								});
 							} else if (success.status === 202) {
 								self.openModalDialog({
 									title: '¡Vaya, vaya!',
@@ -133,9 +133,9 @@ angular.module('karamuseclAdminApp')
 					}
 				}, function(error) {
 					$log.error(error);
-					$log.info('Se abre sesión: ERROR');
 				});
-			}, function() {
+			}, function(error) {
+				$log.error(error);
 				self.openModalDialog({
 					title: 'Wow!',
 					subtitle: 'Ocurrió un problema al cerrar la sesión anterior',
@@ -157,12 +157,10 @@ angular.module('karamuseclAdminApp')
 
 			deferred = $q.defer();
 
-			data = {
+			Session.save({
 				action: 'close',
 				token: $auth.getToken()
-			};
-
-			Session.save(data, function(success) {
+			}, function(success) {
 				if (success.status === 200 || success.status === 201) {
 					deferred.resolve();
 					$log.info('Se cierra sesión: OK');
@@ -191,10 +189,11 @@ angular.module('karamuseclAdminApp')
 					codes: success.data
 				});
 			}, function(error) {
-				deferred.reject({
-					status: 'some error'
-				});
 				$log.error(error);
+				deferred.reject({
+					status: 'some error',
+					codes: []
+				});
 			});
 
 			return deferred.promise;
@@ -220,7 +219,7 @@ angular.module('karamuseclAdminApp')
 			modalInstance.result.then(function() {}, function() {});
 		};
 
-		this.openModalGenerateCodes = function() {
+		this.openModalGenerateCodes = function(data) {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: 'static',
@@ -230,7 +229,11 @@ angular.module('karamuseclAdminApp')
 				controller: 'GenerateCodesModalInstanceCtrl',
 				controllerAs: 'generateCodes',
 				size: 'md',
-				resolve: {}
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
 			});
 
 			modalInstance.result.then(function() {}, function() {});

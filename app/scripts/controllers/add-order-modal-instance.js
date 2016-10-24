@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('AddOrderModalInstanceCtrl', function($log, $uibModalInstance, $auth, $timeout, Catalog, deviceDetector, Orders) {
+	.controller('AddOrderModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, $timeout, Catalog, deviceDetector, Orders) {
 
 		var self = this,
 			i = 0;
@@ -126,6 +126,7 @@ angular.module('karamuseclAdminApp')
 					// Si el pedido se agregó
 					if (success.data[0].add_order) {
 						self.catalog.list[index].addButton.successPopover.text = 'Agregado';
+						$rootScope.getOrders();
 					} else {
 						self.catalog.list[index].addButton.successPopover.text = 'No se agregó porque ya está pedido';
 					}

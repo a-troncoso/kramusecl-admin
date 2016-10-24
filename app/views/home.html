@@ -5,7 +5,7 @@
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
 				<i class="fa fa-bars"></i>
 			</button>
-			<a class="navbar-brand page-scroll" href="#page-top">
+			<a class="navbar-brand page-scroll" href="" ng-click="home.gotoAnyPartOfPage('intro');">
 				<i class="fa fa-play-circle"></i>  <span class="light">KARAMUSE APP</span> 
 			</a>
 		</div>
@@ -15,19 +15,19 @@
 			<ul class="nav navbar-nav">
 				<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
 				<li class="hidden">
-					<a href="#page-top"></a>
+					<a ng-click="home.gotoAnyPartOfPage('intro');"></a>
 				</li>
 				<li>
-					<a class="page-scroll" href="#home">Home</a>
+					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('intro');">Home</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="#download">Pedidos</a>
+					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('orders');">Pedidos</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="#contact">Códigos</a>
+					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('codes');">Códigos</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="#cliente">Catálogo</a>
+					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('addCatalog');">Catálogo</a>
 				</li>                     
 			</ul>
 		</div>
@@ -36,7 +36,7 @@
 	<!-- /.container -->
 </nav>
 
-<header class="intro" style="height: 100%;padding: 0;display: table;width: 100%;">
+<header id="intro" style="height: 100%;padding: 0;display: table;width: 100%;">
 	<div class="intro-body" style="display: table-cell;vertical-align: middle;">
 		<div class="container">
 			<div class="row">
@@ -59,20 +59,20 @@
 </header>
 
 <!-- orders Section -->
-<section id="orders" class="container content-section text-center">
+<section id="orders" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
 			<div class="btn-group" ng-show="home.orders.btnGroup.show">
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.btnGroup.show=false;home.orders.search.focus= true;" ng-show="home.orders.btnGroup.buttons.search.show">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.btnGroup.show=false;home.orders.search.focus= true;" ng-show="home.orders.btnGroup.buttons.search.show" uib-tooltip="Filtrar pedidos">
 					Buscar
 				</button>
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.getOrders()">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
 					Recargar
 				</button>
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'" uib-tooltip="Pedir un karaoke">
 					Pedir
 				</button>
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.lockUnlockOrders();">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.lockUnlockOrders();" uib-tooltip="Bloquear/desbloquear pedidos">
 					{{home.orders.btnGroup.buttons.lockUnlock.text}}
 				</button>
 			</div>
@@ -118,12 +118,15 @@
 </section>
 
 <!-- codes Section -->
-<section id="codes" class="container content-section text-center">
+<section id="codes" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
 			<h2 class="text-light mb-20">Códigos disponibles</h2>
-			<div class="btn-group" >
-				<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-danger':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
+				<button type="button" class="btn btn-blue-karamuse btn-border text-sm center-block" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
+					+
+				</button>
+				<div class="btn-group mt-20" >
+					<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-danger':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
 					{{code.code}}
 				</button>
 			</div>
@@ -132,7 +135,7 @@
 </section>
 
 <!-- catalog Section -->
-<section id="codes" class="container content-section text-center">
+<section id="addCatalog" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
 			<h3 class="text-light mb-20">¿No encontraste tu karaoke?, ¡agrégalo y muy pronto estará disponible!</h3>
@@ -368,4 +371,25 @@
 	<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last">
 		<a href ng-click="selectPage(totalPages, $event)" ng-disabled="noNext()||ngDisabled" uib-tabindex-toggle class="">{{::getText('last')}}</a>
 	</li>
+</script>
+
+<script type="text/ng-template" id="generate-codes.html">
+  <div class="modal-header">
+    <h3 class="modal-title text-center text-light" id="modal-title">{{generateCodes.modal.title.text}}</h3>
+    <h4 class="text-light text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
+  </div>
+  <div class="modal-body text-center" id="modal-body">
+    <form class="form-inline" name="form">
+      <div class="form-group">
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
+        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" required disabled>
+        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer" style="text-align:center">
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="generateCodes.cancel()">Cancelar</button>
+    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Enviar</button>
+  </div>
 </script>

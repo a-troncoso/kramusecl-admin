@@ -118,24 +118,20 @@ angular.module('karamuseclAdminApp')
 
 			var deferred = $q.defer();
 
-			data = {
+			Session.save({
 				action: 'open',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version,
 				token: $auth.getToken()
-			};
-
-			Session.save(data, function(success) {
+			}, function(success) {
+				// $log.log(success);
 				if (success.status === 200 || success.status === 201) {
-					$log.info('Se abre sesión: OK');
 					deferred.resolve();
 				} else {
-					$log.info('Se abre sesión: ERROR');
 					deferred.reject();
 				}
 				// llamar a servicio codigos
 			}, function(error) {
 				$log.error(error);
-				$log.info('Se abre sesión: ERROR');
 				deferred.reject();
 			});
 			return deferred.promise;
