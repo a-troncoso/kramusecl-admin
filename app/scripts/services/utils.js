@@ -29,7 +29,7 @@ angular.module('karamuseclAdminApp')
 		$anchorScroll();
 	};
 
-	this.gotoPage = function(page) {
+	this.gotoState = function(page) {
 		$state.go(page);
 	};
 

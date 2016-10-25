@@ -8,9 +8,10 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session) {
+	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
 
-		var self = this;
+		var self = this,
+			deferred = null;
 
 		this.page = {
 			progressCursor: false,
@@ -38,8 +39,8 @@ angular.module('karamuseclAdminApp')
 
 		this.user = {
 			data: {
-				email: 'alvaro.mc2@gmail.com',
-				password: '11111111',
+				email: 'nicolascanto1@gmail.com',
+				password: '123',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
@@ -59,6 +60,7 @@ angular.module('karamuseclAdminApp')
 			$auth.login(data)
 				.then(function(success) {
 					// $log.log(success);
+					self.page.progressCursor = false;
 					if (success.data.status === 200) {
 						self.page.buttons.login.disabled = false;
 						$auth.setToken(success.data.data.token);
@@ -70,16 +72,68 @@ angular.module('karamuseclAdminApp')
 						if (success.data.data.session.active) {
 							self.openModalActiveSession(success);
 						} else {
+							// ABRO sesion
 							var openSession = self.openSession();
-							openSession.then(function() {
-								$state.go('home');
-							}, function() {
+							openSession.then(function(success) {
+								if (success.status === 200) {
+									// Si abrió sesión correctamente, verifica si la sesión tiene códigos
+									var verifyCodes = self.verifyCodes();
+									verifyCodes.then(function(success) {
+										$rootScope.loader.show = false;
+										if (success.status === 200) {
+											// si tiene codigos, va al home
+											Utils.gotoState('home');
+										} else if (success.status === 201) {
+											// si no tiene codigos los solicita
+											self.openModalGenerateCodes({
+												value: 0
+											});
+										} else if (success.status === 202) {
+											self.openModalDialog({
+												title: '¡Vaya, vaya!',
+												subtitle: 'No tienes una sesión abierta',
+												submit: {
+													text: 'Abrir sesión',
+													function: function() {
+														return self.openSession();
+													},
+													show: true
+												},
+												cancel: {
+													text: 'Cancelar',
+													function: null
+												}
+											});
+										}
+									}, function(error) {
+										$log.error(error);
+										$rootScope.loader.show = false;
+										self.openModalDialog({
+											title: ':(',
+											subtitle: 'Tuvimos problemas al cargar tu información',
+											submit: {
+												text: 'Reintentar',
+												function: function() {
+													return self.openSession();
+												},
+												show: true
+											},
+											cancel: {
+												text: 'Cancelar',
+												function: null
+											}
+										});
+									});
+								} else if (success.status === 201) {
+									self.openModalActiveSession(success);
+								}
+							}, function(error2) {
+								$log.error(error2);
 								self.page.buttons.login.disabled = false;
 								self.page.messages.loginResponse.show = true;
-								self.page.messages.loginResponse.title.text = 'No pudimos abrir una nueva sesión, porfa vuelve a intentar';
+								self.page.messages.loginResponse.title.text = 'No pudimos abrir una nueva sesión, por favor vuelve a intentar';
 								self.page.messages.loginResponse.title.color = 'danger';
 							});
-							self.openSession();
 						}
 					} else if (success.data.status === 401) {
 						self.page.buttons.login.disabled = false;
@@ -125,15 +179,43 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				if (success.status === 200 || success.status === 201) {
-					deferred.resolve();
+					deferred.resolve({
+						status: success.status
+					});
 				} else {
-					deferred.reject();
+					deferred.reject({
+						status: success.status
+					});
 				}
 				// llamar a servicio codigos
 			}, function(error) {
 				$log.error(error);
-				deferred.reject();
+				deferred.reject({
+					status: 400
+				});
 			});
+			return deferred.promise;
+		};
+
+		this.verifyCodes = function() {
+			deferred = $q.defer();
+
+			Codes.verify({
+				action: 'verify',
+				token: $auth.getToken()
+			}, function(success) {
+				// $log.log(success);
+				deferred.resolve({
+					status: success.status
+				});
+			}, function(error) {
+				$log.error(error);
+				deferred.reject({
+					status: 'some error',
+					codes: []
+				});
+			});
+
 			return deferred.promise;
 		};
 
@@ -157,7 +239,7 @@ angular.module('karamuseclAdminApp')
 			modalInstance.result.then(function() {}, function() {});
 		};
 
-		this.openModalGenerateCodes = function() {
+		this.openModalGenerateCodes = function(data) {
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: 'static',
@@ -167,7 +249,31 @@ angular.module('karamuseclAdminApp')
 				controller: 'GenerateCodesModalInstanceCtrl',
 				controllerAs: 'generateCodes',
 				size: 'md',
-				resolve: {}
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
+			});
+
+			modalInstance.result.then(function() {}, function() {});
+		};
+
+		this.openModalDialog = function(data) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'dialog.html',
+				controller: 'DialogModalInstanceCtrl',
+				controllerAs: 'dialogModal',
+				size: 'md',
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
 			});
 
 			modalInstance.result.then(function() {}, function() {});

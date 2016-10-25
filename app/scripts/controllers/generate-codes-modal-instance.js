@@ -8,7 +8,7 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-  .controller('GenerateCodesModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $timeout, $auth, $state, $interval, Codes, data) {
+  .controller('GenerateCodesModalInstanceCtrl', function($rootScope, $log, $q, $uibModal, $uibModalInstance, $timeout, $auth, $state, $interval, Codes, data, Session, deviceDetector) {
 
     var self = this;
 
@@ -30,7 +30,7 @@ angular.module('karamuseclAdminApp')
       form: {
         codes: {
           value: 1,
-          max:  20 - parseInt(data.value),
+          max: 20 - parseInt(data.value),
           min: 1,
           step: 5
         }
@@ -90,21 +90,35 @@ angular.module('karamuseclAdminApp')
       }, function(success) {
         // $log.log(success);
         $rootScope.loader.show = false;
+        self.modal.buttons.send.disabled = false;
+        self.modal.subtitle.text = '';
+        self.modal.subtitle.show = true;
         if (success.status === 200) {
           $uibModalInstance.close();
           $state.go('home');
         } else if (success.status === 201) {
-          self.modal.buttons.send.disabled = false;
           self.modal.subtitle.text = '¡Esos son muchos códigos!, pueden ser máximo ' + self.modal.form.codes.max;
-          self.modal.subtitle.show = true;
         } else if (success.status === 400) {
-          self.modal.buttons.send.disabled = false;
           self.modal.subtitle.text = '¡Pst!, debes indicar un número en el cajón del medio';
-          self.modal.subtitle.show = true;
+        } else if (success.status === 402) {
+          self.openModalDialog({
+            title: '¡Vaya, vaya!',
+            subtitle: 'No tienes una sesión abierta',
+            submit: {
+              text: 'Abrir sesión',
+              function: function() {
+                return self.openSession();
+              },
+              show: true
+            },
+            cancel: {
+              text: 'Cancelar',
+              function: null,
+              show: false
+            }
+          });
         } else {
-          self.modal.buttons.send.disabled = false;
           self.modal.subtitle.text = '¡Ups!, ocurrió un problema al generar los códigos';
-          self.modal.subtitle.show = true;
         }
       }, function(error) {
         $log.error(error);
@@ -117,5 +131,60 @@ angular.module('karamuseclAdminApp')
     this.cancel = function() {
       $uibModalInstance.dismiss();
     };
+
+    this.openModalDialog = function(data) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        backdrop: 'static',
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'dialog.html',
+        controller: 'DialogModalInstanceCtrl',
+        controllerAs: 'dialogModal',
+        size: 'md',
+        resolve: {
+          data: function() {
+            return data;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {}, function() {});
+    };
+
+    this.openSession = function() {
+
+      var deferred = $q.defer();
+
+      Session.save({
+        action: 'open',
+        origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version,
+        token: $auth.getToken()
+      }, function(success) {
+        // $log.log(success);
+        if (success.status === 200 || success.status === 201) {
+          deferred.resolve({
+            status: success.status
+          });
+        } else {
+          deferred.reject({
+            status: success.status
+          });
+        }
+        // llamar a servicio codigos
+      }, function(error) {
+        $log.error(error);
+        deferred.reject({
+          status: 400
+        });
+      });
+      return deferred.promise;
+    };
+
+    if (this.modal.form.codes.max > 0) {
+      this.modal.title.text = '¿Cuántos códigos quieres?';
+    } else {
+      this.modal.title.text = 'No puedes generar más códigos';
+    }
 
   });

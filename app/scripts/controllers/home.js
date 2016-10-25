@@ -89,11 +89,14 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				if (success.status === 200) {
-					self.bar.info.avatar = success.data.avatar;
+					self.bar.info.avatar = success.data.avatar || 'http://www.hsdtaxlaw.com/wp-content/uploads/2016/05/logo_placeholder.png';
 					self.bar.info.ordersLimit = parseInt(success.data.order_limit);
 					if (self.bar.info.ordersLimit === 0) {
 						self.orders.btnGroup.buttons.lockUnlock.text = 'Desbloquear';
 					}
+				} else if (success.status === 401) {
+					$log.error(success);
+					Utils.gotoState('login');
 				}
 			}, function(error) {
 				$log.log(error);
@@ -151,17 +154,34 @@ angular.module('karamuseclAdminApp')
 							time: success.data[i].time
 						});
 					}
+				} else if (success.status === 401) {
+					// No autorizado
+					$log.error(success);
+					Utils.gotoState('login');
+				} else if (success.status === 402) {
+					// No hay sesiones abiertas
+					$log.error(success);
 				} else {
 					// $log.error(success);
 					self.orders.btnGroup.buttons.search.show = false;
 					self.orders.show = false;
 				}
 			}, function(error) {
-				$log.log(error);
+				$log.error(error);
 			});
 		};
 
-		this.openModalOrderInfo = function(data) {
+		this.openModalOrderInfo = function(data, idx) {
+
+			var firstOrders = [];
+
+			for (i = 0; i < idx; i++) {
+				firstOrders.push(self.orders.list[i]);
+			}
+
+			data.index = idx;
+			data.firstOrders = firstOrders;
+
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: true,
@@ -352,6 +372,13 @@ angular.module('karamuseclAdminApp')
 				if (success.status === 200) {
 					self.codes.list = success.data;
 					self.codes.buttons.more.disabled = false;
+				} else if (success.status === 401) {
+					// No autorizado
+					$log.error(success);
+					Utils.gotoState('login');
+				} else if (success.status === 402) {
+					// No hay sesion abierta
+					$log.error(success);
 				} else {
 					$log.error(success);
 				}

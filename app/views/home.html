@@ -45,10 +45,11 @@
 					<h3 class="text-center">{{home.bar.info.name}}</h3>
 					<h4 class="text-center">{{home.bar.info.address}}</h4>
 					<h4 class="text-center" ng-switch="home.bar.info.ordersLimit">
-						<span class="text-danger" ng-switch-when="0">Pedidos bloqueados</span>
 						<span class="text-blue-karamuse" ng-switch-default>{{home.bar.info.ordersLimit}} pedidos permitidos</span>
+						<span class="text-danger" ng-switch-when="0">Pedidos bloqueados</span>
+						<span class="text-blue-karamuse" ng-switch-when="1">1 pedido permitido</span>
 					</h4>
-					<button type="submit" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalEditData(home.bar.info);">Editar</button>
+					<button type="submit" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20 mt-20" ng-click="home.openModalEditData(home.bar.info);">Editar</button>
 					<a href="#about" class="btn btn-circle page-scroll">
 						<i class="fa fa-angle-double-down animated"></i>
 					</a>
@@ -62,8 +63,8 @@
 <section id="orders" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-			<div class="btn-group" ng-show="home.orders.btnGroup.show">
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.btnGroup.show=false;home.orders.search.focus= true;" ng-show="home.orders.btnGroup.buttons.search.show" uib-tooltip="Filtrar pedidos">
+			<div class="btn-group mb-20">
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
 					Buscar
 				</button>
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
@@ -76,7 +77,7 @@
 					{{home.orders.btnGroup.buttons.lockUnlock.text}}
 				</button>
 			</div>
-			<input type="text" class="form-control underline-input" placeholder="Título" ng-blur="home.orders.btnGroup.show=true;home.orders.search.show=true" ng-model="home.orders.search.title.text" ng-show="!home.orders.btnGroup.show" focus="home.orders.search.focus">
+			<input type="text" class="form-control underline-input" placeholder="Título" ng-blur="home.orders.search.show=false" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
 		</div>
 	</div>
 	<div class="row mt-10">
@@ -162,7 +163,7 @@
 	<ul class="dropdown-menu bg-gray-karamuse" uib-dropdown-menu role="menu" aria-labelledby="button-template-url">
 		<li ng-if="tr.state == '0'"><a href="" ng-click="home.changeOrderState(tr.id, 'switchToReady')">Listo</a></li>
 		<li ng-if="tr.state == '1'"><a href="" ng-click="home.changeOrderState(tr.id, 'switchToPending')">Pendiente</a></li>
-		<li><a href="" ng-click="home.openModalOrderInfo(tr)">Info</a></li>
+		<li><a href="" ng-click="home.openModalOrderInfo(tr,$index)">Info</a></li>
 		<li><a href="" ng-click="home.deleteOrder(tr.id, 'remove')" class="text-danger">Eliminar</a></li>
 	</ul>
 </script>
@@ -185,12 +186,10 @@
 				<td class="text-blue-karamuse">Hora</td>
 				<td class="text-left">{{orderInfo.orderData.createdAt | date:'HH:mm'}}</td>
 			</tr>
-			<tr>
+			<tr ng-switch="orderInfo.orderData.state">
 				<td class="text-blue-karamuse">Estado</td>
-				<td class="text-left" ng-switch="orderInfo.orderData.state">
-					<p class="form-control-static " ng-switch-when="0">Pendiente</p>
-					<p class="form-control-static " ng-switch-when="1">Listo</p>
-				</td>
+				<td class="text-left" ng-switch-when="0" >Pendiente</td>
+				<td class="text-left" ng-switch-when="1" >Listo</td>
 			</tr>
 			<tr>
 				<td class="text-blue-karamuse">Origen</td>
@@ -202,7 +201,7 @@
 			</tr>
 			<tr>
 				<td class="text-blue-karamuse">Tiempo de espera</td>
-				<td class="text-left">{{orderInfo.orderData.time}}</td>
+				<td class="text-left">{{orderInfo.orderData.waitTime | date:'HH:mm:ss'}}</td>
 			</tr>
 			<tr>
 				<td class="text-blue-karamuse">Link</td>
@@ -230,7 +229,7 @@
 	</div>
 	<div class="modal-footer" style="text-align:center">
 		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()" ng-show="dialogModal.modal.buttons.submit.show">{{dialogModal.modal.buttons.submit.text}}</button>
-		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()">{{dialogModal.modal.buttons.cancel.text}}</button>
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()" ng-show="dialogModal.modal.buttons.cancel.show">{{dialogModal.modal.buttons.cancel.text}}</button>
 	</div>
 </script>
 
@@ -343,7 +342,8 @@
 			<div class="form-group">
 				<label for="ordersLimit" class="col-sm-3 control-label">Límite pedidos</label>
 				<div class="col-sm-8">
-					<input type="number" class="form-control underline-input text-white" id="ordersLimit" placeholder="60" ng-model="editData.bar.data.ordersLimit" required>
+					<input type="number" class="form-control underline-input text-white" id="ordersLimit" placeholder="{{editData.bar.data.ordersLimit.min}}" ng-model="editData.bar.data.ordersLimit.value" ng-min="editData.bar.data.ordersLimit.min" ng-max="editData.bar.data.ordersLimit.max" required>
+					<p class="help-block text-left">Tienes {{editData.bar.data.ordersLimit.min - 1}} pedidos actualmente.</p>
 				</div>
 			</div>
 

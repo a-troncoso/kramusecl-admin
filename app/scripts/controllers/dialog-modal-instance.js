@@ -43,7 +43,8 @@ angular.module('karamuseclAdminApp')
           function: data.cancel.function || function() {
             return self.cancel();
           },
-          text: data.cancel.text || null
+          text: data.cancel.text || null,
+          show: data.cancel.show || false
         }
       }
     };

@@ -6,7 +6,7 @@
 .page-full {
   height: 100%;
   padding: 20px;
-  background-image: url("../images/microphone.jpg");
+  background-image: url("http://karamuse.cl/img/intro-bg.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center center;
@@ -5024,16 +5024,16 @@ button:focus {
   .btn.btn-info:active, .btn.btn-info.active {
     background-color: #28a1c5; }
   .btn.btn-blue-karamuse {
-    background-color: #009BCF;
-    color: #009BCF;
-    border-color: #0088b6; }
+    background-color: #33b4b7;
+    color: #33b4b7;
+    border-color: #2da0a3; }
     .btn.btn-blue-karamuse:hover, .btn.btn-blue-karamuse:active, .btn.btn-blue-karamuse.active {
-      background-color: #0088b6;
-      border-color: #0079a1;
-      color: #009BCF; }
+      background-color: #2da0a3;
+      border-color: #299193;
+      color: #33b4b7; }
     .btn.btn-blue-karamuse:active, .btn.btn-blue-karamuse.active {
-      background-color: #0079a1;
-      border-color: #006d92; }
+      background-color: #299193;
+      border-color: #268587; }
   .btn.btn-gray-karamuse {
     background-color: #4C4C4C;
     color: #4C4C4C;
@@ -5150,9 +5150,9 @@ button:focus {
       .btn.btn-border.btn-gray-karamuse:hover, .btn.btn-border.btn-gray-karamuse:active, .btn.btn-border.btn-gray-karamuse.active {
         color: #3f3f3f; }
     .btn.btn-border.btn-blue-karamuse {
-      color: #009BCF; }
+      color: #33b4b7; }
       .btn.btn-border.btn-blue-karamuse:hover, .btn.btn-border.btn-blue-karamuse:active, .btn.btn-border.btn-blue-karamuse.active {
-        color: #0088b6; }
+        color: #2da0a3; }
 
 .open .dropdown-toggle.btn-cyan {
   background-color: #10acdd;
@@ -9935,8 +9935,8 @@ tr .no-border td {
   -o-animation: spinner 1500ms infinite linear;
   animation: spinner 1500ms infinite linear;
   border-radius: 0.5em;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
-  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0; }
+  -webkit-box-shadow: rgba(0, 155, 207, 0.75) 1.5em 0 0 0, rgba(0, 155, 207, 0.75) 1.1em 1.1em 0 0, rgba(0, 155, 207, 0.75) 0 1.5em 0 0, rgba(0, 155, 207, 0.75) -1.1em 1.1em 0 0, rgba(0, 155, 207, 0.5) -1.5em 0 0 0, rgba(0, 155, 207, 0.5) -1.1em -1.1em 0 0, rgba(0, 155, 207, 0.75) 0 -1.5em 0 0, rgba(0, 155, 207, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 155, 207, 0.75) 1.5em 0 0 0, rgba(0, 155, 207, 0.75) 1.1em 1.1em 0 0, rgba(0, 155, 207, 0.75) 0 1.5em 0 0, rgba(0, 155, 207, 0.75) -1.1em 1.1em 0 0, rgba(0, 155, 207, 0.75) -1.5em 0 0 0, rgba(0, 155, 207, 0.75) -1.1em -1.1em 0 0, rgba(0, 155, 207, 0.75) 0 -1.5em 0 0, rgba(0, 155, 207, 0.75) 1.1em -1.1em 0 0; }
 
 /* Animation */
 @-webkit-keyframes spinner {
@@ -10392,7 +10392,7 @@ body {
     background-color: #a49c9c !important; }
 
 .bg-blue-karamuse {
-  background-color: #009BCF !important;
+  background-color: #33b4b7 !important;
   color: white !important; }
   .bg-blue-karamuse.dk {
     background-color: #151313 !important; }
@@ -10439,7 +10439,7 @@ body {
 *[class*='bg-']:not(.bg-default):not(.bg-white):not(.bg-tr-white) a:not(.ui-select-choices-row-inner):not(.event-remove) {
   color: rgba(255, 255, 255, 0.7); }
   *[class*='bg-']:not(.bg-default):not(.bg-white):not(.bg-tr-white) a:not(.ui-select-choices-row-inner):not(.event-remove):hover {
-    color: #009BCF; }
+    color: #33b4b7; }
 
 *[class*='bg-']:not(.bg-default):not(.bg-white):not(.bg-tr-white) .dropdown-menu > li > a {
   color: #585858 !important; }
@@ -10551,7 +10551,7 @@ body {
   color: #4C4C4C !important; }
 
 .text-blue-karamuse {
-  color: #009BCF !important; }
+  color: #33b4b7 !important; }
 
 .text-xs {
   font-size: 10px !important; }

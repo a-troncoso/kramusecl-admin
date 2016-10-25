@@ -388,7 +388,7 @@ angular.module('karamuseclAdminApp')
 
 				getRegions();
 			}, function() {
-				Utils.gotoPage('page-404');
+				Utils.gotoState('page-404');
 			});
 		}
 

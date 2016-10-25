@@ -45,7 +45,11 @@ angular.module('karamuseclAdminApp')
 				name: data.name,
 				address: data.address,
 				avatar: data.avatar,
-				ordersLimit: data.ordersLimit
+				ordersLimit: {
+					value: parseInt(data.ordersLimit) + 1,
+					max: 60,
+					min: parseInt(data.ordersLimit) + 1
+				}
 			}
 		};
 
@@ -56,11 +60,11 @@ angular.module('karamuseclAdminApp')
 			Settings.update({
 				token: $auth.getToken(),
 				avatar: data.avatar,
-				order_limit: data.ordersLimit,
+				order_limit: data.ordersLimit.value,
 				bar_name: data.name,
 				address: data.address
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				self.modal.buttons.save.disabled = false;
 				$rootScope.loader.show = false;
 				if (success.status === 200) {

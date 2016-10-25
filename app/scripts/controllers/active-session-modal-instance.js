@@ -60,7 +60,8 @@ angular.module('karamuseclAdminApp')
 						},
 						cancel: {
 							text: 'Cancelar',
-							function: null
+							function: null,
+							show: true
 						}
 					});
 				}
@@ -107,7 +108,8 @@ angular.module('karamuseclAdminApp')
 									},
 									cancel: {
 										text: 'Cancelar',
-										function: null
+										function: null,
+										show: true
 									}
 								});
 							}
@@ -151,7 +153,8 @@ angular.module('karamuseclAdminApp')
 					},
 					cancel: {
 						text: 'Cancelar',
-						function: null
+						function: null,
+						show: true
 					}
 				});
 			});

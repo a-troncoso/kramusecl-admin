@@ -67,7 +67,7 @@
     <form class="form-inline" name="form">
       <div class="form-group">
         <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
-        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" required>
+        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" disabled required>
         <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
       </div>
     </form>
@@ -89,7 +89,7 @@
     <p class="text-md text-blue-karamuse" ng-show="dialogModal.modal.paragraph3.show">{{dialogModal.modal.paragrap3.text}}</p>
   </div>
   <div class="modal-footer" style="text-align:center">
-    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()">{{dialogModal.modal.buttons.submit.text}}</button>
-    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()">{{dialogModal.modal.buttons.cancel.text}}</button>
+    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.cancel();dialogModal.modal.buttons.submit.function()" ng-show="dialogModal.modal.buttons.submit.show">{{dialogModal.modal.buttons.submit.text}}</button>
+    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="dialogModal.modal.buttons.cancel.function()" ng-show="dialogModal.modal.buttons.cancel.show">{{dialogModal.modal.buttons.cancel.text}}</button>
   </div>
 </script>
