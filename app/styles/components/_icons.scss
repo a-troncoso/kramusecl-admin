@@ -1135,3 +1135,8 @@
   border: 1px solid;
   border-radius: 50%;
 }
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  line-height: 1.5em!important;
+}

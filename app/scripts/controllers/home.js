@@ -14,7 +14,10 @@ angular.module('karamuseclAdminApp')
 
 		this.bar = {
 			info: {
-				avatar: '',
+				avatar: {
+					url: '',
+					show: false
+				},
 				name: Utils.getInStorage('name'),
 				address: Utils.getInStorage('address'),
 				ordersLimit: 0
@@ -39,7 +42,9 @@ angular.module('karamuseclAdminApp')
 					},
 					lockUnlock: {
 						text: 'Bloquear',
-						show: true
+						show: true,
+						icon: 'lock',
+						tooltip: 'Bloquear pedidos'
 					}
 				}
 			},
@@ -75,10 +80,21 @@ angular.module('karamuseclAdminApp')
 			}
 		};
 
+		$(window).scroll(function() {
+			if ($(".navbar").offset().top > 50) {
+				$(".navbar-fixed-top").addClass("top-nav-collapse");
+			} else {
+				$(".navbar-fixed-top").removeClass("top-nav-collapse");
+			}
+		});
+
 		this.gotoAnyPartOfPage = function(flag) {
 			Utils.gotoAnyPartOfPage(flag);
+
+			// Hacer esto a lo angular way
+			
 			// $('html, body').stop().animate({
-			// 	scrollTop: $($anchor.attr('href')).offset().top
+			// 	scrollTop: flag.offset().top
 			// }, 1500, 'easeInOutExpo');
 			// event.preventDefault();
 		};
@@ -89,10 +105,11 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				// $log.log(success);
 				if (success.status === 200) {
-					self.bar.info.avatar = success.data.avatar || 'http://www.hsdtaxlaw.com/wp-content/uploads/2016/05/logo_placeholder.png';
+					self.bar.info.avatar.url = success.data.avatar || 'http://www.hsdtaxlaw.com/wp-content/uploads/2016/05/logo_placeholder.png';
 					self.bar.info.ordersLimit = parseInt(success.data.order_limit);
 					if (self.bar.info.ordersLimit === 0) {
-						self.orders.btnGroup.buttons.lockUnlock.text = 'Desbloquear';
+						self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
+						self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
 					}
 				} else if (success.status === 401) {
 					$log.error(success);
@@ -104,6 +121,8 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.openModalEditData = function(data) {
+			data.totalOrders = self.orders.list.length;
+
 			var modalInstance = $uibModal.open({
 				animation: true,
 				backdrop: true,
@@ -121,7 +140,7 @@ angular.module('karamuseclAdminApp')
 			});
 
 			modalInstance.result.then(function(data) {
-				self.bar.info.avatar = data.avatar;
+				self.bar.info.avatar.url = data.avatar;
 				self.bar.info.name = data.barName;
 				self.bar.info.address = data.address;
 				self.bar.info.ordersLimit = data.orderLimit;
@@ -273,7 +292,8 @@ angular.module('karamuseclAdminApp')
 				},
 				cancel: {
 					text: 'Cancelar',
-					function: null
+					function: null,
+					show: true
 				}
 			});
 		};
@@ -314,13 +334,15 @@ angular.module('karamuseclAdminApp')
 			modalInstance.result.then(function(data) {
 				self.bar.info.ordersLimit = data.newOrdersLimit;
 				self.orders.btnGroup.buttons.lockUnlock.text = 'Bloquear';
+				self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Bloquear pedidos';
+				self.orders.btnGroup.buttons.lockUnlock.icon = 'lock';
 			}, function() {});
 		};
 
 		this.lockUnlockOrders = function() {
 			// Si están bloqueados los pedidos:
 			if (self.bar.info.ordersLimit === 0) {
-				var minOrdersLimit = self.orders.total;
+				var minOrdersLimit = self.orders.list.length;
 				self.openModalOrdersLimit({
 					ordersLimit: minOrdersLimit
 				});
@@ -337,7 +359,8 @@ angular.module('karamuseclAdminApp')
 					},
 					cancel: {
 						text: 'Cancelar',
-						function: null
+						function: null,
+						show: true
 					}
 				});
 			}
@@ -351,7 +374,8 @@ angular.module('karamuseclAdminApp')
 			}, function(success) {
 				if (success.status === 200) {
 					self.bar.info.ordersLimit = limit;
-					self.orders.btnGroup.buttons.lockUnlock.text = 'Desbloquear';
+					self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
+					self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
 				} else {
 					$log.error(success);
 				}

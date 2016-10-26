@@ -44,11 +44,11 @@ angular.module('karamuseclAdminApp')
 			data: {
 				name: data.name,
 				address: data.address,
-				avatar: data.avatar,
-				ordersLimit: {
-					value: parseInt(data.ordersLimit) + 1,
+				avatar: data.avatar.url,
+				totalOrders: {
+					value: parseInt(data.totalOrders),
 					max: 60,
-					min: parseInt(data.ordersLimit) + 1
+					min: parseInt(data.totalOrders)
 				}
 			}
 		};
@@ -60,7 +60,7 @@ angular.module('karamuseclAdminApp')
 			Settings.update({
 				token: $auth.getToken(),
 				avatar: data.avatar,
-				order_limit: data.ordersLimit.value,
+				order_limit: data.totalOrders.value,
 				bar_name: data.name,
 				address: data.address
 			}, function(success) {

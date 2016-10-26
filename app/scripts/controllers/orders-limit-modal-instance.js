@@ -27,9 +27,9 @@ angular.module('karamuseclAdminApp')
 			},
 			form: {
 				ordersLimit: {
-					value: parseInt(data.ordersLimit) + 1,
+					value: parseInt(data.ordersLimit),
 					max: 60,
-					min: parseInt(data.ordersLimit) + 1,
+					min: parseInt(data.ordersLimit),
 					step: 5
 				}
 			}

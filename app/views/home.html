@@ -1,9 +1,9 @@
 <!-- Navigation -->
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-				<i class="fa fa-bars"></i>
+				<i class="icon-bars text-lg"></i>
 			</button>
 			<a class="navbar-brand page-scroll" href="" ng-click="home.gotoAnyPartOfPage('intro');">
 				<i class="fa fa-play-circle"></i>  <span class="light">KARAMUSE APP</span> 
@@ -41,15 +41,15 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xs-offset-3 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
-					<img class="img-circle img-responsive pb-10" ng-src="{{home.bar.info.avatar}}" alt="avatar_pic">
+					<img class="img-circle img-responsive pb-10" ng-src="{{home.bar.info.avatar.url}}" alt="avatar_pic" ng-show="home.bar.info.avatar.show" imageonload="home.bar.info.avatar.show=true">
 					<h3 class="text-center">{{home.bar.info.name}}</h3>
 					<h4 class="text-center">{{home.bar.info.address}}</h4>
 					<h4 class="text-center" ng-switch="home.bar.info.ordersLimit">
-						<span class="text-blue-karamuse" ng-switch-default>{{home.bar.info.ordersLimit}} pedidos permitidos</span>
 						<span class="text-danger" ng-switch-when="0">Pedidos bloqueados</span>
 						<span class="text-blue-karamuse" ng-switch-when="1">1 pedido permitido</span>
+						<span class="text-blue-karamuse" ng-switch-default>{{home.bar.info.ordersLimit}} pedidos permitidos</span>
 					</h4>
-					<button type="submit" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20 mt-20" ng-click="home.openModalEditData(home.bar.info);">Editar</button>
+					<button type="submit" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20 mt-20" ng-click="home.openModalEditData(home.bar.info);" uib-tooltip="Cambiar datos del bar">Editar</button>
 					<a href="#about" class="btn btn-circle page-scroll">
 						<i class="fa fa-angle-double-down animated"></i>
 					</a>
@@ -63,18 +63,19 @@
 <section id="orders" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-			<div class="btn-group mb-20">
+			<h1 class="text-light mb-40">Pedidos</h1>
+			<div class="btn-group mb-10">
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
-					Buscar
+					<i class="icon-search"></i>
 				</button>
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
-					Recargar
+					<i class="icon-refresh"></i>
 				</button>
 				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'" uib-tooltip="Pedir un karaoke">
-					Pedir
+					<i class="icon-plus"></i>
 				</button>
-				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.lockUnlockOrders();" uib-tooltip="Bloquear/desbloquear pedidos">
-					{{home.orders.btnGroup.buttons.lockUnlock.text}}
+				<button type="button" class="btn btn-border btn-bright-gray-karamuse text-light text-md center-block pl-20 pr-20" ng-click="home.lockUnlockOrders();" uib-tooltip="{{home.orders.btnGroup.buttons.lockUnlock.tooltip}}">
+					<i class="icon-{{home.orders.btnGroup.buttons.lockUnlock.icon}}"></i>
 				</button>
 			</div>
 			<input type="text" class="form-control underline-input" placeholder="Título" ng-blur="home.orders.search.show=false" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
@@ -82,7 +83,7 @@
 	</div>
 	<div class="row mt-10">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-			<table class="table footable" ng-show="home.orders.show">
+			<table class="table footable orders-table" ng-show="home.orders.show">
 				<thead>
 					<tr>
 						<th>
@@ -101,12 +102,12 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}">
-						<td>{{tr.ticket}}</td>
+						<td class="text-left">{{tr.ticket}}</td>
 						<td class="text-left">{{tr.title}}</td>
 						<td>{{tr.createdAt | date:"HH:mm"}}</td>
 						<td>
-							<div class="btn-group" uib-dropdown is-open="false">
-								<button type="button" class="btn btn-border btn-blue-karamuse text-xs pl-10 pr-10" ng-click="" uib-dropdown-toggle>. . .</button>
+							<div uib-dropdown is-open="false">
+								<button type="button" class="btn btn-border btn-blue-karamuse text-xs " ng-click="" uib-dropdown-toggle>. . .</button>
 								<ul class="dropdown-menu" uib-dropdown-menu template-url="orderOptions.html" aria-labelledby="button-template-url"></ul>
 							</div>
 						</td>
@@ -122,12 +123,12 @@
 <section id="codes" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-			<h2 class="text-light mb-20">Códigos disponibles</h2>
-				<button type="button" class="btn btn-blue-karamuse btn-border text-sm center-block" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
-					+
-				</button>
-				<div class="btn-group mt-20" >
-					<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-danger':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
+			<h1 class="text-light mb-40">Códigos disponibles</h1>
+			<button type="button" class="btn btn-blue-karamuse btn-border text-sm center-block mb-20" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
+				<i class="icon-plus"></i>
+			</button>
+			<div class="btn-group mt-20" >
+				<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-danger':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
 					{{code.code}}
 				</button>
 			</div>
@@ -139,7 +140,7 @@
 <section id="addCatalog" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-			<h3 class="text-light mb-20">¿No encontraste tu karaoke?, ¡agrégalo y muy pronto estará disponible!</h3>
+			<h1 class="text-light mb-40">¿No encontraste tu karaoke?, ¡agrégalo y muy pronto estará disponible!</h1>
 			<form class="form-horizontal" name="catalogForm" novalidate>
 				<div class="form-group">
 					<label for="title" class="col-sm-3 control-label">Título</label>
@@ -153,7 +154,7 @@
 						<input type="text" class="form-control underline-input text-white" id="title" placeholder="https://www.youtube.com/..." ng-model="home.catalog.url.text" required >
 					</div>
 				</div>
-				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="home.saveKaraoke(home.catalog.title.text,home.catalog.url.text)" ng-disabled="catalogForm.$invalid || home.catalog.buttons.send.disabled">Enviar</button>
+				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20 mt-40" type="button" ng-click="home.saveKaraoke(home.catalog.title.text,home.catalog.url.text)" ng-disabled="catalogForm.$invalid || home.catalog.buttons.send.disabled">Enviar</button>
 			</form>
 		</div>
 	</div>
@@ -170,7 +171,7 @@
 
 <script type="text/ng-template" id="order-info.html">
 	<div class="modal-header">
-		<h3 class="modal-title text-center" id="modal-title">Información del pedido</h3>
+		<h3 class="modal-title text-center text-light" id="modal-title">Información del pedido</h3>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<table class="table">
@@ -204,22 +205,27 @@
 				<td class="text-left">{{orderInfo.orderData.waitTime | date:'HH:mm:ss'}}</td>
 			</tr>
 			<tr>
-				<td class="text-blue-karamuse">Link</td>
+				<td class="text-blue-karamuse" style="vertical-align:bottom;">Link</td>
 				<td class="text-left">
-					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ng-click="orderInfo.watchKaraoke(orderInfo.orderData.url)">Ver karaoke</a>
-					<a class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" ngclipboard data-clipboard-text="{{orderInfo.orderData.url}}">Copiar link</a>
+					<div class="input-group">
+						<input class="form-control underline-input text-white" type="url" ng-model="orderInfo.orderData.url">
+						<span class="input-group-btn">
+			        <button class="btn btn-border btn-bright-gray-karamuse b-0" ng-click="orderInfo.watchKaraoke(orderInfo.orderData.url)" uib-tooltip="Ver video"><i class="icon-youtube"></i></button>
+							<button class="btn btn-border btn-bright-gray-karamuse b-0" ngclipboard data-clipboard-text="{{orderInfo.orderData.url}}" uib-tooltip="Copiar URL"><i class="icon-copy"></i></button>
+			      </span>
+					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<div class="modal-footer" style="text-align:center">
-		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-click="orderInfo.cancel()">Cerrar</button>
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="orderInfo.cancel()">Cerrar</button>
 	</div>
 </script>
 
 <script type="text/ng-template" id="dialog.html">
 	<div class="modal-header">
-		<h3 class="modal-title text-center" id="modal-title" ng-show="dialogModal.modal.title.show">{{dialogModal.modal.title.text}}</h3>
+		<h3 class="modal-title text-center text-light" id="modal-title" ng-show="dialogModal.modal.title.show">{{dialogModal.modal.title.text}}</h3>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<p class="text-lg" ng-show="dialogModal.modal.subtitle.show">{{dialogModal.modal.subtitle.text}}</p>
@@ -234,7 +240,7 @@
 </script>
 
 <script type="text/ng-template" id="add-order.html">
-	<div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div>
+	<div class="loading" ng-show="addOrder.modal.loader.show">Alineando los satélites&#8230;</div>
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title">¿Qué karaoke vas a pedir?</h3>
 	</div>
@@ -284,7 +290,7 @@
 </script>
 
 <script type="text/ng-template" id="orders-limit.html">
-	<div class="loading" ng-show="ordersLimit.modal.loader.show">Cargando&#8230;</div>
+	<div class="loading" ng-show="ordersLimit.modal.loader.show">Alineando los satélites&#8230;</div>
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title">¿Cuántos pedidos vas a permitir?</h3>
 		<h4 class="text-light text-center" ng-class="{'text-danger':ordersLimit.modal.subtitle.danger}" ng-show="ordersLimit.modal.subtitle.show">{{ordersLimit.modal.subtitle.text}}</h4>
@@ -296,6 +302,11 @@
 				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.ordersLimit.value" ng-min="ordersLimit.modal.form.ordersLimit.min" ng-max="ordersLimit.modal.form.ordersLimit.max" ng-step="ordersLimit.modal.form.ordersLimit.step" required disabled>
 				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="ordersLimit.keyDown('inc',ordersLimit.modal.form.ordersLimit.value)" ng-mouseup="ordersLimit.keyUp()" >
 			</div>
+			<div ng-switch="ordersLimit.modal.form.ordersLimit.min">
+				<p class="help-block text-md" ng-switch-when="0"></p>
+				<p class="help-block text-md" ng-switch-when="1">Tienes 1 pedido</p>
+				<p class="help-block text-md" ng-switch-default>Tienes {{ordersLimit.modal.form.ordersLimit.min - 1}} pedidos actualmente</p>
+			</div>
 		</form>
 	</div>
 	<div class="modal-footer" style="text-align:center">
@@ -305,8 +316,8 @@
 </script>
 
 <script type="text/ng-template" id="edit-data.html">
-	<div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div>
-	<!-- <div class="loading" ng-show="addOrder.modal.loader.show">Cargando&#8230;</div> -->
+	<div class="loading" ng-show="addOrder.modal.loader.show">Alineando los satélites&#8230;</div>
+	<!-- <div class="loading" ng-show="addOrder.modal.loader.show">Alineando los satélites&#8230;</div> -->
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title" ng-show="editData.modal.title.show">{{editData.modal.title.text}}</h3>
 	</div>
@@ -340,10 +351,15 @@
 			</div>
 
 			<div class="form-group">
-				<label for="ordersLimit" class="col-sm-3 control-label">Límite pedidos</label>
+				<label for="totalOrders" class="col-sm-3 control-label">Límite de pedidos</label>
 				<div class="col-sm-8">
-					<input type="number" class="form-control underline-input text-white" id="ordersLimit" placeholder="{{editData.bar.data.ordersLimit.min}}" ng-model="editData.bar.data.ordersLimit.value" ng-min="editData.bar.data.ordersLimit.min" ng-max="editData.bar.data.ordersLimit.max" required>
-					<p class="help-block text-left">Tienes {{editData.bar.data.ordersLimit.min - 1}} pedidos actualmente.</p>
+					<input type="number" class="form-control underline-input text-white" id="totalOrders" placeholder="{{editData.bar.data.totalOrders.min}}" ng-model="editData.bar.data.totalOrders.value" ng-min="editData.bar.data.totalOrders.min" ng-max="editData.bar.data.totalOrders.max" required>
+					<!-- <p class="help-block text-left">Tienes {{editData.bar.data.totalOrders.min - 1}} pedidos actualmente.</p> -->
+					<div ng-switch="editData.bar.data.totalOrders.min">
+						<p class="help-block text-left" ng-switch-when="0"></p>
+						<p class="help-block text-left" ng-switch-when="1">Tienes 1 pedido</p>
+						<p class="help-block text-left" ng-switch-default>Tienes {{editData.bar.data.totalOrders.min}} pedidos actualmente</p>
+					</div>
 				</div>
 			</div>
 
@@ -374,22 +390,22 @@
 </script>
 
 <script type="text/ng-template" id="generate-codes.html">
-  <div class="modal-header">
-    <h3 class="modal-title text-center text-light" id="modal-title">{{generateCodes.modal.title.text}}</h3>
-    <h4 class="text-light text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
-  </div>
-  <div class="modal-body text-center" id="modal-body">
-    <form class="form-inline" name="form">
-      <div class="form-group">
-        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
-        <input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" required disabled>
-        <input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
-      </div>
-    </form>
+	<div class="modal-header">
+		<h3 class="modal-title text-center text-light" id="modal-title">{{generateCodes.modal.title.text}}</h3>
+		<h4 class="text-light text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
+	</div>
+	<div class="modal-body text-center" id="modal-body">
+		<form class="form-inline" name="form">
+			<div class="form-group">
+				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="generateCodes.keyDown('dec',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >
+				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="generateCodes.modal.form.codes.value" ng-min="generateCodes.modal.form.codes.min" ng-max="generateCodes.modal.form.codes.max" ng-step="generateCodes.modal.form.codes.step" required disabled>
+				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="generateCodes.keyDown('inc',generateCodes.modal.form.codes.value)" ng-mouseup="generateCodes.keyUp()" >  
+			</div>
+		</form>
 
-  </div>
-  <div class="modal-footer" style="text-align:center">
-    <button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="generateCodes.cancel()">Cancelar</button>
-    <button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Enviar</button>
-  </div>
+	</div>
+	<div class="modal-footer" style="text-align:center">
+		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="generateCodes.cancel()">Cancelar</button>
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Enviar</button>
+	</div>
 </script>
