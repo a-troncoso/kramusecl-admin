@@ -8,9 +8,10 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($rootScope, $auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
 		var self = this,
-			i = 0;
+			i = 0,
+			deferred = null;
 
 		this.bar = {
 			info: {
@@ -20,7 +21,7 @@ angular.module('karamuseclAdminApp')
 				},
 				name: Utils.getInStorage('name'),
 				address: Utils.getInStorage('address'),
-				ordersLimit: 0
+				ordersLimit: null
 			}
 		};
 
@@ -92,7 +93,7 @@ angular.module('karamuseclAdminApp')
 			Utils.gotoAnyPartOfPage(flag);
 
 			// Hacer esto a lo angular way
-			
+
 			// $('html, body').stop().animate({
 			// 	scrollTop: flag.offset().top
 			// }, 1500, 'easeInOutExpo');
@@ -149,12 +150,15 @@ angular.module('karamuseclAdminApp')
 
 		$rootScope.getOrders = function() {
 			self.orders.list = [];
+			$rootScope.loader.show = true;
 
 			Orders.query({
 				idOrder: '',
 				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
+				$rootScope.loader.show = false;
+
 				if (success.status === 200) {
 					self.orders.btnGroup.buttons.search.show = true;
 					self.orders.show = true;
@@ -221,6 +225,9 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.changeOrderState = function(idOrder, action) {
+			deferred = $q.defer();
+			$rootScope.loader.show = true;
+
 			var newState;
 			if (action === 'switchToReady') {
 				newState = 1;
@@ -236,11 +243,23 @@ angular.module('karamuseclAdminApp')
 				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
+				$rootScope.loader.show = false;
+
 				if (success.status === 200) {
+					deferred.resolve({
+						status: 200
+					});
 					$rootScope.getOrders();
+				} else {
+					deferred.reject({
+						status: success.status
+					});
 				}
 			}, function(error) {
 				$log.log(error);
+				deferred.reject({
+					status: 400
+				});
 				self.openModalDialog({
 					title: 'Tenemos un problemita...',
 					subtitle: 'Ha ocurrido un error al actualizar el pedido',
@@ -253,10 +272,13 @@ angular.module('karamuseclAdminApp')
 					},
 					cancel: {
 						text: 'Cancelar',
-						function: null
+						function: null,
+						show: false
 					}
 				});
 			});
+
+			return deferred.promise;
 		};
 
 		this.openModalDialog = function(data) {
@@ -367,21 +389,32 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.setOrdersLimit = function(limit) {
+			deferred = $q.defer();
 
 			Settings.update({
 				order_limit: limit,
 				token: $auth.getToken()
 			}, function(success) {
 				if (success.status === 200) {
+					deferred.resolve({
+						status: 200
+					});
 					self.bar.info.ordersLimit = limit;
 					self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
 					self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
 				} else {
-					$log.error(success);
+					deferred.reject({
+						status: success.status
+					});
 				}
 			}, function(error) {
 				$log.error(error);
+				deferred.reject({
+					status: 400
+				});
 			});
+
+			return deferred.promise;
 		};
 
 		this.getCodes = function() {
@@ -489,7 +522,8 @@ angular.module('karamuseclAdminApp')
 						},
 						cancel: {
 							text: 'Cerrar',
-							function: null
+							function: null,
+							show: true
 						}
 					});
 				} else if (success.status === 201) {
@@ -505,12 +539,13 @@ angular.module('karamuseclAdminApp')
 						},
 						cancel: {
 							text: 'Cerrar',
-							function: null
+							function: null,
+							show: true
 						}
 					});
 				} else if (success.status === 400) {
 					self.openModalDialog({
-						title: 'Houston, tenemos un problemita...',
+						title: 'Houston, tenemos un problema...',
 						subtitle: '¡No se qué pasó!, pero tu karaoke no pudo ser enviado :(',
 						submit: {
 							text: 'Reintentar',
@@ -521,7 +556,8 @@ angular.module('karamuseclAdminApp')
 						},
 						cancel: {
 							text: 'Cancelar',
-							function: null
+							function: null,
+							show: true
 						}
 					});
 				}
@@ -539,7 +575,8 @@ angular.module('karamuseclAdminApp')
 					},
 					cancel: {
 						text: 'Cancelar',
-						function: null
+						function: null,
+						show: true
 					}
 				});
 			});

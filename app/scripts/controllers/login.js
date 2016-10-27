@@ -170,7 +170,7 @@ angular.module('karamuseclAdminApp')
 
 		this.openSession = function() {
 
-			var deferred = $q.defer();
+			deferred = $q.defer();
 
 			Session.save({
 				action: 'open',

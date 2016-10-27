@@ -8,8 +8,9 @@
  * Controller of the karamuseclAdminApp
  */
 angular.module('karamuseclAdminApp')
-	.controller('OrdersLimitModalInstanceCtrl', function($log, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
-		var self = this;
+	.controller('OrdersLimitModalInstanceCtrl', function($log, $q, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
+		var self = this,
+			deferred = null;
 
 		this.modal = {
 			loader: {
@@ -78,6 +79,8 @@ angular.module('karamuseclAdminApp')
 		};
 
 		this.setOrdersLimit = function(limit) {
+			deferred = $q.deferred();
+
 			self.modal.loader.show = true;
 
 			Settings.update({
@@ -87,14 +90,23 @@ angular.module('karamuseclAdminApp')
 				// $log.log(success);
 				self.modal.loader.show = false;
 				if (success.status === 200) {
+					deferred.resolve({
+						status: 200
+					});
 					$uibModalInstance.close({
 						newOrdersLimit: limit
 					});
 				} else {
 					$log.error(success);
+					deferred.reject({
+						status: success.status
+					});
 				}
 			}, function(error) {
 				$log.error(error);
+				deferred.reject({
+					status: 400
+				});
 				self.modal.loader.show = false;
 				self.openModalDialog({
 					title: 'Houston, tenemos un problema...',
@@ -112,6 +124,8 @@ angular.module('karamuseclAdminApp')
 					}
 				});
 			});
+
+			return deferred.promise;
 		};
 
 		this.cancel = function() {

@@ -12,7 +12,21 @@ angular.module('karamuseclAdminApp')
 
     var self = this;
 
+    this.submit = function() {
+      self.modal.loader.show = true;
+
+      var result = data.submit.function();
+      result.then(function(success) {
+        self.modal.loader.show = false;
+      }, function(error) {
+        $log.log(error);
+      });
+    };
+
     this.modal = {
+      loader: {
+        show: false
+      },
       title: {
         text: data.title || null,
         show: true
@@ -35,7 +49,7 @@ angular.module('karamuseclAdminApp')
       },
       buttons: {
         submit: {
-          function: data.submit.function || null,
+          function: self.submit || null,
           text: data.submit.text || null,
           show: data.submit.show
         },
@@ -49,9 +63,9 @@ angular.module('karamuseclAdminApp')
       }
     };
 
+
     this.cancel = function() {
       $uibModalInstance.dismiss();
     };
 
-    // $log.log(data);
   });
