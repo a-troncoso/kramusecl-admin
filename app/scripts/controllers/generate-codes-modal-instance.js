@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:GenerateCodesModalInstanceCtrl
+ * @name karamuseApp.controller:GenerateCodesModalInstanceCtrl
  * @description
  * # GenerateCodesModalInstanceCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
   .controller('GenerateCodesModalInstanceCtrl', function($rootScope, $log, $q, $uibModal, $uibModalInstance, $timeout, $auth, $state, $interval, Codes, data, Session, deviceDetector) {
 
     var self = this;

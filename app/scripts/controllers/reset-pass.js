@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:ResetPassCtrl
+ * @name karamuseApp.controller:ResetPassCtrl
  * @description
  * # ResetPassCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('ResetPassCtrl', function($rootScope, $log, $stateParams, RenewPass, Validators, Utils) {
 
 		var self = this,

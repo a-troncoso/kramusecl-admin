@@ -3,7 +3,7 @@
 describe('Controller: OrdersLimitModalInstanceCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseclAdminApp'));
+  beforeEach(module('karamuseApp'));
 
   var OrdersLimitModalInstanceCtrl,
     scope;

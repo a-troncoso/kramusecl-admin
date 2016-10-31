@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name karamuseclAdminApp.directive:focus
+ * @name karamuseApp.directive:focus
  * @description
  * # focus
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.directive('focus', function($timeout) {
 		return {
 			scope: {

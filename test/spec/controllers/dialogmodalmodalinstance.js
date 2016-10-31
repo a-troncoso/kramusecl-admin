@@ -3,7 +3,7 @@
 describe('Controller: DialogmodalmodalinstanceCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseclAdminApp'));
+  beforeEach(module('karamuseApp'));
 
   var DialogmodalmodalinstanceCtrl,
     scope;

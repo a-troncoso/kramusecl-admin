@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:ForgotPassCtrl
+ * @name karamuseApp.controller:ForgotPassCtrl
  * @description
  * # ForgotPassCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('ForgotPassCtrl', function($rootScope, $log, RenewPass, Utils) {
 
 		this.page = {

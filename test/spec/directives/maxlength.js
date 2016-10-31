@@ -3,7 +3,7 @@
 describe('Directive: maxLength', function () {
 
   // load the directive's module
-  beforeEach(module('karamuseclAdminApp'));
+  beforeEach(module('karamuseApp'));
 
   var element,
     scope;

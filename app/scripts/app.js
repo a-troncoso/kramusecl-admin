@@ -2,14 +2,15 @@
 
 /**
  * @ngdoc overview
- * @name karamuseclAdminApp
+ * @name karamuseApp
  * @description
- * # karamuseclAdminApp
+ * # karamuseApp
  *
  * Main module of the application.
  */
+
 angular
-  .module('karamuseclAdminApp', [
+  .module('karamuseDjApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,11 +18,24 @@ angular
     'ngSanitize',
     'ngTouch',
     'satellizer',
-    'ng.deviceDetector', //detecta el device
+    'ng.deviceDetector',
     'LocalStorageModule',
     'ui.router',
     'ui.bootstrap',
     'ui.footable',
     'picardy.fontawesome',
-    'ngclipboard'
-  ]);
+    'ngclipboard',
+  ])
+
+angular
+  .module('karamuseClientApp', [
+    // 'mobile-angular-ui.plugins.ui-router',
+    // 'mobile-angular-ui'
+  ])
+
+
+angular
+  .module('karamuseApp', [
+    'karamuseDjApp',
+    'karamuseClientApp'
+  ])

@@ -3,7 +3,7 @@
 describe('Controller: EditDataModalInstanceCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseclAdminApp'));
+  beforeEach(module('karamuseApp'));
 
   var EditDataModalInstanceCtrl,
     scope;

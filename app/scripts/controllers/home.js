@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:HomeCtrl
+ * @name karamuseApp.controller:HomeCtrl
  * @description
  * # HomeCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
+angular.module('karamuseApp')
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -580,6 +580,11 @@ angular.module('karamuseclAdminApp')
 					}
 				});
 			});
+		};
+
+		this.logout = function() {
+			$log.log('aqui debo deslogear :D');
+			$state.go('login');
 		};
 
 		$rootScope.getOrders();

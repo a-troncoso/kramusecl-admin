@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:ActiveSessionModalInstanceCtrl
+ * @name karamuseApp.controller:ActiveSessionModalInstanceCtrl
  * @description
  * # ActiveSessionModalInstanceCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes, Utils) {
 
 		var self = this,

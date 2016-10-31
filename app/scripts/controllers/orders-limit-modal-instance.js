@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:OrdersLimitModalInstanceCtrl
+ * @name karamuseApp.controller:OrdersLimitModalInstanceCtrl
  * @description
  * # OrdersLimitModalInstanceCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('OrdersLimitModalInstanceCtrl', function($log, $q, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
 		var self = this,
 			deferred = null;

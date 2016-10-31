@@ -2,17 +2,17 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:OrderInfoModalInstanceCtrl
+ * @name karamuseApp.controller:OrderInfoModalInstanceCtrl
  * @description
  * # OrderInfoModalInstanceCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('OrderInfoModalInstanceCtrl', function($log, $uibModalInstance, $window, orderData) {
 
 		var i = 0,
 			dateString = '',
-			hours, minutes, seconds, date, summatory = new Date(0, 0, 0, 0, 0, 0, 0);
+			hours, minutes, seconds, summatory = new Date(0, 0, 0, 0, 0, 0, 0);
 
 		for (i = 0; i < orderData.firstOrders.length; i++) {
 

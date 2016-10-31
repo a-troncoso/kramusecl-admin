@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-	.module('karamuseclAdminApp')
+	.module('karamuseApp')
 
 .run(function($rootScope) {
 

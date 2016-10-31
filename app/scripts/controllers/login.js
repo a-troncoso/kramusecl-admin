@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:LoginCtrl
+ * @name karamuseApp.controller:LoginCtrl
  * @description
  * # LoginCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
 
 		var self = this,

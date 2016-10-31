@@ -3,7 +3,7 @@
 describe('Controller: ResetPassCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseclAdminApp'));
+  beforeEach(module('karamuseApp'));
 
   var ResetPassCtrl,
     scope;

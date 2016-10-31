@@ -1,9 +1,9 @@
 'use strict';
 
 angular
-	.module('karamuseclAdminApp')
+	.module('karamuseApp')
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$stateProvider
 		.state('login', {
 			url: '/',
@@ -52,6 +52,21 @@ angular
 			templateUrl: 'views/page-404.html',
 			controller: 'Page404Ctrl',
 			controllerAs: 'page404'
+		})
+		.state('client', {
+			abstract: true,
+			url: '/client',
+			template: '<ui-view/>',
+			templateUrl: 'views/client.html',
+			controller: 'ClientCtrl',
+			controllerAs: 'client'
+		})
+		.state('client.home', {
+			url: '/home',
+			templateUrl: 'views/client-home.html',
+			controller: 'ClientHomeCtrl',
+			controllerAs: 'clientHome'
 		});
-	$urlRouterProvider.otherwise("/");
+	$urlRouterProvider.otherwise("/404");
+	$locationProvider.html5Mode(true);
 });

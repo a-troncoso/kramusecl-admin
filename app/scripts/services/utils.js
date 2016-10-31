@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:Utils
+ * @name karamuseApp.controller:Utils
  * @description
  * # Utils
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
 
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 
 .service('Utils', function($log, $state, $anchorScroll, $location, localStorageService) {
 

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseclAdminApp.controller:SignupCtrl
+ * @name karamuseApp.controller:SignupCtrl
  * @description
  * # SignupCtrl
- * Controller of the karamuseclAdminApp
+ * Controller of the karamuseApp
  */
-angular.module('karamuseclAdminApp')
+angular.module('karamuseApp')
 	.controller('SignupCtrl', function($rootScope, $log, $stateParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
