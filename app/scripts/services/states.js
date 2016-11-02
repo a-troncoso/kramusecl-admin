@@ -6,7 +6,7 @@ angular
 .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$stateProvider
 		.state('login', {
-			url: '/',
+			url: '',
 			templateUrl: 'views/login.html',
 			controller: 'LoginCtrl',
 			controllerAs: 'login'
