@@ -10,32 +10,27 @@
  */
 
 angular
+
   .module('karamuseDjApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch',
-    'satellizer',
-    'ng.deviceDetector',
-    'LocalStorageModule',
-    'ui.router',
-    'ui.bootstrap',
-    'ui.footable',
-    'picardy.fontawesome',
-    'ngclipboard',
-  ])
+  'ngAnimate',
+  'ngCookies',
+  'ngResource',
+  'ngRoute',
+  'ngSanitize',
+  'ngTouch',
+  'satellizer',
+  'ng.deviceDetector',
+  'LocalStorageModule',
+  'ui.router',
+  'ui.bootstrap',
+  'ui.footable',
+  'picardy.fontawesome',
+  'ngclipboard',
+])
 
-angular
-  .module('karamuseClientApp', [
-    // 'mobile-angular-ui.plugins.ui-router',
-    // 'mobile-angular-ui'
-  ])
+.module('karamuseClientApp', [])
 
-
-angular
-  .module('karamuseApp', [
-    'karamuseDjApp',
-    'karamuseClientApp'
-  ])
+.module('karamuseApp', [
+  'karamuseDjApp',
+  'karamuseClientApp'
+]);

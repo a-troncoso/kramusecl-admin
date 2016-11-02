@@ -16,7 +16,7 @@ angular.module('karamuseApp')
       self.modal.loader.show = true;
 
       var result = data.submit.function();
-      result.then(function(success) {
+      result.then(function() {
         self.modal.loader.show = false;
       }, function(error) {
         $log.log(error);
