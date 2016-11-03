@@ -9,6 +9,7 @@
  */
 angular.module('karamuseApp')
 	.controller('OrdersLimitModalInstanceCtrl', function($log, $q, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
+		
 		var self = this,
 			deferred = null;
 
@@ -28,10 +29,11 @@ angular.module('karamuseApp')
 			},
 			form: {
 				ordersLimit: {
-					value: parseInt(data.ordersLimit),
+					value: parseInt(data.ordersLimit) + 1,
 					max: 60,
-					min: parseInt(data.ordersLimit),
-					step: 5
+					min: parseInt(data.ordersLimit) + 1,
+					step: 5,
+					current: parseInt(data.ordersLimit)
 				}
 			}
 		};
@@ -79,7 +81,7 @@ angular.module('karamuseApp')
 		};
 
 		this.setOrdersLimit = function(limit) {
-			deferred = $q.deferred();
+			deferred = $q.defer();
 
 			self.modal.loader.show = true;
 

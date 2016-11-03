@@ -185,6 +185,8 @@ angular.module('karamuseApp')
       this.modal.title.text = '¿Cuántos códigos quieres?';
     } else {
       this.modal.title.text = 'No puedes generar más códigos';
+      this.modal.subtitle.text = 'Has alcanzado la cantidad máxima de códigos permitidos';
+      this.modal.subtitle.show = true;
     }
 
   });

@@ -46,9 +46,10 @@ angular.module('karamuseApp')
 				address: data.address,
 				avatar: data.avatar.url,
 				totalOrders: {
-					value: parseInt(data.totalOrders),
+					value: parseInt(data.totalOrders) + 1,
 					max: 60,
-					min: parseInt(data.totalOrders)
+					min: parseInt(data.totalOrders) + 1,
+					current: parseInt(data.totalOrders)
 				}
 			}
 		};

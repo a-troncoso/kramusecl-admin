@@ -839,3 +839,11 @@ label.custom-input-file input[type="file"] {
   color: white;
   cursor: pointer;
 }
+
+.filter-show-animate {
+  width: 200px;
+  transition: width linear 0.3s;
+}
+.filter-show-animate.ng-hide {
+  width: 0px;
+}

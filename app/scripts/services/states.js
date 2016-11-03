@@ -3,7 +3,7 @@
 angular
 	.module('karamuseApp')
 
-.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('login', {
 			url: '',

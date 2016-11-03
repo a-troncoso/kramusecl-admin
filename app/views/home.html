@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" show-header-on-top>
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
@@ -18,19 +18,20 @@
 					<a ng-click="home.gotoAnyPartOfPage('intro');"></a>
 				</li>
 				<li>
-					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('intro');">Home</a>
+					<!-- <a class="page-scroll" ui-sref="home.">Home</a> -->
+					<a href="#intro" scroll-on-click>Home</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('orders');">Pedidos</a>
+					<a href="#orders" scroll-on-click>Pedidos</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('codes');">Códigos</a>
+					<a href="#codes" scroll-on-click>Códigos</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="" ng-click="home.gotoAnyPartOfPage('addCatalog');">Catálogo</a>
+					<a href="#addCatalog" scroll-on-click>Catálogo</a>
 				</li>
 				<li>
-					<a class="page-scroll" href="" ng-click="home.logout();">Logout</a>
+					<a href="" ng-click="home.logout();">Logout</a>
 				</li>                     
 			</ul>
 		</div>
@@ -72,38 +73,40 @@
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
 			<h1 class="text-light mb-40">Pedidos</h1>
-			<div class="btn-group mb-10">
-				<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
-					<i class="icon-search"></i>
-				</button>
-				<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
-					<i class="icon-refresh"></i>
-				</button>
-				<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'" uib-tooltip="Pedir un karaoke">
-					<i class="icon-microphone"></i>
-				</button>
-				<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md center-block" ng-click="home.lockUnlockOrders();" uib-tooltip="{{home.orders.btnGroup.buttons.lockUnlock.tooltip}}">
-					<i class="icon-{{home.orders.btnGroup.buttons.lockUnlock.icon}}"></i>
-				</button>
-			</div>
-			<input type="text" class="form-control underline-input" placeholder="Título" ng-blur="home.orders.search.show=false" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
+				<div class="btn-group mb-10" ng-class="{'pull-left':home.orders.show}">
+					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
+						<i class="icon-refresh"></i>
+					</button>
+					<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'" uib-tooltip="Pedir un karaoke">
+						<i class="icon-microphone"></i>
+					</button>
+					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md center-block" ng-click="home.lockUnlockOrders();" uib-tooltip="{{home.orders.btnGroup.buttons.lockUnlock.tooltip}}">
+						<i class="icon-{{home.orders.btnGroup.buttons.lockUnlock.icon}}"></i>
+					</button>
+				</div>
+				<div class="btn-group mb-10 pull-right" ng-show="home.orders.show">
+					<input type="text" class="form-control inline underline-input filter-show-animate text-white" placeholder="Título" ng-blur="home.orders.search.show=false;home.orders.search.title.text=''" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
+					<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
+						<i class="icon-search"></i>
+					</button>
+				</div>
 		</div>
 	</div>
 	<div class="row mt-10">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
 			<table class="table footable orders-table" ng-show="home.orders.show">
 				<thead>
-					<tr>
-						<th>
+					<tr style="display: table; width: 100%">
+						<th style="display: table-cell;width: 15%">
 							Ticket
 						</th>
-						<th>
+						<th style="display: table-cell;width: 50%">
 							Título
 						</th>
-						<th data-hide="phone">
+						<th data-hide="phone" style="display: table-cell;width: 20%">
 							Hora
 						</th>
-						<th data-hide="phone">
+						<th data-hide="phone" style="display: table-cell;width: 15%">
 							Opciones
 						</th>
 					</tr>
@@ -132,7 +135,7 @@
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
 			<h1 class="text-light mb-40">Códigos disponibles</h1>
-			<button type="button" class="btn btn-blue-karamuse btn-border text-sm center-block mb-20" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
+			<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
 				<i class="icon-plus"></i>
 			</button>
 			<div class="btn-group mt-20" >
@@ -308,13 +311,13 @@
 		<form class="form-inline" name="form">
 			<div class="form-group">
 				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="ordersLimit.keyDown('dec',ordersLimit.modal.form.ordersLimit.value)" ng-mouseup="ordersLimit.keyUp()" >
-				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.ordersLimit.value" ng-min="ordersLimit.modal.form.ordersLimit.min" ng-max="ordersLimit.modal.form.ordersLimit.max" ng-step="ordersLimit.modal.form.ordersLimit.step" required disabled>
+				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.ordersLimit.value" ng-min="ordersLimit.modal.form.ordersLimit.current" ng-max="ordersLimit.modal.form.ordersLimit.max" ng-step="ordersLimit.modal.form.ordersLimit.step" required disabled>
 				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="ordersLimit.keyDown('inc',ordersLimit.modal.form.ordersLimit.value)" ng-mouseup="ordersLimit.keyUp()" >
 			</div>
 			<div ng-switch="ordersLimit.modal.form.ordersLimit.min">
 				<p class="help-block text-md" ng-switch-when="0"></p>
 				<p class="help-block text-md" ng-switch-when="1">Tienes 1 pedido</p>
-				<p class="help-block text-md" ng-switch-default>Tienes {{ordersLimit.modal.form.ordersLimit.min - 1}} pedidos actualmente</p>
+				<p class="help-block text-md" ng-switch-default>Tienes {{ordersLimit.modal.form.ordersLimit.current}} pedidos actualmente</p>
 			</div>
 		</form>
 	</div>
@@ -362,11 +365,10 @@
 				<label for="totalOrders" class="col-sm-3 control-label">Límite de pedidos</label>
 				<div class="col-sm-8">
 					<input type="number" class="form-control underline-input text-white" id="totalOrders" placeholder="{{editData.bar.data.totalOrders.min}}" ng-model="editData.bar.data.totalOrders.value" ng-min="editData.bar.data.totalOrders.min" ng-max="editData.bar.data.totalOrders.max" required>
-					<!-- <p class="help-block text-left">Tienes {{editData.bar.data.totalOrders.min - 1}} pedidos actualmente.</p> -->
 					<div ng-switch="editData.bar.data.totalOrders.min">
 						<p class="help-block text-left" ng-switch-when="0"></p>
 						<p class="help-block text-left" ng-switch-when="1">Tienes 1 pedido</p>
-						<p class="help-block text-left" ng-switch-default>Tienes {{editData.bar.data.totalOrders.min}} pedidos actualmente</p>
+						<p class="help-block text-left" ng-switch-default>Tienes {{editData.bar.data.totalOrders.current}} pedidos actualmente</p>
 					</div>
 				</div>
 			</div>
@@ -400,7 +402,7 @@
 <script type="text/ng-template" id="generate-codes.html">
 	<div class="modal-header">
 		<h3 class="modal-title text-center text-light" id="modal-title">{{generateCodes.modal.title.text}}</h3>
-		<h4 class="text-light text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
+		<h4 class=" text-center" ng-class="{'text-danger':generateCodes.modal.subtitle.danger}" ng-show="generateCodes.modal.subtitle.show">{{generateCodes.modal.subtitle.text}}</h4>
 	</div>
 	<div class="modal-body text-center" id="modal-body">
 		<form class="form-inline" name="form">

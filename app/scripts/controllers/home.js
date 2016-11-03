@@ -8,7 +8,7 @@
  * Controller of the karamuseApp
  */
 angular.module('karamuseApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog, Session) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -79,25 +79,6 @@ angular.module('karamuseApp')
 					disabled: false
 				}
 			}
-		};
-
-		$(window).scroll(function() {
-			if ($(".navbar").offset().top > 50) {
-				$(".navbar-fixed-top").addClass("top-nav-collapse");
-			} else {
-				$(".navbar-fixed-top").removeClass("top-nav-collapse");
-			}
-		});
-
-		this.gotoAnyPartOfPage = function(flag) {
-			Utils.gotoAnyPartOfPage(flag);
-
-			// Hacer esto a lo angular way
-
-			// $('html, body').stop().animate({
-			// 	scrollTop: flag.offset().top
-			// }, 1500, 'easeInOutExpo');
-			// event.preventDefault();
 		};
 
 		this.getSettings = function() {
@@ -583,8 +564,25 @@ angular.module('karamuseApp')
 		};
 
 		this.logout = function() {
-			$log.log('aqui debo deslogear :D');
-			$state.go('login');
+
+			deferred = $q.defer();
+
+			Session.save({
+				action: 'close',
+				token: $auth.getToken()
+			}, function(success) {
+				if (success.status === 200 || success.status === 201) {
+					deferred.resolve();
+					$state.go('login');
+				} else {
+					deferred.reject();
+				}
+			}, function(error) {
+				$log.error(error);
+				deferred.reject();
+			});
+			return deferred.promise;
+
 		};
 
 		$rootScope.getOrders();
