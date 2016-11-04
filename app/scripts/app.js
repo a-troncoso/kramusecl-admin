@@ -28,7 +28,10 @@ angular
   ]);
 
 angular
-  .module('karamuseClientApp', ['ui.router', 'ui.bootstrap']);
+  .module('karamuseClientApp', [
+    'ui.router',
+    'ui.bootstrap'
+  ]);
 
 angular
   .module('karamuseApp', [

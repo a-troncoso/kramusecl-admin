@@ -44,19 +44,5 @@ angular
 			controller: 'Page404Ctrl',
 			controllerAs: 'page404'
 		})
-		.state('client', {
-			abstract: true,
-			url: '/client',
-			template: '<ui-view/>',
-			controller: 'ClientCtrl',
-			controllerAs: 'client'
-		})
-		.state('client.home', {
-			url: '/home',
-			templateUrl: 'views/client-home.html',
-			controller: 'ClientHomeCtrl',
-			controllerAs: 'clientHome'
-		});
-	
-	// $locationProvider.html5Mode(true);
+
 });

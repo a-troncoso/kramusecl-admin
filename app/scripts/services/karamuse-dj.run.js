@@ -9,5 +9,12 @@ angular
 		show: false
 	};
 
+});
+
+angular
+	.module('karamuseClientApp')
+
+.run(function($log) {
+
 
 });
