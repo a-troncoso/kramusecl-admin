@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -30,7 +31,8 @@ angular
 angular
   .module('karamuseClientApp', [
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ngMaterial'
   ]);
 
 angular

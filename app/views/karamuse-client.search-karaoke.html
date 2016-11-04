@@ -1,0 +1,32 @@
+<div ng-cloack>
+	<md-content>
+		<md-toolbar class="md-hue-2">
+			<div class="md-toolbar-tools">
+				<!-- <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+					<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+				</md-button> -->
+				<h2>
+					<span>Buscar</span>
+				</h2>
+				<span flex></span>
+				<!-- <md-button class="md-icon-button" aria-label="More">
+					<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+				</md-button> -->
+			</div>
+		</md-toolbar>
+		<md-list flex>
+			<md-list-item class="md-2-line">
+				<img ng-src="{{searchKaraoke.bar.info.avatar}}" class="md-avatar" alt="avatar_{{searchKaraoke.bar.info.name}}" />
+				<div class="md-list-item-text">
+					<h3>{{searchKaraoke.bar.info.name}}</h3>
+					<p>{{searchKaraoke.bar.info.address}}</p>
+				</div>
+			</md-list-item>
+		</md-list>
+		<h5 class="md-subhead">Buscar un karaoke</h5>
+		<md-input-container md-no-float class="md-block">
+			<input ng-model="searchKaraoke.form.search.text" placeholder="Título del karaoke...">
+		</md-input-container>
+		<md-button class="md-raised md-primary" ng-click="searchKaraoke.search(searchKaraoke.form.search.text);">Buscar</md-button>
+	</md-content>
+</div>

@@ -17,8 +17,14 @@ angular
 		})
 		.state('client.home', {
 			url: '/home',
-			templateUrl: 'views/karamuseClientApp.client-home.html',
+			templateUrl: 'views/karamuse-client.client-home.html',
 			controller: 'ClientHomeCtrl',
 			controllerAs: 'clientHome'
+		})
+		.state('client.search-karaoke', {
+			url: '/search-karaoke',
+			templateUrl: 'views/karamuse-client.search-karaoke.html',
+			controller: 'SearchKaraokeCtrl',
+			controllerAs: 'searchKaraoke'
 		});
 });
