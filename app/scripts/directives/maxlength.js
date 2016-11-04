@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name karamuseApp.directive:maxLength
+ * @name karamuseDjApp.directive:maxLength
  * @description
  * # maxLength
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.directive('maxLength', function() {
 		return {
 			restrict: "A",

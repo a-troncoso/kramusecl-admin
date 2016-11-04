@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:Validators
+ * @name karamuseDjApp.controller:Validators
  * @description
  * # Validators
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
 
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 
 .service('Validators', function($log, Utils) {
 

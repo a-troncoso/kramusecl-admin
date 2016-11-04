@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:HomeCtrl
+ * @name karamuseDjApp.controller:HomeCtrl
  * @description
  * # HomeCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog, Session) {
 		var self = this,
 			i = 0,
@@ -546,7 +546,7 @@ angular.module('karamuseApp')
 				$log.error(error);
 				self.openModalDialog({
 					title: 'Houston, tenemos un problemita...',
-					subtitle: '¡No se qué pasó!, pero tu karaoke no pudo ser enviado :( ... Si el problema persiste escríbenos a karamuseapp@gmail.com',
+					subtitle: '¡No se qué pasó!, pero tu karaoke no pudo ser enviado :( ... Si el problema persiste escríbenos a karamuseDjApp@gmail.com',
 					submit: {
 						text: 'Reintentar',
 						function: function() {

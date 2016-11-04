@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name karamuseApp.directive:imageOnLoad
+ * @name karamuseDjApp.directive:imageOnLoad
  * @description
  * # imageOnLoad
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.directive('imageonload', function() {
 		return {
 			restrict: 'A',

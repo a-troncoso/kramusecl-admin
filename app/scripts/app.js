@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc overview
- * @name karamuseApp
+ * @name karamuseDjApp
  * @description
- * # karamuseApp
+ * # karamuseDjApp
  *
  * Main module of the application.
  */
@@ -28,7 +28,7 @@ angular
   ]);
 
 angular
-  .module('karamuseClientApp', []);
+  .module('karamuseClientApp', ['ui.router', 'ui.bootstrap']);
 
 angular
   .module('karamuseApp', [

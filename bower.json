@@ -25,7 +25,7 @@
     "angular-mocks": "^1.5.8"
   },
   "appPath": "app",
-  "moduleName": "karamuseApp",
+  "moduleName": "karamuseDjApp",
   "overrides": {
     "bootstrap": {
       "main": [

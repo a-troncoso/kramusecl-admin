@@ -1,27 +1,18 @@
 'use strict';
 
 angular
-	.module('karamuseApp')
+	.module('karamuseDjApp')
 
 .config(function($stateProvider, $urlRouterProvider) {
+
+	$urlRouterProvider.otherwise('/');
+
 	$stateProvider
 		.state('login', {
-			url: '',
+			url: '/',
 			templateUrl: 'views/login.html',
 			controller: 'LoginCtrl',
 			controllerAs: 'login'
-		})
-		.state('main', {
-			url: '/main',
-			templateUrl: 'views/main.html',
-			controller: 'MainCtrl',
-			controllerAs: 'main'
-		})
-		.state('about', {
-			url: '/about',
-			templateUrl: 'views/about.html',
-			controller: 'AboutCtrl',
-			controllerAs: 'about'
 		})
 		.state('signup', {
 			url: '/signup?token',
@@ -57,7 +48,6 @@ angular
 			abstract: true,
 			url: '/client',
 			template: '<ui-view/>',
-			templateUrl: 'views/client.html',
 			controller: 'ClientCtrl',
 			controllerAs: 'client'
 		})
@@ -67,6 +57,6 @@ angular
 			controller: 'ClientHomeCtrl',
 			controllerAs: 'clientHome'
 		});
-	$urlRouterProvider.otherwise("/404");
+	
 	// $locationProvider.html5Mode(true);
 });

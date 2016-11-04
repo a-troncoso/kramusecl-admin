@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:EditDataModalInstanceCtrl
+ * @name karamuseDjApp.controller:EditDataModalInstanceCtrl
  * @description
  * # EditDataModalInstanceCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('EditDataModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, data, Settings) {
 
 		var self = this;

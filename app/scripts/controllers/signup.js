@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:SignupCtrl
+ * @name karamuseDjApp.controller:SignupCtrl
  * @description
  * # SignupCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('SignupCtrl', function($rootScope, $log, $stateParams, $q, ChileRegions, ChileProvinces, ChileCommunes, Signup, Utils, Validators) {
 
 		this.page = {
@@ -340,7 +340,7 @@ angular.module('karamuseApp')
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else {
 					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
@@ -351,7 +351,7 @@ angular.module('karamuseApp')
 				$log.info(success);
 			}, function(error) {
 				self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
-				self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+				self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com';
 				self.page.messages.registryResponse.title.color = 'danger';
 				self.page.messages.registryResponse.subtitle.color = 'danger';
 				self.page.buttons.send.disabled = false;

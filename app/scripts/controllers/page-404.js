@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:Page404Ctrl
+ * @name karamuseDjApp.controller:Page404Ctrl
  * @description
  * # Page404Ctrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
   .controller('Page404Ctrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

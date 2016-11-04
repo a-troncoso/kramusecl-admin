@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:AddOrderModalInstanceCtrl
+ * @name karamuseDjApp.controller:AddOrderModalInstanceCtrl
  * @description
  * # AddOrderModalInstanceCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('AddOrderModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, $timeout, Catalog, deviceDetector, Orders) {
 
 		var self = this,

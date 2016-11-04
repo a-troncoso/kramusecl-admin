@@ -1,12 +1,13 @@
 'use strict';
 
 angular
-	.module('karamuseApp')
+	.module('karamuseDjApp')
 
-.run(function($rootScope) {
+.run(function($rootScope, $state) {
 
 	$rootScope.loader = {
 		show: false
 	};
-	
+
+
 });

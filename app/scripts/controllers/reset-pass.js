@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:ResetPassCtrl
+ * @name karamuseDjApp.controller:ResetPassCtrl
  * @description
  * # ResetPassCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('ResetPassCtrl', function($rootScope, $log, $stateParams, RenewPass, Validators, Utils) {
 
 		var self = this,
@@ -111,7 +111,7 @@ angular.module('karamuseApp')
 					self.page.buttons.send.disabled = false;
 					self.page.messages.resetPassResponse.show = true;
 					self.page.messages.resetPassResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.resetPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com y repórtanos este error';
+					self.page.messages.resetPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com y repórtanos este error';
 					self.page.messages.resetPassResponse.title.color = 'danger';
 					self.page.messages.resetPassResponse.subtitle.color = 'danger';
 				}

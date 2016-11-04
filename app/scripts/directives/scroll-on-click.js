@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name karamuseApp.directive:scrollOnClick
+ * @name karamuseDjApp.directive:scrollOnClick
  * @description
  * # scrollOnClick
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.directive('scrollOnClick', function() {
 		return {
 			restrict: 'A',

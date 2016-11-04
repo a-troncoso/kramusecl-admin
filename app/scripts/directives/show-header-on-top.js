@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name karamuseApp.directive:showHeaderOnTop
+ * @name karamuseDjApp.directive:showHeaderOnTop
  * @description
  * # showHeaderOnTop
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.directive('showHeaderOnTop', function() {
 
 		return {

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:DialogModalModalInstanceCtrl
+ * @name karamuseDjApp.controller:DialogModalModalInstanceCtrl
  * @description
  * # DialogModalModalInstanceCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
   .controller('DialogModalInstanceCtrl', function($log, $uibModalInstance, data) {
 
     var self = this;

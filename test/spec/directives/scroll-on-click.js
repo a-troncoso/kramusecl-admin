@@ -3,7 +3,7 @@
 describe('Directive: scrollOnClick', function () {
 
   // load the directive's module
-  beforeEach(module('karamuseApp'));
+  beforeEach(module('karamuseDjApp'));
 
   var element,
     scope;

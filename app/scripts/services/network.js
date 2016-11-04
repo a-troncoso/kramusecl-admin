@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-	.module('karamuseApp')
+	.module('karamuseDjApp')
 
 .factory('Signup', function($resource, API_URL_BASE) {
 

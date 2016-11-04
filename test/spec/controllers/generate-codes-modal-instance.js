@@ -3,7 +3,7 @@
 describe('Controller: GenerateCodesModalInstanceCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseApp'));
+  beforeEach(module('karamuseDjApp'));
 
   var GenerateCodesModalInstanceCtrl,
     scope;

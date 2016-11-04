@@ -9246,7 +9246,7 @@ tr .no-border td {
 
 .orders-table tbody {
   display: block;
-  height: 55%;
+  height: 300px;
   overflow-y: auto;
   width: 100%; }
   .orders-table tbody tr td:first-child {

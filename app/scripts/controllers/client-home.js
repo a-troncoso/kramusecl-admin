@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:ClientHomeCtrl
+ * @name karamuseClientApp.controller:ClientHomeCtrl
  * @description
  * # ClientHomeCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseClientApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseClientApp')
   .controller('ClientHomeCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

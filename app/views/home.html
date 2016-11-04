@@ -72,7 +72,7 @@
 <section id="orders" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-			<h1 class="text-light mb-40">Pedidos</h1>
+			<h1 class="text-light">Pedidos</h1>
 				<div class="btn-group mb-10" ng-class="{'pull-left':home.orders.show}">
 					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
 						<i class="icon-refresh"></i>
@@ -112,7 +112,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}">
+					<tr ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}" style="display: table;width: 100%;">
 						<td class="text-left">{{tr.ticket}}</td>
 						<td class="text-left">{{tr.title}}</td>
 						<td>{{tr.createdAt | date:"HH:mm"}}</td>
@@ -135,9 +135,11 @@
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
 			<h1 class="text-light mb-40">Códigos disponibles</h1>
-			<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
-				<i class="icon-plus"></i>
-			</button>
+			<div class="btn-group mb-10 block">
+				<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
+					<i class="icon-plus"></i>
+				</button>
+			</div>
 			<div class="btn-group mt-20" >
 				<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-orange':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
 					{{code.code}}

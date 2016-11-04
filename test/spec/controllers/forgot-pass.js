@@ -3,7 +3,7 @@
 describe('Controller: ForgotPassCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('karamuseApp'));
+  beforeEach(module('karamuseDjApp'));
 
   var ForgotPassCtrl,
     scope;

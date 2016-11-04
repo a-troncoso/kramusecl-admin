@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:OrderInfoModalInstanceCtrl
+ * @name karamuseDjApp.controller:OrderInfoModalInstanceCtrl
  * @description
  * # OrderInfoModalInstanceCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('OrderInfoModalInstanceCtrl', function($log, $uibModalInstance, $window, orderData) {
 
 		var i = 0,

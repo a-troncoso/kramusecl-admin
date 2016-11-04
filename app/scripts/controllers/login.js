@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:LoginCtrl
+ * @name karamuseDjApp.controller:LoginCtrl
  * @description
  * # LoginCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
 
 		var self = this,
@@ -149,7 +149,7 @@ angular.module('karamuseApp')
 						self.page.buttons.login.disabled = false;
 						self.page.messages.loginResponse.show = true;
 						self.page.messages.loginResponse.title.text = 'Ha ocurrido un error :(';
-						self.page.messages.loginResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com';
+						self.page.messages.loginResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com';
 						self.page.messages.loginResponse.title.color = 'danger';
 						self.page.messages.loginResponse.subtitle.color = 'danger';
 					}

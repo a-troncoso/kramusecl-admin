@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:ForgotPassCtrl
+ * @name karamuseDjApp.controller:ForgotPassCtrl
  * @description
  * # ForgotPassCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('ForgotPassCtrl', function($rootScope, $log, RenewPass, Utils) {
 
 		this.page = {
@@ -86,7 +86,7 @@ angular.module('karamuseApp')
 					Utils.gotoAnyPartOfPage('topPage');
 					self.page.buttons.send.disabled = false;
 					self.page.messages.forgotPassResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseapp@gmail.com y repórtanos este error';
+					self.page.messages.forgotPassResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com y repórtanos este error';
 					self.page.messages.forgotPassResponse.title.color = 'danger';
 					self.page.messages.forgotPassResponse.subtitle.color = 'danger';
 				}

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name karamuseApp.controller:MainCtrl
+ * @name karamuseDjApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the karamuseApp
+ * Controller of the karamuseDjApp
  */
-angular.module('karamuseApp')
+angular.module('karamuseDjApp')
 	.controller('MainCtrl', function($log) {
 		this.awesomeThings = [
 			'HTML5 Boilerplate',
