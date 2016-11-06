@@ -25,8 +25,8 @@
 		</md-list>
 		<h5 class="md-subhead">Buscar un karaoke</h5>
 		<md-input-container md-no-float class="md-block">
-			<input ng-model="searchKaraoke.form.search.text" placeholder="Título del karaoke...">
+			<input ng-model="catalog.criterion.text" placeholder="Título del karaoke...">
 		</md-input-container>
-		<md-button class="md-raised md-primary" ng-click="searchKaraoke.search(searchKaraoke.form.search.text);">Buscar</md-button>
+		<md-button class="md-raised md-primary" ng-click="searchKaraoke.getKaraokes(catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage);" ng-disabled="searchKaraoke.form .buttons.search.disabled">Buscar</md-button>
 	</md-content>
 </div>

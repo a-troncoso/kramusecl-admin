@@ -26,5 +26,23 @@ angular
 			templateUrl: 'views/karamuse-client.search-karaoke.html',
 			controller: 'SearchKaraokeCtrl',
 			controllerAs: 'searchKaraoke'
+		})
+		.state('client.results', {
+			url: '/results',
+			templateUrl: 'views/karamuse-client.results.html',
+			controller: 'ResultsCtrl',
+			controllerAs: 'results'
+		})
+		.state('client.karaoke-details', {
+			url: '/details',
+			params: {
+				id: null,
+				url: null,
+				avatar: null,
+				title: null
+			},
+			templateUrl: 'views/karamuse-client.karaoke-details.html',
+			controller: 'KaraokeDetailsCtrl',
+			controllerAs: 'karaokeDetails'
 		});
 });

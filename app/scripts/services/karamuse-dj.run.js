@@ -10,11 +10,3 @@ angular
 	};
 
 });
-
-angular
-	.module('karamuseClientApp')
-
-.run(function($log) {
-
-
-});

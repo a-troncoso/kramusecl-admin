@@ -1,4 +1,3 @@
-
 'use strict';
 
 /**
@@ -31,8 +30,10 @@ angular
 angular
   .module('karamuseClientApp', [
     'ui.router',
+    'satellizer',
     'ui.bootstrap',
-    'ngMaterial'
+    'ngMaterial',
+    'youtube-embed'
   ]);
 
 angular

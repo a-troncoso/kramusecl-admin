@@ -38,4 +38,24 @@ angular
 			method: 'POST'
 		}
 	});
+})
+
+.factory('Orders', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/orders/:idOrder', {
+		idOrder: '@idOrder'
+	}, {
+		query: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		},
+		update: {
+			method: 'PUT'
+		},
+		save: {
+			method: 'POST'
+		}
+	});
 });

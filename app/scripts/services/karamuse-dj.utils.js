@@ -29,8 +29,13 @@ angular.module('karamuseDjApp')
 		$anchorScroll();
 	};
 
-	this.gotoState = function(page) {
-		$state.go(page);
+	this.gotoState = function(page, params) {
+		if (params) {
+			$state.go(page, params);
+		} else {
+			$state.go(page);
+		}
+		
 	};
 
 	this.escapeRegExp = function(str) {
