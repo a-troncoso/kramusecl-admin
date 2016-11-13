@@ -1,19 +1,23 @@
-<div ng-cloak layout-gt-sm="row" layout="column" layout-align="center center">
+<div layout="column" ng-cloak flex layout-fill>
 
-	<div flex-gt-sm="50" flex>
-		<md-content>
-			<h3 class="md-display-1">¡Bienvenido a Karamuse!</h3>
-			<h5 class="md-subhead">¿Dónde te encuentras?</h5>
-			<md-list flex>
-				<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="clientHome.gotoSearchKaraoke(bar);">
-					<img ng-src="{{bar.avatar}}" class="md-avatar" alt="avatar_{{clientHome.name}}" />
-					<div class="md-list-item-text">
-						<h3>{{bar.name}}</h3>
-						<p>{{bar.address}}</p>
-					</div>
-				</md-list-item>
-			</md-list>
-		</md-content>
-	</div>
+	<md-toolbar md-scroll-shrink>
+		<div class="md-toolbar-tools">¡Bienvenido a Karamuse!</div>
+	</md-toolbar>
+
+	<md-content>
+		<md-subheader>¿Dónde te encuentras?</md-subheader>
+		<md-list>
+			<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="clientHome.gotoSearchKaraoke(bar);">
+				<img ng-src="{{bar.settings.avatar}}" class="md-avatar" alt="avatar_{{clientHome.name}}" />
+				<div class="md-list-item-text">
+					<h3>{{bar.name}}</h3>
+					<p>{{bar.address}}</p>
+				</div>
+			</md-list-item>
+		</md-list>
+		<!-- <div layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div> -->
+	</md-content>
 
 </div>

@@ -20,6 +20,10 @@ angular.module('karamuseDjApp')
 		return localStorageService.get(key);
 	};
 
+	this.removeStorageItem = function(key) {
+		return localStorageService.remove(key);
+	};
+
 	this.clearAllStorage = function() {
 		return localStorageService.clearAll();
 	};
@@ -35,7 +39,7 @@ angular.module('karamuseDjApp')
 		} else {
 			$state.go(page);
 		}
-		
+
 	};
 
 	this.escapeRegExp = function(str) {

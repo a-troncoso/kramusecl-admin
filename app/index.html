@@ -5,7 +5,7 @@
     <!-- <base href="/"> -->
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -30,6 +30,8 @@
 
     <div ui-view style="height:100%"></div>
     <div class="loading" ng-show="loader.show">Cargando&#8230;</div>
+    <!-- Loader cliente -->
+    <!-- <div ng-show="clientLoader.show">Cargando&#8230;</div> -->
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -119,6 +121,8 @@
         <script src="scripts/controllers/karamuse-client.karaoke-details.js"></script>
         <script src="scripts/controllers/karamuse-client.ticket.js"></script>
         <script src="scripts/controllers/karamuse-client.order.js"></script>
+        <script src="scripts/controllers/karamuse-client.name-or-message.js"></script>
+        <script src="scripts/controllers/karamuse-client.empty-state.js"></script>
         <!-- endbuild -->
 
 </body>

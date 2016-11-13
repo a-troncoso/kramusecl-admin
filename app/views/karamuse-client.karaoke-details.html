@@ -1,0 +1,100 @@
+<div id="dialogContainer" layout="column" ng-cloak flex layout-fill>
+	<md-toolbar md-scroll-shrink>
+		<div class="md-toolbar-tools">Ver karaoke</div>
+	</md-toolbar>
+
+	<md-content>
+		<div layout="column" layout-align="center center">
+			<youtube-video video-url="karaokeDetails.elements.karaoke.url"></youtube-video>
+		</div>
+
+		<div layout="column" layout-align="center center">
+			<md-button class="md-raised md-primary" ng-click="karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled">Agregar</md-button>
+		</div>
+	</md-content>
+</div>
+
+<script type="text/ng-template" id="karamuse-client.nameOrMessage.tmpl.html">
+	<md-dialog aria-label="Nombre o mensaje">
+		
+		<md-toolbar md-scroll-shrink>
+			<div class="md-toolbar-tools">Nombre o mensaje</div>
+		</md-toolbar>
+
+		<div class="md-dialog-content">
+			<md-dialog-content>
+				<form name="nameOrMessageForm" ng-cloak>
+
+					<md-input-container class="md-block" flex-gt-xs>
+						<label>Nombre o mensaje</label>
+						<input  type="text" ng-model="nameOrMessage.elements.form.nameOrMessage.text" required>
+					</md-input-container>
+
+					<md-dialog-actions layout="row">
+						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Enviar</md-button>
+						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">Saltar</md-button>
+					</md-dialog-actions>
+				</form>
+			</md-dialog-content>
+		</div>
+		
+	</md-dialog>
+</script>
+
+<script type="text/ng-template" id="karamuse-client.ticket.tmpl.html">
+	<md-dialog aria-label="ticket" ng-cloak>
+
+		<md-toolbar md-scroll-shrink>
+			<div class="md-toolbar-tools">Ticket</div>
+		</md-toolbar>
+
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<md-list-item class="md-2-line" ng-repeat="tempralOrder in ticket.temporalOrders.list" ng-click="">
+					<img ng-src="{{tempralOrder.avatar}}" class="md-avatar" alt="avatar" />
+					<div class="md-list-item-text">
+						<h3>{{tempralOrder.title}}</h3>
+					</div>
+				</md-list-item>
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+			<md-button ng-click="ticket.action('addAnother')">
+				Agregar otra
+			</md-button>
+			<md-button ng-click="ticket.action('order')">
+				Enviar
+			</md-button>
+		</md-dialog-actions>
+	</md-dialog>
+</script>
+
+<script type="text/ng-template" id="karamuse-client.order.tmpl.html">
+	<md-dialog aria-label="Pedir">
+		
+		<md-toolbar md-scroll-shrink>
+			<div class="md-toolbar-tools">Solicitar karaoke</div>
+		</md-toolbar>
+
+		<md-dialog-content>
+			<form name="orderForm" ng-cloak>
+				<div class="md-dialog-content">
+					<md-input-container md-no-float class="md-block">
+						<input type="number" ng-model="order.elements.form.code.text" placeholder="Código..." ng-max="9999"  max-length="4" ng-minlength="4" required>
+					</md-input-container>
+				</div>
+			</form>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+			<md-button ng-click="order.order()" ng-disabled="orderForm.$invalid || order.elements.form.buttons.order.disaled">
+				Pedir
+			</md-button>
+			<md-button ng-click="order.cancel()">
+				Cerrar
+			</md-button>
+		</md-dialog-actions>
+
+	</md-dialog>
+</script>

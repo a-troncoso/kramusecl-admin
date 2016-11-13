@@ -8,7 +8,7 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('SearchKaraokeCtrl', function($rootScope, $auth, $log, $state, Utils, Catalog) {
+	.controller('SearchKaraokeCtrl', function($rootScope, $location, $auth, $log, $state, Utils, Catalog) {
 
 		var self = this,
 			i = 0;
@@ -62,16 +62,14 @@ angular.module('karamuseClientApp')
 								title: success.data[i].title,
 								url: success.data[i].url,
 								active: success.data[i].active,
-								avatar: 'http://cdn.crhoy.net/imagenes/2016/10/robbie.jpeg'
+								avatar: 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/mqdefault.jpg'
 							});
 						}
 					}
 
 					$state.go('client.results');
-				} else if (success.status === 404) {
-					// $log.error(success);
-					// self.modal.message.catalog.text = 'No encontramos karaokes :('; // 404 = no hay resultados
-					// self.modal.message.catalog.show = true;
+				} else if (success.status === 404) { // 404 = no hay resultados
+					self.gotoEmptyState(keyword);
 				}
 			}, function(error) {
 				$log.error(error);
@@ -90,6 +88,16 @@ angular.module('karamuseClientApp')
 				// 		function: null
 				// 	}
 				// });
+			});
+		};
+
+		this.gotoEmptyState = function(data) {
+			Utils.gotoState('client.empty-state', {
+				data: {
+					messages: {
+						primary: 'que contengan `' + data + '`'
+					}
+				}
 			});
 		};
 

@@ -44,5 +44,14 @@ angular
 			templateUrl: 'views/karamuse-client.karaoke-details.html',
 			controller: 'KaraokeDetailsCtrl',
 			controllerAs: 'karaokeDetails'
+		})
+		.state('client.empty-state', {
+			url: '/empty-state',
+			params: {
+				data: null
+			},
+			templateUrl: 'views/karamuse-client.empty-state.html',
+			controller: 'EmptyStateCtrl',
+			controllerAs: 'emptyState'
 		});
 });
