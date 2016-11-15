@@ -37,7 +37,10 @@ angular.module('karamuseDjApp')
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true // Only for -xs, -sm breakpoints.
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						orderWarnings: null
+					}
 				})
 				.then(function() {}, function() {});
 		};

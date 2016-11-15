@@ -23,7 +23,8 @@ angular.module('karamuseClientApp')
 			},
 			buttons: {
 				add: {
-					disabled: false
+					disabled: false,
+					show: karaokeSelected.fromResults
 				}
 			}
 		};
@@ -43,8 +44,29 @@ angular.module('karamuseClientApp')
 				.then(function() {}, function() {});
 		};
 
+		this.openDialogTicket = function() {
+			$mdDialog.show({
+					controller: 'TicketCtrl',
+					controllerAs: 'ticket',
+					templateUrl: 'karamuse-client.ticket.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						orderWarnings: null
+					}
+				})
+				.then(function() {}, function() {});
+		};
+
 		this.closeDialog = function() {
+
 			$mdDialog.cancel();
+
+			if (!karaokeSelected.fromResults) {
+				self.openDialogTicket();
+			}
+
 		};
 
 	});

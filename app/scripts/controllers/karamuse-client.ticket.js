@@ -8,12 +8,29 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('TicketCtrl', function($auth, $state, $mdDialog, $log, Orders, Utils) {
+	.controller('TicketCtrl', function($auth, $state, $mdDialog, $log, Orders, Utils, orderWarnings) {
 
-		var self = this;
+		this.elements = {
+			errors: {
+				show: orderWarnings,
+				message: orderWarnings === null ? '' : 'Puedes pedir ' + orderWarnings.capacity + ' karaokes como máximo'
+			}
+		};
 
 		this.temporalOrders = {
 			list: Utils.getInStorage('temporalOrders') || []
+		};
+
+		var openDialogOrder = function() {
+			$mdDialog.show({
+					controller: 'OrderCtrl',
+					controllerAs: 'order',
+					templateUrl: 'karamuse-client.order.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true // Only for -xs, -sm breakpoints.
+				})
+				.then(function() {}, function() {});
 		};
 
 		this.action = function(action) {
@@ -26,14 +43,17 @@ angular.module('karamuseClientApp')
 			}
 		};
 
-		var openDialogOrder = function() {
+		this.openDialogOrderOptions = function(order) {
 			$mdDialog.show({
-					controller: 'OrderCtrl',
-					controllerAs: 'order',
-					templateUrl: 'karamuse-client.order.tmpl.html',
+					controller: 'OrderOptionsCtrl',
+					controllerAs: 'orderOptions',
+					templateUrl: 'karamuse-client.order-options.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: true,
-					fullscreen: true // Only for -xs, -sm breakpoints.
+					clickOutsideToClose: false,
+					fullscreen: false, // Only for -xs, -sm breakpoints.
+					locals: {
+						order: order
+					}
 				})
 				.then(function() {}, function() {});
 		};

@@ -115,6 +115,8 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogKataokeDetails = function(karaokeSelected) {
+			karaokeSelected.fromResults = true;
+
 			$mdDialog.show({
 					controller: 'KaraokeDetailsCtrl',
 					controllerAs: 'karaokeDetails',
@@ -136,7 +138,10 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true // Only for -xs, -sm breakpoints.
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						orderWarnings: null
+					}
 				})
 				.then(function() {}, function() {});
 		};

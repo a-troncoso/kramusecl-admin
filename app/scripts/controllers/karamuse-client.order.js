@@ -20,7 +20,11 @@ angular.module('karamuseClientApp')
 				},
 				code: {
 					text: '',
-					focus: true
+					focus: true,
+					error: {
+						show: false,
+						text: ''
+					}
 				},
 				buttons: {
 					order: {
@@ -55,10 +59,13 @@ angular.module('karamuseClientApp')
 					$state.go('client.search-karaoke');
 				} else if (success.status === 403) {
 					$log.log('codigo no válido');
+					self.elements.form.code.error.show = true;
+					self.elements.form.code.error.text = 'Código no válido';
 				} else if (success.status === 404) {
 					$log.log('puede ser que el arreglo del pedido está vacío o es invalido');
 				} else if (success.status === 406) {
 					$log.log('Cupos limitados');
+					self.openDialogTicket(success);
 				} else {
 					$log.error(success);
 				}
@@ -66,6 +73,21 @@ angular.module('karamuseClientApp')
 				$log.error(error);
 			});
 
+		};
+
+		this.openDialogTicket = function(warnings) {
+			$mdDialog.show({
+					controller: 'TicketCtrl',
+					controllerAs: 'ticket',
+					templateUrl: 'karamuse-client.ticket.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						orderWarnings: warnings
+					}
+				})
+				.then(function() {}, function() {});
 		};
 
 		this.cancel = function() {
