@@ -3,7 +3,8 @@
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">Resultados
 			<span flex></span>
-			<md-button class="md-raised" aria-label="Learn More" ng-click="results.openDialogTicket();">Lista</md-button>
+			<md-button class="md-raised" aria-label="Learn More" ng-click="results.gotoState('client.search-karaoke');">Buscar</md-button>
+			<md-button class="md-raised" aria-label="Learn More" ng-click="results.openDialogTicket();">Ver Ticket</md-button>
 		</div>
 	</md-toolbar>
 
@@ -28,7 +29,7 @@
 			</md-list-item>
 		</md-list>
 
-		<div layout-gt-xs="row">
+		<div layout="row" layout-align="space-between">
 			<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
 			<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
 		</md-content>
@@ -41,7 +42,7 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<span>Ver karaoke</span>
+				<span>Detalle karaoke</span>
 				<span flex></span>
 				<md-button class="md-raised" aria-label="Learn More" ng-click="karaokeDetails.closeDialog();">Cerrar</md-button>
 			</div>
@@ -54,7 +55,7 @@
 				</div>
 
 				<md-dialog-actions layout="row" layout-align="center center">
-					<md-button class="md-raised md-primary" ng-click="karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled">Agregar</md-button>
+					<md-button class="md-raised md-primary" ng-click="karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled">Siguiente</md-button>
 				</md-dialog-content>
 			</div>
 		</div>
@@ -66,21 +67,21 @@
 	<md-dialog aria-label="Nombre o mensaje">
 		
 		<md-toolbar md-scroll-shrink>
-			<div class="md-toolbar-tools">Nombre o mensaje</div>
+			<div class="md-toolbar-tools">Tu nombre</div>
 		</md-toolbar>
 
 		<md-dialog-content>
 			<div class="md-dialog-content">
 				<form name="nameOrMessageForm" ng-cloak>
 
-					<md-input-container class="md-block" flex-gt-xs>
+					<md-input-container class="md-block" flex>
 						<label>Nombre o mensaje</label>
 						<input  type="text" ng-model="nameOrMessage.elements.form.nameOrMessage.text" required>
 					</md-input-container>
 
 					<md-dialog-actions layout="row">
 						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">Saltar</md-button>
-						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Enviar</md-button>
+						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Siguiente</md-button>
 					</md-dialog-actions>
 				</form>
 			</div>
@@ -93,7 +94,7 @@
 	<md-dialog aria-label="ticket">
 
 		<md-toolbar md-scroll-shrink>
-			<div class="md-toolbar-tools">Ticket
+			<div class="md-toolbar-tools">Mi ticket
 				<span flex></span>
 				<md-button class="md-raised" aria-label="Cerrar" ng-click="ticket.closeDialog();">Cerrar</md-button>
 			</div>
@@ -105,6 +106,7 @@
 					<img ng-src="{{tempralOrder.avatar}}" class="md-avatar" alt="avatar" />
 					<div class="md-list-item-text">
 						<h3>{{tempralOrder.title}}</h3>
+						<p>{{tempralOrder.message}}</p>
 					</div>
 				</md-list-item>
 			</div>
@@ -112,7 +114,7 @@
 
 		<md-dialog-actions layout="row">
 			<md-button ng-click="ticket.action('addAnother')">Agregar otra</md-button>
-			<md-button ng-click="ticket.action('order')">Enviar</md-button>
+			<md-button ng-click="ticket.action('order')">Siguiente</md-button>
 		</md-dialog-actions>
 	</md-dialog>
 </script>
@@ -121,15 +123,16 @@
 	<md-dialog aria-label="Pedir">
 		
 		<md-toolbar md-scroll-shrink>
-			<div class="md-toolbar-tools">Solicitar karaoke</div>
+			<div class="md-toolbar-tools">Pedir karaoke</div>
 		</md-toolbar>
 
 		<md-dialog-content>
 			<div class="md-dialog-content">
 				<form name="orderForm" ng-cloak>
 					<div class="md-dialog-content">
-						<md-input-container md-no-float class="md-block">
-							<input type="number" ng-model="order.elements.form.code.text" placeholder="Código..." ng-max="9999"  max-length="4" ng-minlength="4" required>
+						<md-input-container class="md-block md-headline" flex>
+							<label>Código</label>
+							<input type="number" ng-model="order.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="order.elements.form.code.focus" required>
 						</md-input-container>
 					</div>
 				</form>

@@ -19,7 +19,8 @@ angular.module('karamuseClientApp')
 					text: ''
 				},
 				code: {
-					text: ''
+					text: '',
+					focus: true
 				},
 				buttons: {
 					order: {

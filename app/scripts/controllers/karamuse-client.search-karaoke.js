@@ -30,7 +30,7 @@ angular.module('karamuseClientApp')
 			pagination: {
 				show: false,
 				currentPage: 1,
-				sizePage: 20,
+				sizePage: 100,
 				maxSize: 5,
 				totalResults: 1,
 				totalPages: 1

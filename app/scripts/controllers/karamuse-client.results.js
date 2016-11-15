@@ -141,4 +141,8 @@ angular.module('karamuseClientApp')
 				.then(function() {}, function() {});
 		};
 
+		this.gotoState = function(state) {
+			Utils.gotoState(state);
+		};
+
 	});
