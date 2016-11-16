@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-  .controller('EmptyStateCtrl', function ($log, $stateParams) {
+  .controller('EmptyStateCtrl', function ($log, $stateParams, Utils) {
 
   	$log.log($stateParams);
     
@@ -16,5 +16,9 @@ angular.module('karamuseDjApp')
   		messages: {
   			primary: $stateParams.data.messages.primary
   		}
+  	};
+
+  	this.gotoState = function(state) {
+  		Utils.gotoState(state);
   	};
   });

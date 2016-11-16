@@ -10,6 +10,8 @@
 angular.module('karamuseClientApp')
 	.controller('TicketCtrl', function($auth, $state, $mdDialog, $log, Orders, Utils, orderWarnings) {
 
+		var self = this;
+		
 		this.elements = {
 			errors: {
 				show: orderWarnings,
@@ -43,19 +45,36 @@ angular.module('karamuseClientApp')
 			}
 		};
 
+		this.openDialogTicket = function() {
+			$mdDialog.show({
+					controller: 'TicketCtrl',
+					controllerAs: 'ticket',
+					templateUrl: 'karamuse-client.ticket.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						orderWarnings: null
+					}
+				})
+				.then(function() {}, function() {});
+		};
+
 		this.openDialogOrderOptions = function(order) {
 			$mdDialog.show({
 					controller: 'OrderOptionsCtrl',
 					controllerAs: 'orderOptions',
 					templateUrl: 'karamuse-client.order-options.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: false,
+					clickOutsideToClose: true,
 					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						order: order
 					}
 				})
-				.then(function() {}, function() {});
+				.then(function() {}, function() {
+					self.openDialogTicket();
+				});
 		};
 
 		this.closeDialog = function() {

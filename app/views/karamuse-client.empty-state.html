@@ -1,8 +1,8 @@
-<div layout="column" layout-align="center center" ng-cloak flex layout-fill>
+<div layout="column" layout-align="center" ng-cloak flex layout-fill>
 
-	<md-content>
-		
+	<md-content layout="column" layout-align="center" flex layout-padding>
 		<p class="md-body-2">No encontramos resultados {{emptyState.elements.messages.primary}}</p>
+		<md-button class="md-primary md-raised" aria-label="Volver" ng-click="emptyState.gotoState('client.search-karaoke');">Volver</md-button>
 	</md-content>
 
 </div>

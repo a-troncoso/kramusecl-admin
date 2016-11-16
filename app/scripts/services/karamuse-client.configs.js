@@ -10,14 +10,15 @@ angular
 	$mdThemingProvider
 		.theme('karamuseTheme')
 		.primaryPalette('blue', {
-			default: '500',
-			'hue-1': 'A100',
+			'default': '500',
+			'hue-1': '200',
+			'hue-2': '50',
 		})
 		.accentPalette('orange', {
-			default: '600'
+			'default': '600'
 		})
 		.warnPalette('red', {
-			default: '900'
+			'default': '900'
 		})
 		.backgroundPalette('grey');
 
