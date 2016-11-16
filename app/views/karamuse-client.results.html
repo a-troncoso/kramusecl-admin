@@ -19,7 +19,8 @@
 			</md-list-item>
 		</md-list>
 		
-		<md-subheader>Recuerda: 50% dcto. en mojitos</md-subheader>
+		<!-- <md-subheader class="md-accent">Recuerda: 50% dcto. en mojitos</md-subheader> -->
+		<md-subheader class="md-accent">Recuerda: 50% dcto. en mojitos toda la noche hasta que se acabeRecuerda: 50% dcto. en mojitos toda la noche hasta que se acabe </md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.openDialogKataokeDetails(karaoke);">
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
@@ -80,8 +81,8 @@
 					</md-input-container>
 
 					<md-dialog-actions layout="row">
-						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">Saltar</md-button>
-						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Siguiente</md-button>
+						<md-button class="md-accent" ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">Saltar</md-button>
+						<md-button class="md-raised md-primary hue-1" ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Siguiente</md-button>
 					</md-dialog-actions>
 				</form>
 			</div>
@@ -117,7 +118,7 @@
 
 		<md-dialog-actions layout="row">
 			<md-button ng-click="ticket.action('addAnother')">Agregar otra</md-button>
-			<md-button ng-click="ticket.action('order')">Siguiente</md-button>
+			<md-button class="md-raised md-primary hue-1" ng-click="ticket.action('order')">Siguiente</md-button>
 		</md-dialog-actions>
 	</md-dialog>
 </script>
