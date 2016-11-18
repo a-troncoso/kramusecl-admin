@@ -11,7 +11,8 @@ angular.module('karamuseClientApp')
 	.controller('OrderCtrl', function($auth, $state, $mdDialog, $log, Orders, Utils, deviceDetector) {
 
 		var self = this,
-			i = 0;
+			i = 0,
+			j = 0;
 
 		this.elements = {
 			form: {
@@ -52,19 +53,35 @@ angular.module('karamuseClientApp')
 				origin: deviceDetector.os,
 				order: order
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
-					Utils.removeStorageItem('temporalOrders');
+					for (i = 0; i < success.data.length; i++) {
+						for (j = 0; j < temporalOrders.length; j++) {
+							if (success.data[i].id_karaoke === temporalOrders[j].id) {
+								temporalOrders[j].result.show = true;
+								if (success.data[i].add_order) {
+									temporalOrders[j].result.added = true;
+									temporalOrders[j].result.color = 'primary-hue-3';
+									temporalOrders[j].result.message = 'Enviado correctamente';
+								} else {
+									temporalOrders[j].result.added = false;
+									temporalOrders[j].result.color = 'warn';
+									temporalOrders[j].result.message = 'Otro usuario ya lo había pedido';
+								}
+							}
+						}
+					}
+					Utils.setInStorage('temporalOrders', temporalOrders);
 					$mdDialog.hide();
-					$state.go('client.search-karaoke');
+					self.openDialogOrderResults();
 				} else if (success.status === 403) {
-					$log.log('codigo no válido');
+					// $log.log('codigo no válido');
 					self.elements.form.code.error.show = true;
 					self.elements.form.code.error.text = 'Código no válido';
 				} else if (success.status === 404) {
 					$log.log('puede ser que el arreglo del pedido está vacío o es invalido');
 				} else if (success.status === 406) {
-					$log.log('Cupos limitados');
+					// $log.log('Cupos limitados');
 					self.openDialogTicket(success);
 				} else {
 					$log.error(success);
@@ -86,6 +103,18 @@ angular.module('karamuseClientApp')
 					locals: {
 						orderWarnings: warnings
 					}
+				})
+				.then(function() {}, function() {});
+		};
+
+		this.openDialogOrderResults = function() {
+			$mdDialog.show({
+					controller: 'OrderResultsCtrl',
+					controllerAs: 'orderResults',
+					templateUrl: 'karamuse-client.order-results.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
 				})
 				.then(function() {}, function() {});
 		};

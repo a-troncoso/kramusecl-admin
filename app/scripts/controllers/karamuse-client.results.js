@@ -30,6 +30,10 @@ angular.module('karamuseClientApp')
 			}
 		};
 
+		this.temporalOrders = {
+			list: Utils.getInStorage('temporalOrders') || []
+		};
+
 		if (self.catalog) {
 			if (this.catalog.pagination.totalPages === 1) {
 				this.elements.buttons.next.disabled = true;

@@ -1,11 +1,11 @@
 <div layout="column" ng-cloak flex layout-fill>
 
 	<md-toolbar md-scroll-shrink>
-		<div class="md-toolbar-tools">¡Bienvenido a Karamuse!</div>
+		<div class="md-toolbar-tools" layout="row" layout-align="center center" >¡Bienvenido a Karamuse!</div>
 	</md-toolbar>
 
 	<md-content flex>
-		<md-subheader>¿Dónde te encuentras?</md-subheader>
+		<md-subheader layout="row" layout-align="center"><span class="md-subhead">¿Dónde te encuentras?</span></md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="clientHome.gotoSearchKaraoke(bar);">
 				<img ng-src="{{bar.settings.avatar}}" class="md-avatar" alt="avatar_{{clientHome.name}}" />

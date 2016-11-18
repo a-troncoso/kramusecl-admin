@@ -11,7 +11,7 @@ angular.module('karamuseClientApp')
 	.controller('TicketCtrl', function($auth, $state, $mdDialog, $log, Orders, Utils, orderWarnings) {
 
 		var self = this;
-		
+
 		this.elements = {
 			errors: {
 				show: orderWarnings,

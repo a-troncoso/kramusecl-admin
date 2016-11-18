@@ -372,6 +372,8 @@ angular.module('karamuseDjApp')
 		this.setOrdersLimit = function(limit) {
 			deferred = $q.defer();
 
+			// Cambiar este servicio por el de setear orders limit
+
 			Settings.update({
 				order_limit: limit,
 				token: $auth.getToken()

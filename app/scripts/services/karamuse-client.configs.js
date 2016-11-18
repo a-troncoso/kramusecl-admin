@@ -11,8 +11,9 @@ angular
 		.theme('karamuseTheme')
 		.primaryPalette('blue', {
 			'default': '500',
-			'hue-1': '200',
-			'hue-2': '50',
+			'hue-1': '50',
+			'hue-2': '200',
+			'hue-3': '600'
 		})
 		.accentPalette('orange', {
 			'default': '600'

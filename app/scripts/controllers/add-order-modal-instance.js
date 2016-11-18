@@ -111,10 +111,10 @@ angular.module('karamuseDjApp')
 			Orders.save({
 				token: $auth.getToken(),
 				code_client: 'DJ',
-				message: '',
+				origin: deviceDetector.os,
 				order: [{
 					id_karaoke: idKaraoke,
-					origin: deviceDetector.os
+					message: '',
 				}]
 			}, function(success) {
 				// $log.log(success);

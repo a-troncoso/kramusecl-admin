@@ -10,8 +10,7 @@
 angular.module('karamuseDjApp')
 	.controller('NameOrMessageCtrl', function($log, $mdDialog, order, Utils) {
 
-		var self = this,
-			temporalOrders = Utils.getInStorage('temporalOrders') || [];
+		var temporalOrders = Utils.getInStorage('temporalOrders') || [];
 
 		this.elements = {
 			form: {
@@ -19,15 +18,6 @@ angular.module('karamuseDjApp')
 					text: ''
 				}
 			}
-		};
-
-		this.addNameOrMessage = function(message) {
-			order.message = message; // al obj order agrega el attr message
-
-			temporalOrders.push(order);
-			Utils.setInStorage('temporalOrders', temporalOrders); // guarda en local storage
-
-			openDialogTicket(); // abre modal ticket
 		};
 
 		var openDialogTicket = function() {
@@ -43,6 +33,21 @@ angular.module('karamuseDjApp')
 					}
 				})
 				.then(function() {}, function() {});
+		};
+
+		this.addNameOrMessage = function(message) {
+			order.message = message; // al obj order agrega el attr message
+			order.result = {
+				added: false,
+				show: false,
+				color: '',
+				message: ''
+			};
+
+			temporalOrders.push(order);
+			Utils.setInStorage('temporalOrders', temporalOrders); // guarda en local storage
+
+			openDialogTicket(); // abre modal ticket
 		};
 
 		this.skip = function() {
