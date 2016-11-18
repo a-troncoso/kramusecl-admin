@@ -49,7 +49,7 @@ angular.module('karamuseClientApp')
 				numPage: numPage,
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) { // 200 = hay resultados
 					$rootScope.catalog.pagination.totalPages = success.totalPages;
 					$rootScope.catalog.pagination.totalResults = success.totalResults;
@@ -62,7 +62,8 @@ angular.module('karamuseClientApp')
 								title: success.data[i].title,
 								url: success.data[i].url,
 								active: success.data[i].active,
-								avatar: 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/mqdefault.jpg'
+								avatar: 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/mqdefault.jpg',
+								disabled: false
 							});
 						}
 					}
@@ -73,21 +74,6 @@ angular.module('karamuseClientApp')
 				}
 			}, function(error) {
 				$log.error(error);
-				// self.openModalDialog({
-				// 	title: 'Houston, tenemos un problema...',
-				// 	subtitle: 'Ha ocurrido un error al buscar tus karaokes D:',
-				// 	submit: {
-				// 		text: 'Reintentar',
-				// 		function: function() {
-				// 			return self.getKaraokes($rootScope.catalog.criterion.text, $rootScope.catalog.pagination.sizePage, $rootScope.catalog.pagination.currentPage);
-				// 		},
-				// 		show: true
-				// 	},
-				// 	cancel: {
-				// 		text: 'Cancelar',
-				// 		function: null
-				// 	}
-				// });
 			});
 		};
 

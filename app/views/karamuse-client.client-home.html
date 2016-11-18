@@ -7,7 +7,7 @@
 	<md-content flex>
 		<md-subheader layout="row" layout-align="center"><span class="md-subhead">¿Dónde te encuentras?</span></md-subheader>
 		<md-list>
-			<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="clientHome.gotoSearchKaraoke(bar);">
+			<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="bar.disabled=true;clientHome.gotoSearchKaraoke(bar);" ng-disabled="bar.disabled">
 				<img ng-src="{{bar.settings.avatar}}" class="md-avatar" alt="avatar_{{clientHome.name}}" />
 				<div class="md-list-item-text">
 					<h3>{{bar.name}}</h3>

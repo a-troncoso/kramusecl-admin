@@ -60,7 +60,7 @@
 				</div>
 
 				<md-dialog-actions layout="row" layout-align="center center">
-					<md-button class="md-primary md-raised" ng-click="karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
+					<md-button class="md-primary md-raised" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
 				</md-dialog-content>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 
 					<md-dialog-actions layout="row">
 						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">Saltar</md-button>
-						<md-button class="md-raised md-primary" ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid">Siguiente</md-button>
+						<md-button class="md-raised md-primary" ng-click="nameOrMessage.elements.form.buttons.next.disabled=true;nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid || nameOrMessage.elements.form.buttons.next.disabled">Siguiente</md-button>
 					</md-dialog-actions>
 				</form>
 			</div>
@@ -113,7 +113,6 @@
 		<md-subheader class="md-warn" ng-show="ticket.elements.errors.show">{{ticket.elements.errors.message}}</md-subheader>
 
 		<md-dialog-content ng-cloak>
-			<div class="md-dialog-content">
 				<md-list-item class="md-2-line" ng-repeat="tempralOrder in ticket.temporalOrders.list" ng-click="ticket.openDialogOrderOptions(tempralOrder);">
 					<img ng-src="{{tempralOrder.avatar}}" class="md-avatar" alt="avatar" />
 					<div class="md-list-item-text">
@@ -121,23 +120,31 @@
 						<p>{{tempralOrder.message}}</p>
 					</div>
 				</md-list-item>
-			</div>
 		</md-dialog-content>
 
 		<md-dialog-actions layout="row">
 			<md-button ng-click="ticket.action('addAnother')">Agregar otra</md-button>
-			<md-button class="md-raised md-primary" ng-click="ticket.action('order')">Siguiente</md-button>
+			<md-button class="md-raised md-primary" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.action('order')" ng-disabled="ticket.elements.form.buttons.next.disabled">Siguiente</md-button>
 		</md-dialog-actions>
 	</md-dialog>
 </script>
 
 <script type="text/ng-template" id="karamuse-client.order-options.tmpl.html">
-	<md-dialog aria-label="Opciones del pedido">
+	<md-dialog aria-label="Opciones del pedido" >
+		<md-toolbar md-scroll-shrink >
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" aria-label="Cerrar">
+					<md-icon md-font-icon="icon-close" ng-click="orderOptions.openDialogTicket();" />
+				</md-button>
+				<h5><span>{{orderOptions.order.title}}</span></h5>
+				<span flex></span>
+			</div>
+		</md-toolbar>
 
 		<md-dialog-content ng-cloak>
 			<div class="md-dialog-content" layout="column">
 				<md-button class="" ng-click="orderOptions.openDialogKataokeDetails(orderOptions.order);">Ver karaoke</md-button>
-				<md-button class="md-warn" ng-click="orderOptions.delete();orderOptions.openDialogTicket();">Eliminar</md-button>
+				<md-button class="md-warn" ng-click="orderOptions.delete();orderOptions.openDialogTicket($event);">Eliminar</md-button>
 			</div>
 		</md-dialog-content>
 
@@ -161,7 +168,7 @@
 						<div class="md-dialog-content">
 							<md-input-container class="md-block md-headline" flex>
 								<label>Código</label>
-								<input type="number" name="code" ng-model="order.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="order.elements.form.code.focus" ng-change="order.elements.form.code.error.show=false" style="text-align: center;" required>
+								<input type="number" name="code" ng-model="order.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="order.elements.form.code.focus" ng-change="order.elements.form.code.error.show=false;order.elements.form.buttons.order.disaled=false" style="text-align: center;" required>
 								<div ng-messages="orderForm.code.$error">
 									<div ng-show="order.elements.form.code.error.show" style="text-align: center;">{{order.elements.form.code.error.text}}</div>
 								</div>
@@ -172,7 +179,7 @@
 			</md-dialog-content>
 
 			<md-dialog-actions layout="row">
-				<md-button class="md-primary md-raised" ng-click="order.order()" ng-disabled="orderForm.$invalid || order.elements.form.buttons.order.disaled">Pedir</md-button>
+				<md-button class="md-primary md-raised" ng-click="order.elements.form.buttons.order.disaled=true;order.order()" ng-disabled="orderForm.$invalid || order.elements.form.buttons.order.disaled">Pedir</md-button>
 			</md-dialog-actions>
 
 		</md-dialog>
@@ -198,7 +205,7 @@
 
 			<md-dialog-content ng-cloak>
 				<div class="md-dialog-content">
-					<md-list-item class="md-2-line" ng-repeat="tempralOrder in orderResults.temporalOrders.list" ng-click="orderResults.openDialogOrderOptions(tempralOrder);">
+					<md-list-item class="md-2-line" ng-repeat="tempralOrder in orderResults.temporalOrders.list">
 						<img ng-src="{{tempralOrder.avatar}}" class="md-avatar" alt="avatar" />
 						<div class="md-list-item-text">
 							<h3>{{tempralOrder.title}}</h3>

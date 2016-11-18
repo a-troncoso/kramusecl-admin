@@ -16,6 +16,11 @@ angular.module('karamuseDjApp')
 			form: {
 				nameOrMessage: {
 					text: ''
+				},
+				buttons: {
+					next: {
+						disabled: false
+					}
 				}
 			}
 		};

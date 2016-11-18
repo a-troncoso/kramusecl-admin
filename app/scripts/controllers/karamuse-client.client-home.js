@@ -11,7 +11,8 @@ angular.module('karamuseClientApp')
 	.controller('ClientHomeCtrl', function($log, $auth, $q, Bars, Utils, Token, deviceDetector) {
 
 		var self = this,
-			deferred = null;
+			deferred = null,
+			i = 0;
 
 		this.bars = {
 			list: [
@@ -61,17 +62,21 @@ angular.module('karamuseClientApp')
 
 		this.getBars = function() {
 			Bars.query({}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					self.bars.list = success.data;
+					for (i = 0; i < self.bars.list.length; i++) {
+						self.bars.list[i].disabled = false;
+					}
 				}
 			}, function(error) {
-				$log.log(error);
+				$log.error(error);
 			})
 		};
 
 		this.gotoSearchKaraoke = function(item) {
 			// $log.log(item);
+
 			var createToken = self.createToken(item);
 			createToken.then(function(success) {
 				Utils.setInStorage('bar', item);
@@ -89,7 +94,7 @@ angular.module('karamuseClientApp')
 				id_bar: data.id,
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					$auth.setToken(success.token);
 					deferred.resolve({

@@ -14,10 +14,6 @@ angular.module('karamuseDjApp')
 
 		var i = 0;
 
-		this.closeDialog = function() {
-			$mdDialog.cancel();
-		};
-
 		this.openDialogKataokeDetails = function(karaokeSelected) {
 
 			karaokeSelected.fromResults = false;
@@ -49,7 +45,7 @@ angular.module('karamuseDjApp')
 			Utils.setInStorage('temporalOrders', temporalOrders)
 		};
 
-		this.openDialogTicket = function() {
+		this.openDialogTicket = function(ev) {
 			$mdDialog.show({
 					controller: 'TicketCtrl',
 					controllerAs: 'ticket',
@@ -62,6 +58,10 @@ angular.module('karamuseDjApp')
 					}
 				})
 				.then(function() {}, function() {});
+		};
+
+		this.closeDialog = function() {
+			$mdDialog.cancel();
 		};
 
 	});

@@ -15,7 +15,14 @@ angular.module('karamuseClientApp')
 		this.elements = {
 			errors: {
 				show: orderWarnings,
-				message: orderWarnings === null ? '' : 'Puedes pedir ' + orderWarnings.capacity + ' karaokes como máximo'
+				message: orderWarnings === null ? '' : orderWarnings.capacity === 0 ? 'Los pedidos se encuentran bloqueados temporalmente' : 'Puedes pedir ' + orderWarnings.capacity + ' karaokes como máximo'
+			},
+			form: {
+				buttons: {
+					next: {
+						disabled: false
+					}
+				}
 			}
 		};
 
@@ -73,7 +80,10 @@ angular.module('karamuseClientApp')
 					}
 				})
 				.then(function() {}, function() {
-					self.openDialogTicket();
+					if (angular.element(document.body).hasClass('md-dialog-is-showing')) {
+						self.openDialogTicket();
+					}
+
 				});
 		};
 
