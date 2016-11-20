@@ -1,0 +1,21 @@
+<div layout="column" ng-cloak flex layout-fill>
+
+	<md-toolbar md-scroll-shrink>
+		<div class="md-toolbar-tools">
+			<h2 class="md-title">
+				<span>¿Qué hay de nuevo?</span>
+			</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" aria-label="Cerrar">
+				<md-icon md-font-icon="icon-search" ng-click="banner.gotoState('client.search-karaoke');" />
+			</md-button>
+		</div>
+	</md-toolbar>
+
+	<md-subheader class="md-accent">Presiona la imágen para continuar con Karamuse</md-subheader>
+
+	<md-content flex>
+		<img ng-src="{{banner.elements.banner.url}}" alt="banner" ng-click="banner.gotoState('client.search-karaoke');">
+	</md-content>
+
+</div>
