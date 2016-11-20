@@ -53,5 +53,11 @@ angular
 			templateUrl: 'views/karamuse-client.empty-state.html',
 			controller: 'EmptyStateCtrl',
 			controllerAs: 'emptyState'
+		})
+		.state('client.banner', {
+			url: '/karamuse-client.banner',
+			templateUrl: 'views/karamuse-client.banner.html',
+			controller: 'BannerCtrl',
+			controllerAs: 'banner'
 		});
 });

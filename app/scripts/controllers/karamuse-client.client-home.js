@@ -71,19 +71,23 @@ angular.module('karamuseClientApp')
 				}
 			}, function(error) {
 				$log.error(error);
-			})
+			});
 		};
 
 		this.gotoSearchKaraoke = function(item) {
 			// $log.log(item);
 
 			var createToken = self.createToken(item);
-			createToken.then(function(success) {
+			createToken.then(function() {
 				Utils.setInStorage('bar', item);
-				Utils.gotoState('client.search-karaoke');
+				if (Utils.getInStorage('bar').settings.banner_ad === '' || !Utils.getInStorage('bar').settings.banner_ad) {
+					Utils.gotoState('client.search-karaoke');
+				} else {
+					Utils.gotoState('client.banner');
+				}
 			}, function(error) {
 				$log.error(error);
-			})
+			});
 
 		};
 
