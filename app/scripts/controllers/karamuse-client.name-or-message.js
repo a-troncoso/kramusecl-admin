@@ -8,18 +8,34 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('NameOrMessageCtrl', function($log, $mdDialog, order, Utils) {
+	.controller('NameOrMessageCtrl', function($log, $q, $mdDialog, order, Utils) {
 
-		var temporalOrders = Utils.getInStorage('temporalOrders') || [];
+		var self = this;
 
+		var ticket = Utils.getInStorage('ticket') || {
+			orders: [],
+			code: null
+		};
+		
 		this.elements = {
 			form: {
+				code: {
+					text: ticket.code,
+					disabled: ticket.code ? ticket.code : false,
+					error: {
+						show: false,
+						text: ''
+					}
+				},
 				nameOrMessage: {
-					text: ''
+					focus: true
 				},
 				buttons: {
 					next: {
 						disabled: false
+					},
+					skip: {
+						disabled: ticket.code ? false : true
 					}
 				}
 			}
@@ -41,6 +57,17 @@ angular.module('karamuseDjApp')
 		};
 
 		this.addNameOrMessage = function(message) {
+
+			// order = {
+			// 	message: '',
+			// 	result: {
+			// 		added: false,
+			// 		show: false,
+			// 		color: '',
+			// 		message: ''
+			// 	}
+			// };
+
 			order.message = message; // al obj order agrega el attr message
 			order.result = {
 				added: false,
@@ -49,10 +76,29 @@ angular.module('karamuseDjApp')
 				message: ''
 			};
 
-			temporalOrders.push(order);
-			Utils.setInStorage('temporalOrders', temporalOrders); // guarda en local storage
+			ticket.orders.push(order);
+			// aqui valida el código
+			if (!ticket.code) {
+				var validateCode = self.validateCode();
+				validateCode.then(function() {
+					ticket.code = self.elements.form.code.text;
+					Utils.setInStorage('ticket', ticket);
+					openDialogTicket(); // abre modal ticket
+				}, function() {
+					self.elements.form.code.error.text = 'Código no válido';
+					self.elements.form.code.error.show = true;
+				});
+			} else {
+				Utils.setInStorage('ticket', ticket);
+				openDialogTicket(); // abre modal ticket
+			}
+		};
 
-			openDialogTicket(); // abre modal ticket
+		this.validateCode = function() {
+			var deferred = $q.defer();
+			deferred.resolve();
+			// deferred.reject();
+			return deferred.promise;
 		};
 
 		this.skip = function() {

@@ -16,8 +16,9 @@ angular.module('karamuseDjApp')
 			sent: 0
 		};
 
-		this.temporalOrders = {
-			list: Utils.getInStorage('temporalOrders') || []
+		this.ticket = Utils.getInStorage('ticket') || {
+			orders: [],
+			code: null
 		};
 
 		this.removeStorageItem = function(item) {
@@ -34,8 +35,8 @@ angular.module('karamuseDjApp')
 
 		this.calculateOrdersSent = function() {
 			var ordersSent = 0;
-			for (var i = 0; i < self.temporalOrders.list.length; i++) {
-				if (self.temporalOrders.list[i].result.added) {
+			for (var i = 0; i < self.ticket.orders.length; i++) {
+				if (self.ticket.orders[i].result.added) {
 					ordersSent++;
 				}
 			}

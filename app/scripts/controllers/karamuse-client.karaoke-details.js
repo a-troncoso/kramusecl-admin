@@ -12,7 +12,10 @@ angular.module('karamuseClientApp')
 
 		var self = this,
 			i = 0,
-			temporalOrders = Utils.getInStorage('temporalOrders') || [];
+			ticket = Utils.getInStorage('ticket') || {
+				orders: [],
+				code: null
+			};
 
 		this.elements = {
 			karaoke: {
@@ -33,8 +36,8 @@ angular.module('karamuseClientApp')
 		this.validateOrderInTicket = function(order) {
 			var isInTicket = false;
 
-			for (i = 0; i < temporalOrders.length; i++) {
-				if (temporalOrders[i].id === order.id) {
+			for (i = 0; i < ticket.orders.length; i++) {
+				if (ticket.orders[i].id === order.id) {
 					isInTicket = true;
 					break;
 				}

@@ -1,7 +1,13 @@
 <div layout="column" id="dialogContainer" ng-cloak flex layout-fill>
 
 	<md-toolbar md-scroll-shrink>
-		<div class="md-toolbar-tools">Busca tu karaoke</div>
+		<div class="md-toolbar-tools">
+			<h2><span>Busca tu karaoke</span></h2>
+			<span flex></span>
+			<md-button class="md-icon-button" aria-label="Home">
+				<md-icon md-font-icon="icon-home" ng-click="searchKaraoke.gotoState('client.home');" />
+			</md-button>
+		</div>
 	</md-toolbar>
 
 	<md-content flex layout-padding>
@@ -19,7 +25,7 @@
 			<div layout-gt-xs="row">
 				<md-input-container class="md-block md-title" flex-gt-xs>
 					<label>Artista o canción</label>
-					<input  ng-model="catalog.criterion.text" required>
+					<input  ng-model="catalog.criterion.text" focus="catalog.criterion.focus" ng-init="catalog.criterion.focus=true;" required>
 				</md-input-container>
 			</div>
 			

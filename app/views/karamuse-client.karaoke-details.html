@@ -50,10 +50,10 @@
 
 		<md-dialog-content>
 			<div class="md-dialog-content">
-				<md-list-item class="md-2-line" ng-repeat="tempralOrder in ticket.temporalOrders.list" ng-click="">
-					<img ng-src="{{tempralOrder.avatar}}" class="md-avatar" alt="avatar" />
+				<md-list-item class="md-2-line" ng-repeat="order in ticket.ticket.orders" ng-click="">
+					<img ng-src="{{order.avatar}}" class="md-avatar" alt="avatar" />
 					<div class="md-list-item-text">
-						<h3>{{tempralOrder.title}}</h3>
+						<h3>{{order.title}}</h3>
 					</div>
 				</md-list-item>
 			</div>

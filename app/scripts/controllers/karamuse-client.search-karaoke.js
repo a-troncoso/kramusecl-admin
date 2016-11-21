@@ -87,5 +87,9 @@ angular.module('karamuseClientApp')
 			});
 		};
 
+		this.gotoState = function(state) {
+			Utils.gotoState(state);
+		};
+
 
 	});

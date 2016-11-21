@@ -2,59 +2,45 @@
 
 /**
  * @ngdoc function
- * @name karamuseClientApp.controller:TicketCtrl
+ * @name karamuseClientApp.controller:CodeCtrl
  * @description
- * # TicketCtrl
+ * # CodeCtrl
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('TicketCtrl', function($auth, $q, $state, $mdDialog, $log, deviceDetector, Orders, Utils, orderWarnings) {
+	.controller('CodeCtrl', function($auth, $q, $state, $mdDialog, $log, Orders, Utils, deviceDetector) {
 
 		var self = this,
 			i = 0,
 			j = 0;
 
 		this.elements = {
-			errors: {
-				show: orderWarnings,
-				message: orderWarnings === null ? '' : orderWarnings.capacity === 0 ? 'Los pedidos se encuentran bloqueados temporalmente' : 'Puedes pedir ' + orderWarnings.capacity + ' karaokes como máximo'
-			},
 			form: {
+				nameMessage: {
+					text: ''
+				},
+				code: {
+					text: '',
+					focus: true,
+					error: {
+						show: false,
+						text: ''
+					}
+				},
 				buttons: {
-					next: {
-						disabled: false
+					order: {
+						disaled: false
 					}
 				}
 			}
 		};
 
-		this.ticket = Utils.getInStorage('ticket') || {
-			orders: [],
-			code: null
-		};
-
-		var openDialogCode = function() {
-			$mdDialog.show({
-					controller: 'CodeCtrl',
-					controllerAs: 'code',
-					templateUrl: 'karamuse-client.code.tmpl.html',
-					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: true,
-					fullscreen: true // Only for -xs, -sm breakpoints.
-				})
-				.then(function() {}, function() {});
-		};
-
-		this.openDialogOrderResults = function() {
-			$mdDialog.show({
-					controller: 'OrderResultsCtrl',
-					controllerAs: 'orderResults',
-					templateUrl: 'karamuse-client.order-results.tmpl.html',
-					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
-				})
-				.then(function() {}, function() {});
+		this.validateCode = function() {
+			var code = self.elements.form.code.text;
+			var deferred = $q.defer();
+			deferred.resolve();
+			// deferred.reject();
+			return deferred.promise;
 		};
 
 		this.order = function() {
@@ -64,6 +50,11 @@ angular.module('karamuseClientApp')
 
 				var ticket = Utils.getInStorage('ticket'),
 					order = [];
+
+					$log.log(self.elements.form.code.text);
+
+				ticket.code = self.elements.form.code.text;
+				Utils.setInStorage('ticket', ticket);
 
 				for (i = 0; i < ticket.orders.length; i++) {
 					order.push({
@@ -119,19 +110,7 @@ angular.module('karamuseClientApp')
 			});
 		};
 
-		this.validateCode = function() {
-			var deferred = $q.defer();
-			deferred.resolve();
-			// deferred.reject();
-			return deferred.promise;
-		};
-
-		this.addAnotherOrder = function() {
-			$mdDialog.hide();
-			$state.go('client.search-karaoke');
-		};
-
-		this.openDialogTicket = function() {
+		this.openDialogTicket = function(warnings) {
 			$mdDialog.show({
 					controller: 'TicketCtrl',
 					controllerAs: 'ticket',
@@ -140,34 +119,27 @@ angular.module('karamuseClientApp')
 					clickOutsideToClose: true,
 					fullscreen: true, // Only for -xs, -sm breakpoints.
 					locals: {
-						orderWarnings: null
+						orderWarnings: warnings
 					}
 				})
 				.then(function() {}, function() {});
 		};
 
-		this.openDialogOrderOptions = function(order) {
+		this.openDialogOrderResults = function() {
 			$mdDialog.show({
-					controller: 'OrderOptionsCtrl',
-					controllerAs: 'orderOptions',
-					templateUrl: 'karamuse-client.order-options.tmpl.html',
+					controller: 'OrderResultsCtrl',
+					controllerAs: 'orderResults',
+					templateUrl: 'karamuse-client.order-results.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: false, // Only for -xs, -sm breakpoints.
-					locals: {
-						order: order
-					}
+					fullscreen: true, // Only for -xs, -sm breakpoints.
 				})
-				.then(function() {}, function() {
-					if (angular.element(document.body).hasClass('md-dialog-is-showing')) {
-						self.openDialogTicket();
-					}
-
-				});
+				.then(function() {}, function() {});
 		};
 
-		this.closeDialog = function() {
+		this.cancel = function() {
 			$mdDialog.cancel();
 		};
+
 
 	});

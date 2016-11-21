@@ -9,6 +9,7 @@
  */
 angular.module('karamuseDjApp')
 	.controller('OrderOptionsCtrl', function($log, $mdDialog, Utils, order) {
+		$log.log(order);
 
 		this.order = order;
 
@@ -33,16 +34,16 @@ angular.module('karamuseDjApp')
 		};
 
 		this.delete = function() {
-			var temporalOrders = Utils.getInStorage('temporalOrders'),
+			var ticket = Utils.getInStorage('ticket'),
 				currentOrder = order;
 
-			for (i = 0; i < temporalOrders.length; i++) {
-				if (temporalOrders[i].id === currentOrder.id) {
-					temporalOrders.splice(i, 1);
+			for (i = 0; i < ticket.orders.length; i++) {
+				if (ticket.orders[i].id === currentOrder.id) {
+					ticket.orders.splice(i, 1);
 					break;
 				}
 			}
-			Utils.setInStorage('temporalOrders', temporalOrders)
+			Utils.setInStorage('ticket', ticket)
 		};
 
 		this.openDialogTicket = function(ev) {

@@ -30,8 +30,9 @@ angular.module('karamuseClientApp')
 			}
 		};
 
-		this.temporalOrders = {
-			list: Utils.getInStorage('temporalOrders') || []
+		this.ticket = Utils.getInStorage('ticket') || {
+			orders: [],
+			code: null
 		};
 
 		if (self.catalog) {
