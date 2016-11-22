@@ -3,4 +3,9 @@
 angular
 	.module('karamuseClientApp')
 
-.run(function($log, localStorageService) {});
+.run(function($rootScope) {
+
+	$rootScope.clientGlobalLoader = {
+		show: false
+	};
+});

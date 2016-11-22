@@ -2,10 +2,10 @@
 
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">
-			<h2><span>Busca tu karaoke</span></h2>
+			<h2><span>Paso 1</span></h2>
 			<span flex></span>
 			<md-button class="md-icon-button" aria-label="Home">
-				<md-icon md-font-icon="icon-home" ng-click="searchKaraoke.gotoState('client.home');" />
+				<md-icon md-font-icon="icon-home" ng-style="{'font-size':'23px'}" ng-click="searchKaraoke.gotoState('client.home');" />
 			</md-button>
 		</div>
 	</md-toolbar>
@@ -24,13 +24,13 @@
 		<form name="searchKaraokeForm">
 			<div layout-gt-xs="row">
 				<md-input-container class="md-block md-title" flex-gt-xs>
-					<label>Artista o canción</label>
+					<label>Ingresa un artista o canción</label>
 					<input  ng-model="catalog.criterion.text" focus="catalog.criterion.focus" ng-init="catalog.criterion.focus=true;" required>
 				</md-input-container>
 			</div>
 			
-			<div layout="row" layout-align="end">
-				<md-button class="md-primary md-raised" ng-click="searchKaraoke.form.buttons.search.disabled=true;searchKaraoke.getKaraokes(catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage);" ng-disabled="searchKaraokeForm.$invalid || searchKaraoke.form.buttons.search.disabled || catalog.criterion.text.length<2">Buscar</md-button>
+			<div layout="column" layout-align="center" flex layout-padding>
+				<md-button class="md-primary md-raised text-md" ng-click="searchKaraoke.form.buttons.search.disabled=true;searchKaraoke.getKaraokes(catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage);" ng-disabled="searchKaraokeForm.$invalid || searchKaraoke.form.buttons.search.disabled || catalog.criterion.text.length<2">Buscar</md-button>
 			</div>
 
 		</form>

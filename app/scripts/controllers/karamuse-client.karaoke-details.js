@@ -20,9 +20,10 @@ angular.module('karamuseClientApp')
 		this.elements = {
 			karaoke: {
 				id: karaokeSelected.id || 1,
-				url: karaokeSelected.url || 'https://www.youtube.com/watch?v=moCSOP4Y2KU',
-				avatar: karaokeSelected.avatar || 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
-				title: karaokeSelected.title || 'No indica'
+				url: karaokeSelected.url || null,
+				avatar: karaokeSelected.avatar || null,
+				artist: karaokeSelected.artist || 'No indica',
+				song: karaokeSelected.song || 'No indica'
 			},
 			buttons: {
 				add: {
@@ -84,7 +85,6 @@ angular.module('karamuseClientApp')
 					})
 					.then(function() {}, function() {});
 			}
-
 		};
 
 		this.openDialogTicket = function() {

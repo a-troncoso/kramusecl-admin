@@ -1,17 +1,18 @@
 <div layout="column" ng-cloak flex layout-fill>
-
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">
-			<h2><span>Resultados</span></h2>
+			<h2><span>Paso 1</span></h2>
 			<span flex></span>
 			<md-button class="md-icon-button" aria-label="Cerrar">
-				<md-icon md-font-icon="icon-search" ng-click="results.gotoState('client.search-karaoke');" />
+				<md-icon md-font-icon="material-icons"  ng-click="results.gotoState('client.search-karaoke');">search</md-icon>
 			</md-button>
 			<md-button ng-if="results.ticket.orders.length>0" class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="results.openDialogTicket();">Ver Ticket</md-button>
 		</div>
 	</md-toolbar>
 
-	<md-content>
+	<md-content flex>
 		<md-list>
 			<md-list-item class="md-2-line">
 				<img ng-src="{{results.bar.info.settings.avatar}}" class="md-avatar" alt="avatar_{{results.bar.info.name}}" />
@@ -24,10 +25,11 @@
 		
 		<md-subheader class="md-accent" ng-show="results.bar.info.settings.text_ad">{{results.bar.info.settings.text_ad}}</md-subheader>
 		<md-list>
-			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.openDialogKataokeDetails(karaoke);">
+			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.validateKaraokeUrl(karaoke);">
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
 				<div class="md-list-item-text">
-					<h3>{{karaoke.title}}</h3>
+					<h3>{{karaoke.song}}</h3>
+					<p>{{karaoke.artist}}</p>
 				</div>
 			</md-list-item>
 		</md-list>
@@ -46,7 +48,7 @@
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
 				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="icon-close" ng-click="karaokeDetails.closeDialog();" />
+					<md-icon md-font-icon="material-icons" ng-click="karaokeDetails.closeDialog();">close</md-icon>
 				</md-button>
 				<h2><span>Vista previa</span></h2>
 				<span flex></span>
@@ -59,12 +61,11 @@
 					<youtube-video video-url="karaokeDetails.elements.karaoke.url"></youtube-video>
 				</div>
 
-				<md-dialog-actions layout="row" layout-align="center center">
-					<md-button class="md-primary md-raised" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
-				</md-dialog-content>
+				<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+					<md-button class="md-primary md-raised text-md" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
+				</md-dialog-actions>
 			</div>
-		</div>
-
+		</md-dialog-content>
 	</md-dialog>
 </script>
 
@@ -73,7 +74,9 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<h2><span>Tu nombre</span></h2>
+				<h2><span>Paso 2</span></h2>
+				<span flex></span>
+				<!-- <md-button class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-show="nameOrMessage.elements.form.buttons.skip.show">Saltar paso</md-button> -->
 			</div>
 		</md-toolbar>
 
@@ -82,21 +85,21 @@
 				<form name="nameOrMessageForm" ng-cloak>
 
 					<md-input-container class="md-block md-headline" flex>
-						<label>Nombre o mensaje</label>
-						<input  type="text" ng-model="nameOrMessage.elements.form.nameOrMessage.text" style="text-align: center;" focus="nameOrMessage.elements.form.nameOrMessage.focus" required>
+						<label>Ingresa tu nombre</label>
+						<input  type="text" ng-model="nameOrMessage.elements.form.nameOrMessage.text" style="text-align: center;" focus="nameOrMessage.elements.form.nameOrMessage.focus" >
 					</md-input-container>
 
-					<md-input-container class="md-block md-headline" flex>
+					<md-input-container class="md-block md-headline" ng-show="nameOrMessage.elements.form.code.show" flex>
 						<label>Código</label>
-						<input type="number" name="code" ng-model="nameOrMessage.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" ng-change="nameOrMessage.elements.form.code.error.show=false;nameOrMessage.elements.form.buttons.next.disaled=false" style="text-align: center;" ng-disabled="nameOrMessage.elements.form.code.disabled" required>
+						<input type="text" name="code" ng-model="nameOrMessage.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" ng-change="nameOrMessage.elements.form.code.error.show=false;nameOrMessage.elements.form.buttons.next.disabled=false" style="text-align: center;"  required>
 						<div ng-messages="orderForm.code.$error">
 							<div ng-show="nameOrMessage.elements.form.code.error.show" style="text-align: center;">{{nameOrMessage.elements.form.code.error.text}}</div>
 						</div>
 					</md-input-container>
 
-					<md-dialog-actions layout="row">
-						<md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessage.elements.form.buttons.skip.disabled">Saltar</md-button>
-						<md-button class="md-raised md-primary" ng-click="nameOrMessage.elements.form.buttons.next.disabled=true;nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid || nameOrMessage.elements.form.buttons.next.disabled">Siguiente</md-button>
+					<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+						<!-- <md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessage.elements.form.buttons.skip.disabled">Saltar</md-button> -->
+						<md-button class="md-raised md-primary text-md" ng-click="nameOrMessage.elements.form.buttons.next.disabled=true;nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid || nameOrMessage.elements.form.buttons.next.disabled">Siguiente</md-button>
 					</md-dialog-actions>
 				</form>
 			</div>
@@ -111,28 +114,30 @@
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
 				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="icon-close" ng-click="ticket.closeDialog();" />
+					<md-icon md-font-icon="material-icons" ng-click="ticket.closeDialog();">close</md-icon>
 				</md-button>
-				<h2><span>Mi ticket</span></h2>
+				<h2><span>Paso 3</span></h2>
 				<span flex></span>
+				<md-button class="md-primary md-hue-1" aria-label="Agregar otra" ng-click="ticket.addAnotherOrder();">Agregar otra</md-button>
 			</div>
 		</md-toolbar>
-		<md-subheader class="md-primary">Presiona sobre un karaoke para ver sus opciones</md-subheader>
+		<md-subheader class="md-accent text-md">Mi ticket</md-subheader>
 		<md-subheader class="md-warn" ng-show="ticket.elements.errors.show">{{ticket.elements.errors.message}}</md-subheader>
 
 		<md-dialog-content ng-cloak>
 			<md-list-item class="md-2-line" ng-repeat="order in ticket.ticket.orders" ng-click="ticket.openDialogOrderOptions(order);">
 				<img ng-src="{{order.avatar}}" class="md-avatar" alt="avatar" />
 				<div class="md-list-item-text">
-					<h3>{{order.title}}</h3>
+					<h3>{{order.song}}</h3>
+					<p>{{order.artist}}</p>
 					<p>{{order.message}}</p>
 				</div>
 			</md-list-item>
 		</md-dialog-content>
 
-		<md-dialog-actions layout="row">
-			<md-button ng-click="ticket.addAnotherOrder();">Agregar otra</md-button>
-			<md-button class="md-raised md-primary" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir</md-button>
+		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+			<!-- <md-button ng-click="ticket.addAnotherOrder();">Agregar otra</md-button> -->
+			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir</md-button>
 		</md-dialog-actions>
 	</md-dialog>
 </script>
@@ -142,16 +147,16 @@
 		<md-toolbar md-scroll-shrink >
 			<div class="md-toolbar-tools">
 				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="icon-close" ng-click="orderOptions.openDialogTicket();" />
+					<md-icon md-font-icon="material-icons" ng-click="orderOptions.openDialogTicket();">close</md-icon>
 				</md-button>
-				<h5><span>{{orderOptions.order.title}}</span></h5>
+				<h5><span>{{orderOptions.order.song}}</span></h5>
 				<span flex></span>
 			</div>
 		</md-toolbar>
 
 		<md-dialog-content ng-cloak>
 			<div class="md-dialog-content" layout="column">
-				<md-button class="" ng-click="orderOptions.openDialogKataokeDetails(orderOptions.order);">Ver karaoke</md-button>
+				<md-button ng-click="orderOptions.openDialogKaraokeDetails(orderOptions.order);" ng-show="orderOptions.order.url">Ver karaoke</md-button>
 				<md-button class="md-warn" ng-click="orderOptions.delete();orderOptions.openDialogTicket($event);">Eliminar</md-button>
 			</div>
 		</md-dialog-content>
@@ -165,9 +170,9 @@
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
 				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="icon-close" ng-click="code.cancel();" />
+					<md-icon md-font-icon="material-icons" ng-click="code.cancel();">close</md-icon>
 				</md-button>
-				<h2><span>Introduce el código</span></h2>
+				<h2><span>Paso 2</span></h2>
 			</div>
 		</md-toolbar>
 
@@ -177,7 +182,7 @@
 					<div class="md-dialog-content">
 						<md-input-container class="md-block md-headline" flex>
 							<label>Código</label>
-							<input type="number" name="code" ng-model="code.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="code.elements.form.code.focus" ng-change="code.elements.form.code.error.show=false;code.elements.form.buttons.order.disaled=false" style="text-align: center;" required>
+							<input type="text" name="code" ng-model="code.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="code.elements.form.code.focus" ng-change="code.elements.form.code.error.show=false;code.elements.form.buttons.order.disaled=false" style="text-align: center;" required>
 							<div ng-messages="orderForm.code.$error">
 								<div ng-show="code.elements.form.code.error.show" style="text-align: center;">{{code.elements.form.code.error.text}}</div>
 							</div>
@@ -187,8 +192,8 @@
 			</div>
 		</md-dialog-content>
 
-		<md-dialog-actions layout="row">
-			<md-button class="md-primary md-raised" ng-click="code.elements.form.buttons.order.disaled=true;code.order()" ng-disabled="orderForm.$invalid || code.elements.form.buttons.order.disaled">Pedir</md-button>
+		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+			<md-button class="md-primary md-raised text-md" ng-click="code.elements.form.buttons.order.disaled=true;code.order()" ng-disabled="orderForm.$invalid || code.elements.form.buttons.order.disaled">Pedir</md-button>
 		</md-dialog-actions>
 
 	</md-dialog>
@@ -200,7 +205,7 @@
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
 				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="icon-close" ng-click="orderResults.removeStorageItem('ticket');orderResults.gotoState('client.search-karaoke');orderResults.closeDialog();" />
+					<md-icon md-font-icon="material-icons" ng-click="orderResults.removeStorageItem('ticket');orderResults.gotoState('client.search-karaoke');orderResults.closeDialog();">close</md-icon>
 				</md-button>
 				<h2><span>Resumen de tu pedido</span></h2>
 				<span flex></span>
@@ -217,7 +222,8 @@
 				<md-list-item class="md-2-line" ng-repeat="ticket in orderResults.ticket.orders">
 					<img ng-src="{{ticket.avatar}}" class="md-avatar" alt="avatar" />
 					<div class="md-list-item-text">
-						<h3>{{ticket.title}}</h3>
+						<h3>{{ticket.song}}</h3>
+						<p>{{ticket.artist}}</p>
 						<p>{{ticket.message}}</p>
 						<p ng-if="ticket.result.show" md-colors="{color: ticket.result.color}">{{ticket.result.message}}</p>
 					</div>

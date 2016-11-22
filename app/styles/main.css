@@ -10033,6 +10033,18 @@ tr .no-border td {
   opacity: 1;
   font-size: 25px; }
 
+.center-loader {
+  position: fixed;
+  z-index: 2000;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; }
+
 /* Absolute Center Spinner */
 .loading {
   position: fixed;

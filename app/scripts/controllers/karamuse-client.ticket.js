@@ -33,14 +33,17 @@ angular.module('karamuseClientApp')
 			code: null
 		};
 
-		var openDialogCode = function() {
+		var openDialogCode = function(data) {
 			$mdDialog.show({
 					controller: 'CodeCtrl',
 					controllerAs: 'code',
 					templateUrl: 'karamuse-client.code.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: true,
-					fullscreen: true // Only for -xs, -sm breakpoints.
+					clickOutsideToClose: false,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						data: data
+					}
 				})
 				.then(function() {}, function() {});
 		};
@@ -55,6 +58,13 @@ angular.module('karamuseClientApp')
 					fullscreen: true, // Only for -xs, -sm breakpoints.
 				})
 				.then(function() {}, function() {});
+		};
+
+		this.validateCode = function() {
+			var deferred = $q.defer();
+			deferred.resolve();
+			// deferred.reject();
+			return deferred.promise;
 		};
 
 		this.order = function() {
@@ -101,7 +111,12 @@ angular.module('karamuseClientApp')
 						self.openDialogOrderResults();
 					} else if (success.status === 403) {
 						$log.error('codigo no válido');
-						openDialogCode();
+						openDialogCode({
+							error: {
+								text: 'Código no válido',
+								show: true
+							}
+						});
 					} else if (success.status === 404) {
 						$log.error('puede ser que el arreglo del pedido está vacío o es invalido');
 					} else if (success.status === 406) {
@@ -115,15 +130,13 @@ angular.module('karamuseClientApp')
 				});
 			}, function() {
 				// abre modal que solicita codigo
-				openDialogCode();
+				openDialogCode({
+					error: {
+						text: 'Código no válido',
+						show: true
+					}
+				});
 			});
-		};
-
-		this.validateCode = function() {
-			var deferred = $q.defer();
-			deferred.resolve();
-			// deferred.reject();
-			return deferred.promise;
 		};
 
 		this.addAnotherOrder = function() {

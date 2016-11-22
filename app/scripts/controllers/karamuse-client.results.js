@@ -11,11 +11,16 @@ angular.module('karamuseClientApp')
 	.controller('ResultsCtrl', function($rootScope, $auth, $log, $mdDialog, Utils, Catalog) {
 
 		var self = this,
-			i = 0;
+			i = 0,
+			ticket = Utils.getInStorage('ticket') || {
+				orders: [],
+				code: null
+			};
 
 		this.bar = {
 			info: Utils.getInStorage('bar')
 		};
+
 
 		this.catalog = $rootScope.catalog;
 
@@ -46,6 +51,7 @@ angular.module('karamuseClientApp')
 		}
 
 		this.getKaraokes = function(keyword, sizePage, numPage, mode) {
+			$rootScope.clientGlobalLoader.show = true;
 
 			// si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
 			if (numPage + 1 < self.catalog.pagination.totalPages) {
@@ -75,7 +81,7 @@ angular.module('karamuseClientApp')
 				numPage: numPage,
 				token: $auth.getToken()
 			}, function(success) {
-				// $log.log(success);
+				$rootScope.clientGlobalLoader.show = false;
 				if (success.status === 200) { // 200 = hay resultados
 					self.catalog.pagination.totalPages = success.totalPages;
 					self.catalog.pagination.totalResults = success.totalResults;
@@ -85,10 +91,11 @@ angular.module('karamuseClientApp')
 						if (success.data[i].active === '1') {
 							self.catalog.list.push({
 								id: success.data[i].id,
-								title: success.data[i].title,
+								artist: success.data[i].artist,
+								song: success.data[i].song,
 								url: success.data[i].url,
 								active: success.data[i].active,
-								avatar: 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/sddefault.jpg',
+								avatar: success.data[i].url ? 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/sddefault.jpg' : 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
 								disabled: false
 							});
 						}
@@ -99,7 +106,72 @@ angular.module('karamuseClientApp')
 			});
 		};
 
-		this.openDialogKataokeDetails = function(karaokeSelected) {
+		// Valida si ya está en lista temporal el pedido
+		this.validateOrderInTicket = function(order) {
+			var isInTicket = false;
+
+			for (i = 0; i < ticket.orders.length; i++) {
+				if (ticket.orders[i].id === order.id) {
+					isInTicket = true;
+					break;
+				}
+			}
+			return isInTicket;
+		};
+
+		this.openDialogNameOrMessage = function(order) {
+
+			if (self.validateOrderInTicket(order)) {
+				self.openDialogCustomAlert({
+					title: '¡Hey!',
+					subtitle: '',
+					body: {
+						paragraph1: 'Ya tienes este karaoke en tu ticket'
+					}
+				});
+			} else {
+				$mdDialog.show({
+						controller: 'NameOrMessageCtrl',
+						controllerAs: 'nameOrMessage',
+						templateUrl: 'karamuse-client.nameOrMessage.tmpl.html',
+						parent: angular.element(document.querySelector('#dialogContainer')),
+						clickOutsideToClose: true,
+						fullscreen: true, // Only for -xs, -sm breakpoints.
+						locals: {
+							order: order
+						}
+					})
+					.then(function() {}, function() {});
+			}
+		};
+
+		var openDialogNameOrMessage = function(order) {
+
+			if (self.validateOrderInTicket(order)) {
+				self.openDialogCustomAlert({
+					title: '¡Hey!',
+					subtitle: '',
+					body: {
+						paragraph1: 'Ya tienes este karaoke en tu ticket'
+					}
+				});
+			} else {
+				$mdDialog.show({
+						controller: 'NameOrMessageCtrl',
+						controllerAs: 'nameOrMessage',
+						templateUrl: 'karamuse-client.nameOrMessage.tmpl.html',
+						parent: angular.element(document.querySelector('#dialogContainer')),
+						clickOutsideToClose: true,
+						fullscreen: true, // Only for -xs, -sm breakpoints.
+						locals: {
+							order: order
+						}
+					})
+					.then(function() {}, function() {});
+			}
+		};
+
+		var openDialogKaraokeDetails = function(karaokeSelected) {
 			karaokeSelected.fromResults = true;
 
 			$mdDialog.show({
@@ -114,6 +186,15 @@ angular.module('karamuseClientApp')
 					}
 				})
 				.then(function() {}, function() {});
+		};
+
+		this.validateKaraokeUrl = function(karaokeSelected) {
+			// $log.log(karaokeSelected);
+			if (karaokeSelected.url) {
+				openDialogKaraokeDetails(karaokeSelected);
+			} else {
+				openDialogNameOrMessage(karaokeSelected);
+			}
 		};
 
 		this.openDialogTicket = function() {

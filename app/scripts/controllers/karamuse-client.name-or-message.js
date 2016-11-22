@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('NameOrMessageCtrl', function($log, $q, $mdDialog, order, Utils) {
+	.controller('NameOrMessageCtrl', function($rootScope, $log, $auth, $q, $mdDialog, order, Utils, Codes) {
 
 		var self = this;
 
@@ -16,12 +16,12 @@ angular.module('karamuseDjApp')
 			orders: [],
 			code: null
 		};
-		
+
 		this.elements = {
 			form: {
 				code: {
 					text: ticket.code,
-					disabled: ticket.code ? ticket.code : false,
+					show: ticket.code ? false : true,
 					error: {
 						show: false,
 						text: ''
@@ -35,7 +35,7 @@ angular.module('karamuseDjApp')
 						disabled: false
 					},
 					skip: {
-						disabled: ticket.code ? false : true
+						show: ticket.code ? true : false
 					}
 				}
 			}
@@ -56,17 +56,30 @@ angular.module('karamuseDjApp')
 				.then(function() {}, function() {});
 		};
 
+		this.validateCode = function() {
+			var deferred = $q.defer();
+
+			Codes.verify({
+				token: $auth.getToken(),
+				code: self.elements.form.code.text
+			}, function(success) {
+				if (success.status === 200) {
+					deferred.resolve();
+				} else if (success.status === 201 || success.status === 202) {
+					deferred.reject();
+				} else {
+					deferred.reject();
+				}
+			}, function(error) {
+				$log.error(error);
+				deferred.reject();
+			});
+			return deferred.promise;
+		};
+
 		this.addNameOrMessage = function(message) {
 
-			// order = {
-			// 	message: '',
-			// 	result: {
-			// 		added: false,
-			// 		show: false,
-			// 		color: '',
-			// 		message: ''
-			// 	}
-			// };
+			$rootScope.clientGlobalLoader.show = true;
 
 			order.message = message; // al obj order agrega el attr message
 			order.result = {
@@ -81,24 +94,20 @@ angular.module('karamuseDjApp')
 			if (!ticket.code) {
 				var validateCode = self.validateCode();
 				validateCode.then(function() {
+					$rootScope.clientGlobalLoader.show = false;
 					ticket.code = self.elements.form.code.text;
 					Utils.setInStorage('ticket', ticket);
 					openDialogTicket(); // abre modal ticket
 				}, function() {
+					$rootScope.clientGlobalLoader.show = false;
 					self.elements.form.code.error.text = 'Código no válido';
 					self.elements.form.code.error.show = true;
 				});
 			} else {
+				$rootScope.clientGlobalLoader.show = false;
 				Utils.setInStorage('ticket', ticket);
 				openDialogTicket(); // abre modal ticket
 			}
-		};
-
-		this.validateCode = function() {
-			var deferred = $q.defer();
-			deferred.resolve();
-			// deferred.reject();
-			return deferred.promise;
 		};
 
 		this.skip = function() {

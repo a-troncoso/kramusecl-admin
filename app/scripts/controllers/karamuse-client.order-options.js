@@ -9,7 +9,6 @@
  */
 angular.module('karamuseDjApp')
 	.controller('OrderOptionsCtrl', function($log, $mdDialog, Utils, order) {
-		$log.log(order);
 
 		this.order = order;
 
@@ -43,10 +42,10 @@ angular.module('karamuseDjApp')
 					break;
 				}
 			}
-			Utils.setInStorage('ticket', ticket)
+			Utils.setInStorage('ticket', ticket);
 		};
 
-		this.openDialogTicket = function(ev) {
+		this.openDialogTicket = function() {
 			$mdDialog.show({
 					controller: 'TicketCtrl',
 					controllerAs: 'ticket',

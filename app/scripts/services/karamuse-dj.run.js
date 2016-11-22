@@ -3,7 +3,7 @@
 angular
 	.module('karamuseDjApp')
 
-.run(function($rootScope, $state) {
+.run(function($rootScope) {
 
 	$rootScope.loader = {
 		show: false

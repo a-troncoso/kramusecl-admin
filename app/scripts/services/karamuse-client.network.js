@@ -58,4 +58,18 @@ angular
 			method: 'POST'
 		}
 	});
+})
+
+.factory('Codes', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/codes/validate/:code', {
+		code: '@code'
+	}, {
+		verify: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		}
+	});
 });
