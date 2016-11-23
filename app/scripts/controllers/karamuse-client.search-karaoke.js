@@ -51,7 +51,6 @@ angular.module('karamuseClientApp')
 				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
-				$rootScope.clientGlobalLoader.show = false;
 				if (success.status === 200) { // 200 = hay resultados
 					$rootScope.catalog.pagination.totalPages = success.totalPages;
 					$rootScope.catalog.pagination.totalResults = success.totalResults;
@@ -70,7 +69,7 @@ angular.module('karamuseClientApp')
 							});
 						}
 					}
-
+					$rootScope.clientGlobalLoader.show = false;
 					$state.go('client.results');
 				} else if (success.status === 404) { // 404 = no hay resultados
 					self.gotoEmptyState(keyword);

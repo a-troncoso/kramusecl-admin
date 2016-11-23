@@ -28,7 +28,8 @@ angular.module('karamuseDjApp')
 					}
 				},
 				nameOrMessage: {
-					focus: true
+					focus: true,
+					text: ''
 				},
 				buttons: {
 					next: {
@@ -81,22 +82,21 @@ angular.module('karamuseDjApp')
 
 			$rootScope.clientGlobalLoader.show = true;
 
-			order.message = message; // al obj order agrega el attr message
-			order.result = {
-				added: false,
-				show: false,
-				color: '',
-				message: ''
-			};
-
-			ticket.orders.push(order);
 			// aqui valida el código
 			if (!ticket.code) {
 				var validateCode = self.validateCode();
 				validateCode.then(function() {
-					$rootScope.clientGlobalLoader.show = false;
+					order.message = message; // al obj order agrega el attr message
+					order.result = {
+						added: false,
+						show: false,
+						color: '',
+						message: ''
+					};
+					ticket.orders.push(order);
 					ticket.code = self.elements.form.code.text;
 					Utils.setInStorage('ticket', ticket);
+					$rootScope.clientGlobalLoader.show = false;
 					openDialogTicket(); // abre modal ticket
 				}, function() {
 					$rootScope.clientGlobalLoader.show = false;
@@ -104,6 +104,14 @@ angular.module('karamuseDjApp')
 					self.elements.form.code.error.show = true;
 				});
 			} else {
+				order.message = message; // al obj order agrega el attr message
+				order.result = {
+					added: false,
+					show: false,
+					color: '',
+					message: ''
+				};
+				ticket.orders.push(order);
 				$rootScope.clientGlobalLoader.show = false;
 				Utils.setInStorage('ticket', ticket);
 				openDialogTicket(); // abre modal ticket
@@ -113,4 +121,9 @@ angular.module('karamuseDjApp')
 		this.skip = function() {
 			$mdDialog.cancel();
 		};
+
+		this.closeDialog = function() {
+			$mdDialog.cancel();
+		};
+
 	});

@@ -8,7 +8,7 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('ClientHomeCtrl', function($log, $auth, $q, Bars, Utils, Token, deviceDetector) {
+	.controller('ClientHomeCtrl', function($rootScope, $log, $auth, $q, Bars, Utils, Token, deviceDetector) {
 
 		var self = this,
 			deferred = null,
@@ -61,6 +61,7 @@ angular.module('karamuseClientApp')
 		};
 
 		this.getBars = function() {
+			$rootScope.clientGlobalLoader.show = true;
 			Bars.query({}, function(success) {
 				// $log.log(success);
 				if (success.status === 200) {
@@ -68,9 +69,11 @@ angular.module('karamuseClientApp')
 					for (i = 0; i < self.bars.list.length; i++) {
 						self.bars.list[i].disabled = false;
 					}
+					$rootScope.clientGlobalLoader.show = false;
 				}
 			}, function(error) {
 				$log.error(error);
+				$rootScope.clientGlobalLoader.show = false;
 			});
 		};
 

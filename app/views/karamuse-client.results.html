@@ -74,9 +74,11 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
+			<md-button class="md-icon-button" aria-label="Cerrar">
+				<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">close</md-icon>
+			</md-button>
 				<h2><span>Paso 2</span></h2>
 				<span flex></span>
-				<!-- <md-button class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-show="nameOrMessage.elements.form.buttons.skip.show">Saltar paso</md-button> -->
 			</div>
 		</md-toolbar>
 
@@ -204,11 +206,7 @@
 
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<md-button class="md-icon-button" aria-label="Cerrar">
-					<md-icon md-font-icon="material-icons" ng-click="orderResults.removeStorageItem('ticket');orderResults.gotoState('client.search-karaoke');orderResults.closeDialog();">close</md-icon>
-				</md-button>
 				<h2><span>Resumen de tu pedido</span></h2>
-				<span flex></span>
 			</div>
 		</md-toolbar>
 
@@ -219,7 +217,7 @@
 
 		<md-dialog-content ng-cloak>
 			<div class="md-dialog-content">
-				<md-list-item class="md-2-line" ng-repeat="ticket in orderResults.ticket.orders">
+				<md-list-item class="md-2-line" ng-repeat="ticket in orderResults.ticket.orders" ng-if="orderResults.orders.notSent>0">
 					<img ng-src="{{ticket.avatar}}" class="md-avatar" alt="avatar" />
 					<div class="md-list-item-text">
 						<h3>{{ticket.song}}</h3>
@@ -228,8 +226,13 @@
 						<p ng-if="ticket.result.show" md-colors="{color: ticket.result.color}">{{ticket.result.message}}</p>
 					</div>
 				</md-list-item>
+				<p ng-if="orderResults.orders.notSent==0">Todos tus pedidos fueron enviados</p>
 			</div>
 		</md-dialog-content>
+
+		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+			<md-button class="md-primary md-raised text-md" ng-click="orderResults.removeStorageItem('ticket');orderResults.gotoState('client.search-karaoke');orderResults.closeDialog();">Cerrar</md-button>
+		</md-dialog-actions>
 
 	</md-dialog>
 </script>

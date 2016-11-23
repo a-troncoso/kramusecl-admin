@@ -13,7 +13,8 @@ angular.module('karamuseDjApp')
 		var self = this;
 
 		this.orders = {
-			sent: 0
+			sent: 0,
+			notSent: 0
 		};
 
 		this.ticket = Utils.getInStorage('ticket') || {
@@ -34,13 +35,17 @@ angular.module('karamuseDjApp')
 		};
 
 		this.calculateOrdersSent = function() {
-			var ordersSent = 0;
+			var ordersSent = 0,
+				ordersNotSent = 0;
 			for (var i = 0; i < self.ticket.orders.length; i++) {
 				if (self.ticket.orders[i].result.added) {
 					ordersSent++;
+				} else {
+					ordersNotSent++;
 				}
 			}
 			self.orders.sent = ordersSent;
+			self.orders.notSent = ordersNotSent;
 		};
 
 		self.calculateOrdersSent();

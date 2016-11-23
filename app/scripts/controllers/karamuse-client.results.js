@@ -119,6 +119,21 @@ angular.module('karamuseClientApp')
 			return isInTicket;
 		};
 
+		this.openDialogCustomAlert = function(data) {
+			$mdDialog.show({
+					controller: 'CustomAlertCtrl',
+					controllerAs: 'customAlert',
+					templateUrl: 'karamuse-client.custom-alert.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: false, // Only for -xs, -sm breakpoints.
+					locals: {
+						data: data
+					}
+				})
+				.then(function() {}, function() {});
+		};
+
 		this.openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
