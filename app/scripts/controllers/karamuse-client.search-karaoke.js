@@ -39,7 +39,8 @@ angular.module('karamuseClientApp')
 			criterion: {
 				text: '',
 				focus: true
-			}
+			},
+			textAd: ''
 		};
 
 		this.getKaraokes = function(keyword, sizePage, numPage) {
@@ -55,6 +56,7 @@ angular.module('karamuseClientApp')
 					$rootScope.catalog.pagination.totalPages = success.totalPages;
 					$rootScope.catalog.pagination.totalResults = success.totalResults;
 					$rootScope.catalog.pagination.show = true;
+					$rootScope.catalog.textAd = success.text_ad;
 
 					for (i = 0; i < success.data.length; i++) {
 						if (success.data[i].active === '1') {
@@ -64,7 +66,7 @@ angular.module('karamuseClientApp')
 								song: success.data[i].song,
 								url: success.data[i].url,
 								active: success.data[i].active,
-								avatar: success.data[i].url ? 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/sddefault.jpg' : 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
+								avatar: success.data[i].url ? 'https://img.youtube.com/vi/' + success.data[i].url.substring(success.data[i].url.indexOf('=') + 1, success.data[i].url.length) + '/0.jpg' : 'http://cumbrianrun.co.uk/wp-content/uploads/2014/02/default-placeholder.png',
 								disabled: false
 							});
 						}
@@ -73,6 +75,7 @@ angular.module('karamuseClientApp')
 					$state.go('client.results');
 				} else if (success.status === 404) { // 404 = no hay resultados
 					self.gotoEmptyState(keyword);
+					$rootScope.clientGlobalLoader.show = false;
 				}
 			}, function(error) {
 				$log.error(error);

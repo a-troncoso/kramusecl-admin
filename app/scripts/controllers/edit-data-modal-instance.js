@@ -50,8 +50,20 @@ angular.module('karamuseDjApp')
 					max: 60,
 					min: parseInt(data.totalOrders) + 1,
 					current: parseInt(data.totalOrders)
-				}
+				},
+				textAd: data.textAd,
+				bannerAd: data.bannerAd
 			}
+		};
+
+		this.getSettings = function() {
+			Settings.get({
+				token: $auth.getToken()
+			}, function(success) {
+				$log.log(success);
+			}, function(error) {
+				$log.log(error);
+			});
 		};
 
 		this.editData = function(data) {
@@ -63,7 +75,9 @@ angular.module('karamuseDjApp')
 				avatar: data.avatar,
 				order_limit: data.totalOrders.value,
 				bar_name: data.name,
-				address: data.address
+				address: data.address,
+				text_ad: data.textAd,
+				banner_ad: data.bannerAd
 			}, function(success) {
 				// $log.log(success);
 				self.modal.buttons.save.disabled = false;
@@ -86,4 +100,6 @@ angular.module('karamuseDjApp')
 		this.cancel = function() {
 			$uibModalInstance.dismiss();
 		};
+
+		self.getSettings();
 	});

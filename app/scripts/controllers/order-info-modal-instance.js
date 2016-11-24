@@ -25,18 +25,20 @@ angular.module('karamuseDjApp')
 			summatory = new Date(0, 0, 0, summatory.getHours() + hours, summatory.getMinutes() + minutes, summatory.getSeconds() + seconds, 0);
 		}
 
-		$log.log(summatory);
+		// $log.log(summatory);
 
 		this.orderData = {
 			ticket: orderData.ticket,
-			title: orderData.title,
+			artist: orderData.artist,
+			song: orderData.song,
 			createdAt: orderData.createdAt,
 			state: orderData.state,
 			origin: orderData.origin,
 			code: orderData.codeClient,
-			time: orderData.time,
+			time: '00:04:00',
 			waitTime: summatory,
-			url: orderData.url
+			url: orderData.url ? orderData.url : 'Link no disponible',
+			isUrl: orderData.url ? true : false
 		};
 
 		this.cancel = function() {

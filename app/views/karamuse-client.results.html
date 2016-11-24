@@ -23,7 +23,7 @@
 			</md-list-item>
 		</md-list>
 		
-		<md-subheader class="md-accent" ng-show="results.bar.info.settings.text_ad">{{results.bar.info.settings.text_ad}}</md-subheader>
+		<md-subheader class="md-accent" ng-show="results.bar.info.settings.text_ad">{{results.catalog.textAd}}</md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.validateKaraokeUrl(karaoke);">
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />

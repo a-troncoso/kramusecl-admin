@@ -85,7 +85,7 @@
 					</button>
 				</div>
 				<div class="btn-group mb-10 pull-right" ng-show="home.orders.show">
-					<input type="text" class="form-control inline underline-input filter-show-animate text-white" placeholder="Título" ng-blur="home.orders.search.show=false;home.orders.search.title.text=''" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
+					<input type="text" class="form-control inline underline-input filter-show-animate text-white" placeholder="Título" ng-blur="home.orders.search.show=false;" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
 					<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
 						<i class="icon-search"></i>
 					</button>
@@ -100,23 +100,27 @@
 						<th style="display: table-cell;width: 15%">
 							Ticket
 						</th>
-						<th style="display: table-cell;width: 50%">
-							Título
+						<th style="display: table-cell;width: 25%">
+							Artista
 						</th>
-						<th data-hide="phone" style="display: table-cell;width: 20%">
+						<th style="display: table-cell;width: 25%">
+							Canción
+						</th>
+						<th style="display: table-cell;width: 20%">
 							Hora
 						</th>
-						<th data-hide="phone" style="display: table-cell;width: 15%">
+						<th style="display: table-cell;width: 15%">
 							Opciones
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}" style="display: table;width: 100%;">
-						<td class="text-left">{{tr.ticket}}</td>
-						<td class="text-left">{{tr.title}}</td>
-						<td>{{tr.createdAt | date:"HH:mm"}}</td>
-						<td>
+					<tr  ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}" style="display: table;width: 100%;">
+						<td style="display: table-cell;width: 15%" class="text-left">{{tr.ticket}}</td>
+						<td style="display: table-cell;width: 25%" class="text-left">{{tr.artist}}</td>
+						<td style="display: table-cell;width: 25%" class="text-left">{{tr.song}}</td>
+						<td style="display: table-cell;width: 20%" class="text-left">{{tr.createdAt | date:"HH:mm"}}</td>
+						<td style="display: table-cell;width: 15%">
 							<div uib-dropdown is-open="false">
 								<button type="button" class="btn btn-border btn-blue-karamuse text-xs " ng-click="" uib-dropdown-toggle>. . .</button>
 								<ul class="dropdown-menu" uib-dropdown-menu template-url="orderOptions.html" aria-labelledby="button-template-url"></ul>
@@ -193,12 +197,20 @@
 				<td class="text-left b-0">{{orderInfo.orderData.ticket}}</td>
 			</tr>
 			<tr>
-				<td class="text-blue-karamuse">Título</td>
-				<td class="text-left">{{orderInfo.orderData.title}}</td>
+				<td class="text-blue-karamuse">Artista</td>
+				<td class="text-left">{{orderInfo.orderData.artist}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Canción</td>
+				<td class="text-left">{{orderInfo.orderData.song}}</td>
 			</tr>
 			<tr>
 				<td class="text-blue-karamuse">Hora</td>
 				<td class="text-left">{{orderInfo.orderData.createdAt | date:'HH:mm'}}</td>
+			</tr>
+			<tr>
+				<td class="text-blue-karamuse">Nombre</td>
+				<td class="text-left"></td>
 			</tr>
 			<tr ng-switch="orderInfo.orderData.state">
 				<td class="text-blue-karamuse">Estado</td>
@@ -206,25 +218,21 @@
 				<td class="text-left" ng-switch-when="1" >Listo</td>
 			</tr>
 			<tr>
-				<td class="text-blue-karamuse">Origen</td>
-				<td class="text-left">{{orderInfo.orderData.origin}}</td>
-			</tr>
-			<tr>
 				<td class="text-blue-karamuse">Código</td>
 				<td class="text-left">{{orderInfo.orderData.code}}</td>
 			</tr>
 			<tr>
-				<td class="text-blue-karamuse">Tiempo de espera</td>
+				<td class="text-blue-karamuse">Tiempo espera aproximado</td>
 				<td class="text-left">{{orderInfo.orderData.waitTime | date:'HH:mm:ss'}}</td>
 			</tr>
 			<tr>
 				<td class="text-blue-karamuse" style="vertical-align:bottom;">Link</td>
 				<td class="text-left">
 					<div class="input-group">
-						<input class="form-control underline-input text-white" type="url" ng-model="orderInfo.orderData.url">
+						<input class="form-control underline-input text-white" type="url" ng-model="orderInfo.orderData.url" ng-disabled="true">
 						<span class="input-group-btn">
-			        <button class="btn btn-border btn-bright-gray-karamuse b-0" ng-click="orderInfo.watchKaraoke(orderInfo.orderData.url)" uib-tooltip="Ver video"><i class="icon-youtube"></i></button>
-							<button class="btn btn-border btn-bright-gray-karamuse b-0" ngclipboard data-clipboard-text="{{orderInfo.orderData.url}}" uib-tooltip="Copiar URL"><i class="icon-copy"></i></button>
+			        <button class="btn btn-border btn-bright-gray-karamuse b-0" ng-click="orderInfo.watchKaraoke(orderInfo.orderData.url)" uib-tooltip="Ver video" ng-show="orderInfo.orderData.isUrl"><i class="icon-youtube"></i></button>
+							<button class="btn btn-border btn-bright-gray-karamuse b-0" ngclipboard data-clipboard-text="{{orderInfo.orderData.url}}" uib-tooltip="Copiar URL" ng-show="orderInfo.orderData.isUrl"><i class="icon-copy"></i></button>
 			      </span>
 					</div>
 				</td>
@@ -372,6 +380,20 @@
 						<p class="help-block text-left" ng-switch-when="1">Tienes 1 pedido</p>
 						<p class="help-block text-left" ng-switch-default>Tienes {{editData.bar.data.totalOrders.current}} pedidos actualmente</p>
 					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="ad" class="col-sm-3 control-label">Texto promoción</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control underline-input text-white" id="ad" placeholder="Texto promocional..." ng-model="editData.bar.data.textAd">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="banner" class="col-sm-3 control-label">Imágen banner</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control underline-input text-white" id="banner" placeholder="URL banner de promoción..." ng-model="editData.bar.data.bannerAd">
 				</div>
 			</div>
 

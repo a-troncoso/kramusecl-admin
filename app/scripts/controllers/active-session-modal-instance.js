@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, Codes, Utils) {
+	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, VerifyCodes, Utils) {
 
 		var self = this,
 			deferred = null;
@@ -83,7 +83,7 @@ angular.module('karamuseDjApp')
 					origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version,
 					token: $auth.getToken()
 				}, function(success) {
-					$log.log(success);
+					// $log.log(success);
 					if (success.status === 200 || success.status === 201) {
 						var verifyCodes = self.verifyCodes();
 						verifyCodes.then(function(success) {
@@ -186,11 +186,10 @@ angular.module('karamuseDjApp')
 		this.verifyCodes = function() {
 			deferred = $q.defer();
 
-			Codes.verify({
-				action: 'verify',
+			VerifyCodes.verify({
 				token: $auth.getToken()
 			}, function(success) {
-				// $log.log(success);
+				$log.log(success);
 				deferred.resolve({
 					status: success.status
 				});

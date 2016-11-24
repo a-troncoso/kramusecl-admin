@@ -123,6 +123,19 @@ angular
 	});
 })
 
+.factory('VerifyCodes', function($resource, API_URL_BASE) {
+
+	return $resource(API_URL_BASE + '/codes/verify', {
+	}, {
+		verify: {
+			method: 'GET',
+			params: {
+				token: '@token'
+			}
+		}
+	});
+})
+
 .factory('CodeState', function($resource, API_URL_BASE) {
 
 	return $resource(API_URL_BASE + '/codes/:code/state/:state', {

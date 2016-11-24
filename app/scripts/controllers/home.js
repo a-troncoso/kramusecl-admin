@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, Catalog, Session) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, VerifyCodes, Catalog, Session) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -21,7 +21,9 @@ angular.module('karamuseDjApp')
 				},
 				name: Utils.getInStorage('name'),
 				address: Utils.getInStorage('address'),
-				ordersLimit: null
+				ordersLimit: null,
+				textAd: Utils.getInStorage('text_ad'),
+				bannerAd: Utils.getInStorage('banner_ad')
 			}
 		};
 
@@ -85,10 +87,12 @@ angular.module('karamuseDjApp')
 			Settings.query({
 				token: $auth.getToken()
 			}, function(success) {
-				// $log.log(success);
+				$log.log(success);
 				if (success.status === 200) {
 					self.bar.info.avatar.url = success.data.avatar || 'http://www.hsdtaxlaw.com/wp-content/uploads/2016/05/logo_placeholder.png';
 					self.bar.info.ordersLimit = parseInt(success.data.order_limit);
+					self.bar.info.bannerAd = success.data.banner_ad;
+					self.bar.info.textAd = success.data.text_ad;
 					if (self.bar.info.ordersLimit === 0) {
 						self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
 						self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
@@ -149,13 +153,14 @@ angular.module('karamuseDjApp')
 						self.orders.list.push({
 							id: success.data[i].id,
 							ticket: success.data[i].ticket,
-							title: success.data[i].title,
+							artist: success.data[i].artist,
+							song: success.data[i].song,
 							createdAt: new Date(success.data[i].created_at),
 							state: success.data[i].state,
 							origin: success.data[i].origin,
 							codeClient: success.data[i].code_client,
 							url: success.data[i].url,
-							time: success.data[i].time
+							time: '00:04:00'
 						});
 					}
 				} else if (success.status === 401) {
@@ -404,23 +409,20 @@ angular.module('karamuseDjApp')
 
 			self.codes.list = [];
 
-			Codes.verify({
-				token: $auth.getToken(),
-				action: 'verify'
+			VerifyCodes.verify({
+				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
 				if (success.status === 200) {
 					self.codes.list = success.data;
 					self.codes.buttons.more.disabled = false;
+				} else if (success.status === 201) {
+					$log.error('Sesión no tiene códigos');
+				} else if (success.status === 202) {
+					$log.error('No hay sesiones abiertas para este bar');
 				} else if (success.status === 401) {
-					// No autorizado
 					$log.error(success);
 					Utils.gotoState('login');
-				} else if (success.status === 402) {
-					// No hay sesion abierta
-					$log.error(success);
-				} else {
-					$log.error(success);
 				}
 			}, function(error) {
 				$log.error(error);

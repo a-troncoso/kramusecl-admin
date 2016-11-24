@@ -60,6 +60,23 @@ angular.module('karamuseDjApp')
 				.then(function() {}, function() {});
 		};
 
+		this.openDialogKaraokeDetails = function(karaokeSelected) {
+			karaokeSelected.fromResults = false;
+
+			$mdDialog.show({
+					controller: 'KaraokeDetailsCtrl',
+					controllerAs: 'karaokeDetails',
+					templateUrl: 'karamuse-client.karaoke-details.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: true, // Only for -xs, -sm breakpoints.
+					locals: {
+						karaokeSelected: karaokeSelected
+					}
+				})
+				.then(function() {}, function() {});
+		};
+
 		this.closeDialog = function() {
 			$mdDialog.cancel();
 		};

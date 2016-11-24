@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, Codes) {
+	.controller('LoginCtrl', function($rootScope, $log, $auth, $q, $location, $uibModal, $state, deviceDetector, Utils, Session, VerifyCodes) {
 
 		var self = this,
 			deferred = null;
@@ -200,8 +200,7 @@ angular.module('karamuseDjApp')
 		this.verifyCodes = function() {
 			deferred = $q.defer();
 
-			Codes.verify({
-				action: 'verify',
+			VerifyCodes.verify({
 				token: $auth.getToken()
 			}, function(success) {
 				// $log.log(success);
