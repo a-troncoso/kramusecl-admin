@@ -65,7 +65,8 @@ angular.module('karamuseDjApp')
 						if (success.data[i].active === '1') {
 							self.catalog.list.push({
 								id: success.data[i].id,
-								title: success.data[i].title,
+								artist: success.data[i].artist,
+								song: success.data[i].song,
 								url: success.data[i].url,
 								active: success.data[i].active,
 								addButton: {

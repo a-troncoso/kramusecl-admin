@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, Codes, VerifyCodes, Catalog, Session) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, CodesDj, VerifyCodes, Catalog, Session) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -160,7 +160,8 @@ angular.module('karamuseDjApp')
 							origin: success.data[i].origin,
 							codeClient: success.data[i].code_client,
 							url: success.data[i].url,
-							time: '00:04:00'
+							time: '00:04:00',
+							message: success.data[i].message ? success.data[i].message : '-'
 						});
 					}
 				} else if (success.status === 401) {
@@ -380,7 +381,8 @@ angular.module('karamuseDjApp')
 			// Cambiar este servicio por el de setear orders limit
 
 			Settings.update({
-				order_limit: limit,
+				setting: 'order_limit',
+				value: limit,
 				token: $auth.getToken()
 			}, function(success) {
 				if (success.status === 200) {
@@ -440,7 +442,7 @@ angular.module('karamuseDjApp')
 				newState = '0';
 			}
 
-			Codes.update({
+			CodesDj.update({
 				token: $auth.getToken(),
 				action: code,
 				subAction: 'state',
@@ -569,23 +571,39 @@ angular.module('karamuseDjApp')
 
 		this.logout = function() {
 
-			deferred = $q.defer();
+			self.openModalDialog({
+				title: '¿Deseas cerrar sesión?',
+				subtitle: 'Con esta acción ya no podrás ver los pedidos de esta sesión',
+				submit: {
+					text: 'Cerrar sesión',
+					function: function() {
+						return closeSession();
+					},
+					show: true
+				},
+				cancel: {
+					text: 'Cancelar',
+					function: null,
+					show: true
+				}
+			});
+
+		};
+
+		var closeSession = function() {
 
 			Session.save({
 				action: 'close',
 				token: $auth.getToken()
 			}, function(success) {
 				if (success.status === 200 || success.status === 201) {
-					deferred.resolve();
 					$state.go('login');
 				} else {
 					deferred.reject();
 				}
 			}, function(error) {
 				$log.error(error);
-				deferred.reject();
 			});
-			return deferred.promise;
 
 		};
 

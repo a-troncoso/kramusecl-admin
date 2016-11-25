@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-  .controller('GenerateCodesModalInstanceCtrl', function($rootScope, $log, $q, $uibModal, $uibModalInstance, $timeout, $auth, $state, $interval, Codes, data, Session, deviceDetector) {
+  .controller('GenerateCodesModalInstanceCtrl', function($rootScope, $log, $q, $uibModal, $uibModalInstance, $timeout, $auth, $state, $interval, CodesDj, data, Session, deviceDetector) {
 
     var self = this;
 
@@ -84,7 +84,7 @@ angular.module('karamuseDjApp')
       self.modal.subtitle.show = false;
       self.modal.buttons.send.disabled = true;
 
-      Codes.generate({
+      CodesDj.generate({
         action: self.modal.form.codes.value,
         token: $auth.getToken()
       }, function(success) {

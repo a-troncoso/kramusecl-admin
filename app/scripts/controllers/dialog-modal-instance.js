@@ -15,6 +15,8 @@ angular.module('karamuseDjApp')
     this.submit = function() {
       self.modal.loader.show = true;
 
+      $log.log(data);
+
       var result = data.submit.function();
       result.then(function() {
         self.modal.loader.show = false;

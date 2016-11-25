@@ -38,7 +38,8 @@ angular.module('karamuseDjApp')
 			time: '00:04:00',
 			waitTime: summatory,
 			url: orderData.url ? orderData.url : 'Link no disponible',
-			isUrl: orderData.url ? true : false
+			isUrl: orderData.url ? true : false,
+			message: orderData.message
 		};
 
 		this.cancel = function() {

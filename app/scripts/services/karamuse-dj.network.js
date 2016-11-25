@@ -101,19 +101,13 @@ angular
 	});
 })
 
-.factory('Codes', function($resource, API_URL_BASE) {
+.factory('CodesDj', function($resource, API_URL_BASE) {
 
 	return $resource(API_URL_BASE + '/codes/:action/:subAction/:value', {
 		action: '@action',
 		subAction: '@subAction',
 		value: '@value'
 	}, {
-		verify: {
-			method: 'GET',
-			params: {
-				token: '@token'
-			}
-		},
 		generate: {
 			method: 'POST'
 		},
@@ -125,8 +119,7 @@ angular
 
 .factory('VerifyCodes', function($resource, API_URL_BASE) {
 
-	return $resource(API_URL_BASE + '/codes/verify', {
-	}, {
+	return $resource(API_URL_BASE + '/codes/verify', {}, {
 		verify: {
 			method: 'GET',
 			params: {
@@ -189,7 +182,10 @@ angular
 
 .factory('Settings', function($resource, API_URL_BASE) {
 
-	return $resource(API_URL_BASE + '/settings', {}, {
+	return $resource(API_URL_BASE + '/settings/:setting/:value', {
+		setting: '@setting',
+		value: '@value'
+	}, {
 		update: {
 			method: 'PUT'
 		},

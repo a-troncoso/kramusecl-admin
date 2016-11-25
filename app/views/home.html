@@ -18,7 +18,6 @@
 					<a ng-click="home.gotoAnyPartOfPage('intro');"></a>
 				</li>
 				<li>
-					<!-- <a class="page-scroll" ui-sref="home.">Home</a> -->
 					<a href="#intro" scroll-on-click>Home</a>
 				</li>
 				<li>
@@ -160,11 +159,23 @@
 			<h1 class="text-light mb-40">Agrega un karaoke</h1>
 			<form class="form-horizontal" name="catalogForm" novalidate>
 				<div class="form-group">
+					<label for="title" class="col-sm-3 control-label">Artista</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Nombre de artista..." ng-model="home.catalog.artist.text" required >
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="title" class="col-sm-3 control-label">Canción</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Título del karaoke..." ng-model="home.catalog.song.text" required >
+					</div>
+				</div>
+				<!-- <div class="form-group">
 					<label for="title" class="col-sm-3 control-label">Título</label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Título del karaoke..." ng-model="home.catalog.title.text" required >
 					</div>
-				</div>
+				</div> -->
 				<div class="form-group">
 					<label for="title" class="col-sm-3 control-label">URL Video</label>
 					<div class="col-sm-8">
@@ -209,8 +220,8 @@
 				<td class="text-left">{{orderInfo.orderData.createdAt | date:'HH:mm'}}</td>
 			</tr>
 			<tr>
-				<td class="text-blue-karamuse">Nombre</td>
-				<td class="text-left"></td>
+				<td class="text-blue-karamuse">Nombre cliente</td>
+				<td class="text-left">{{orderInfo.orderData.message}}</td>
 			</tr>
 			<tr ng-switch="orderInfo.orderData.state">
 				<td class="text-blue-karamuse">Estado</td>
@@ -282,15 +293,19 @@
 				<table class="table" ng-show="addOrder.catalog.list.length > 0">
 					<thead>
 						<tr>
-							<th>Título</th>
-							<th>Link</th>
+							<th>Artista</th>
+							<th>Canción</th>
+							<th class="text-center">Link</th>
 							<th>Agregar</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="td in addOrder.catalog.list">
 							<td class="text-blue-karamuse text-left">
-								{{td.title}}
+								{{td.artist}}
+							</td>
+							<td class="text-blue-karamuse text-left">
+								{{td.song}}
 							</td>
 							<td class="text-left">
 								<a class="btn btn-border btn-bright-gray-karamuse" ng-href="{{td.url}}" target="_blank" rel="noopener noreferrer" specs="fullscreen=yes">Ver karaoke</a>
@@ -353,21 +368,21 @@
 			<div class="form-group">
 				<label for="barName" class="col-sm-3 control-label">Nombre</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control underline-input text-white" id="barName" placeholder="Nombre del bar..." ng-model="editData.bar.data.name" required >
+					<input ng-cloak type="text" class="form-control underline-input text-white" id="barName" placeholder="Nombre del bar..." ng-model="editData.bar.data.name" required >
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="barAddress" class="col-sm-3 control-label">Dirección</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control underline-input text-white" id="barAddress" placeholder="Dirección del bar..." ng-model="editData.bar.data.address" required >
+					<input ng-cloak type="text" class="form-control underline-input text-white" id="barAddress" placeholder="Dirección del bar..." ng-model="editData.bar.data.address" required >
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="barAvatar" class="col-sm-3 control-label">Foto de perfil</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control underline-input text-white" id="barAvatar" placeholder="URL foto de perfil..." ng-model="editData.bar.data.avatar" required >
+					<input ng-cloak type="text" class="form-control underline-input text-white" id="barAvatar" placeholder="URL foto de perfil..." ng-model="editData.bar.data.avatar" required >
 				</div>
 			</div>
 
@@ -380,6 +395,7 @@
 						<p class="help-block text-left" ng-switch-when="1">Tienes 1 pedido</p>
 						<p class="help-block text-left" ng-switch-default>Tienes {{editData.bar.data.totalOrders.current}} pedidos actualmente</p>
 					</div>
+					<p class="help-block text-left text-red" ng-show="editData.bar.data.totalOrders.message.show">{{editData.bar.data.totalOrders.message.text}}</p>
 				</div>
 			</div>
 

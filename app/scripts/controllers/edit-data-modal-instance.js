@@ -8,17 +8,17 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('EditDataModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, data, Settings) {
+	.controller('EditDataModalInstanceCtrl', function($rootScope, $log, $uibModalInstance, $auth, Settings) {
 
 		var self = this;
 
 		this.modal = {
 			title: {
-				text: 'Cambiar los datos del bar',
+				text: 'Editar los datos del bar',
 				show: true
 			},
 			subtitle: {
-				text: data.subtitle || null,
+				text: null,
 				show: false
 			},
 			paragraph1: {
@@ -42,25 +42,59 @@ angular.module('karamuseDjApp')
 
 		this.bar = {
 			data: {
-				name: data.name,
-				address: data.address,
-				avatar: data.avatar.url,
+				name: '',
+				address: '',
+				avatar: '',
 				totalOrders: {
-					value: parseInt(data.totalOrders) + 1,
+					value: 0,
 					max: 60,
-					min: parseInt(data.totalOrders) + 1,
-					current: parseInt(data.totalOrders)
+					min: 0,
+					current: 0,
+					message: {
+						text: '',
+						show: false
+					}
 				},
-				textAd: data.textAd,
-				bannerAd: data.bannerAd
+				textAd: '',
+				bannerAd: ''
 			}
 		};
 
 		this.getSettings = function() {
+			$rootScope.loader.show = true;
+
 			Settings.get({
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
+				if (success.status === 200) {
+					self.bar.data.name = success.data.name;
+					self.bar.data.address = success.data.address;
+					self.bar.data.avatar = success.data.avatar;
+					self.bar.data.totalOrders.value = parseInt(success.data.order_limit);
+					self.bar.data.totalOrders.min = parseInt(success.data.order_limit);
+					self.bar.data.totalOrders.current = parseInt(success.data.order_limit);
+					self.bar.data.textAd = success.data.text_ad;
+					self.bar.data.bannerAd = success.data.banner_ad;
+				} else if (success.status === 404) {
+					$log.error(success);
+					self.openModalDialog({
+						title: 'No encontramos datos',
+						subtitle: 'Tu bar no tiene datos de configuración',
+						submit: {
+							show: false,
+							text: '',
+							function: function() {}
+						},
+						cancel: {
+							text: 'Cerrar',
+							function: function() {
+								$uibModalInstance.close();
+							},
+							show: true
+						}
+					});
+				}
+				$rootScope.loader.show = false;
 			}, function(error) {
 				$log.log(error);
 			});
@@ -69,6 +103,7 @@ angular.module('karamuseDjApp')
 		this.editData = function(data) {
 			self.modal.buttons.save.disabled = true;
 			$rootScope.loader.show = true;
+			self.bar.data.totalOrders.message.show = false;
 
 			Settings.update({
 				token: $auth.getToken(),
@@ -89,12 +124,35 @@ angular.module('karamuseDjApp')
 						barName: success.data[2].bar_name,
 						address: success.data[3].address
 					});
+				} else if (success.status === 406) {
+					self.bar.data.totalOrders.message.show = true;
+					self.bar.data.totalOrders.message.text = 'Debes permtir ' + success.minValue + ' pedidos como mínimo.' ;
 				} else {
 					$log.error(success);
 				}
 			}, function(error) {
 				$log.error(error);
 			});
+		};
+
+		this.openModalDialog = function(data) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				backdrop: 'static',
+				ariaLabelledBy: 'modal-title',
+				ariaDescribedBy: 'modal-body',
+				templateUrl: 'dialog.html',
+				controller: 'DialogModalInstanceCtrl',
+				controllerAs: 'dialogModal',
+				size: 'md',
+				resolve: {
+					data: function() {
+						return data;
+					}
+				}
+			});
+
+			modalInstance.result.then(function() {}, function() {});
 		};
 
 		this.cancel = function() {
