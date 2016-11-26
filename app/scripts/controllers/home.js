@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, CodesDj, VerifyCodes, Catalog, Session) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $timeout, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, CodesDj, VerifyCodes, Catalog, Session) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -70,7 +70,10 @@ angular.module('karamuseDjApp')
 		};
 
 		this.catalog = {
-			title: {
+			artist: {
+				text: ''
+			},
+			song: {
 				text: ''
 			},
 			url: {
@@ -418,6 +421,12 @@ angular.module('karamuseDjApp')
 				if (success.status === 200) {
 					self.codes.list = success.data;
 					self.codes.buttons.more.disabled = false;
+					for (i = 0; i < self.codes.list.length; i++) {
+						self.codes.list[i].popover = {
+							text: '',
+							show: false
+						};
+					}
 				} else if (success.status === 201) {
 					$log.error('Sesión no tiene códigos');
 				} else if (success.status === 202) {
@@ -451,6 +460,17 @@ angular.module('karamuseDjApp')
 				// $log.log(success);
 				if (success.status === 200) {
 					self.codes.list[index].state = newState;
+					if (newState === '1') {
+						self.codes.list[index].popover.text = 'El código está disponible';
+					} else if (newState === '2') {
+						self.codes.list[index].popover.text = 'El código está bloqueado';
+					} else if (newState === '0') {
+						self.codes.list[index].popover.text = 'El código está inactivo';
+					}
+					self.codes.list[index].popover.show = true;
+					$timeout(function() {
+						self.codes.list[index].popover.show = false;
+					}, 3000);
 				} else {
 					$log.error(success);
 				}
@@ -483,18 +503,20 @@ angular.module('karamuseDjApp')
 			});
 		};
 
-		this.saveKaraoke = function(title, url) {
+		this.saveKaraoke = function(artist, song, url) {
 			self.catalog.buttons.send.disabled = true;
 
 			Catalog.save({
 				token: $auth.getToken(),
-				title: title,
+				artist: artist,
+				song: song,
 				url: url
 			}, function(success) {
 				// $log.log(success);
 				self.catalog.buttons.send.disabled = false;
 				if (success.status === 200) {
-					self.catalog.title.text = '';
+					self.catalog.artist.text = '';
+					self.catalog.song.text = '';
 					self.catalog.url.text = '';
 
 					self.openModalDialog({
@@ -556,7 +578,7 @@ angular.module('karamuseDjApp')
 					submit: {
 						text: 'Reintentar',
 						function: function() {
-							return self.saveKaraoke(title, url);
+							return self.saveKaraoke(artist, song, url);
 						},
 						show: true
 					},

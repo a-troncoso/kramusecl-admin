@@ -51,7 +51,7 @@
 					<div class="pb-10 thumbnail">
 						<img class="img-circle img-responsive" ng-src="{{home.bar.info.avatar.url}}" alt="avatar_pic" ng-show="home.bar.info.avatar.show" imageonload="home.bar.info.avatar.show=true" style="width: 100%;">
 					</div>
-					<h3 class="text-center">{{home.bar.info.name}}</h3>
+					<h3 class="text-center text-white">{{home.bar.info.name}}</h3>
 					<h4 class="text-center">{{home.bar.info.address}}</h4>
 					<h4 class="text-center text-danger" ng-if="home.bar.info.ordersLimit==0">Pedidos bloqueados</h4>
 					<h4 class="text-center text-blue-karamuse" ng-if="home.bar.info.ordersLimit==1">1 pedido permitido</h4>
@@ -71,7 +71,7 @@
 <section id="orders" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
-			<h1 class="text-light">Pedidos</h1>
+			<h1 class="text-light text-white">Pedidos</h1>
 				<div class="btn-group mb-10" ng-class="{'pull-left':home.orders.show}">
 					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
 						<i class="icon-refresh"></i>
@@ -96,25 +96,25 @@
 			<table class="table footable orders-table" ng-show="home.orders.show">
 				<thead>
 					<tr style="display: table; width: 100%">
-						<th style="display: table-cell;width: 15%">
+						<th class="text-blue-karamuse" style="display: table-cell;width: 15%">
 							Ticket
 						</th>
-						<th style="display: table-cell;width: 25%">
+						<th class="text-blue-karamuse" style="display: table-cell;width: 25%">
 							Artista
 						</th>
-						<th style="display: table-cell;width: 25%">
+						<th class="text-blue-karamuse" style="display: table-cell;width: 25%">
 							Canción
 						</th>
-						<th style="display: table-cell;width: 20%">
+						<th class="text-blue-karamuse" style="display: table-cell;width: 20%">
 							Hora
 						</th>
-						<th style="display: table-cell;width: 15%">
+						<th class="text-blue-karamuse" style="display: table-cell;width: 15%">
 							Opciones
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr  ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-blue-karamuse':tr.state == '0','text-gray-karamuse':tr.state == '1'}" style="display: table;width: 100%;">
+					<tr  ng-repeat="tr in home.orders.list | filter:home.orders.search.title.text" ng-class="{'text-white':tr.state == '0','text-gray-karamuse':tr.state == '1'}" style="display: table;width: 100%;">
 						<td style="display: table-cell;width: 15%" class="text-left">{{tr.ticket}}</td>
 						<td style="display: table-cell;width: 25%" class="text-left">{{tr.artist}}</td>
 						<td style="display: table-cell;width: 25%" class="text-left">{{tr.song}}</td>
@@ -137,14 +137,14 @@
 <section id="codes" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-			<h1 class="text-light mb-40">Códigos disponibles</h1>
+			<h1 class="text-light mb-40 text-white">Códigos disponibles</h1>
 			<div class="btn-group mb-10 block">
 				<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" uib-tooltip="Generar más códigos" ng-click="home.openModalGenerateCodes({value:home.codes.list.length});" ng-disabled="home.codes.buttons.more.disabled">
 					<i class="icon-plus"></i>
 				</button>
 			</div>
 			<div class="btn-group mt-20" >
-				<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-orange':code.state=='2'}" class="btn btn-border text-sm mr-5 mb-5" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);">
+				<button type="button" ng-class="{'btn-bright-gray-karamuse':code.state=='0','btn-blue-karamuse':code.state=='1','btn-orange':code.state=='2'}" class="btn btn-border text-sm mt-10 ml-10 mr-10 mb-10 text-md" ng-repeat="code in home.codes.list track by $index" ng-click="home.updateCodeState(code.code,code.state,$index);" uib-popover="{{code.popover.text}}" popover-is-open="code.popover.show">
 					{{code.code}}
 				</button>
 			</div>
@@ -156,33 +156,27 @@
 <section id="addCatalog" class="container content-section text-center" style="height: 100%;">
 	<div class="row">
 		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-			<h1 class="text-light mb-40">Agrega un karaoke</h1>
+			<h1 class="text-light mb-40 text-white">Agrega un karaoke</h1>
 			<form class="form-horizontal" name="catalogForm" novalidate>
 				<div class="form-group">
-					<label for="title" class="col-sm-3 control-label">Artista</label>
+					<label for="title" class="col-sm-3 control-label text-lg">Artista</label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Nombre de artista..." ng-model="home.catalog.artist.text" required >
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="title" class="col-sm-3 control-label">Canción</label>
+					<label for="title" class="col-sm-3 control-label text-lg">Canción</label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Título del karaoke..." ng-model="home.catalog.song.text" required >
 					</div>
 				</div>
-				<!-- <div class="form-group">
-					<label for="title" class="col-sm-3 control-label">Título</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control underline-input text-white" id="title" placeholder="Título del karaoke..." ng-model="home.catalog.title.text" required >
-					</div>
-				</div> -->
 				<div class="form-group">
-					<label for="title" class="col-sm-3 control-label">URL Video</label>
+					<label for="title" class="col-sm-3 control-label text-lg">URL Video</label>
 					<div class="col-sm-8">
 						<input type="url" class="form-control underline-input text-white" id="title" placeholder="https://www.youtube.com/..." ng-model="home.catalog.url.text" required >
 					</div>
 				</div>
-				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20 mt-40" type="button" ng-click="home.saveKaraoke(home.catalog.title.text,home.catalog.url.text)" ng-disabled="catalogForm.$invalid || home.catalog.buttons.send.disabled">Enviar</button>
+				<button class="btn btn-border btn-blue-karamuse pl-20 pr-20 mt-40 text-lg" type="button" ng-click="home.saveKaraoke(home.catalog.artist.text,home.catalog.song.text,home.catalog.url.text)" ng-disabled="catalogForm.$invalid || home.catalog.buttons.send.disabled">Enviar</button>
 			</form>
 		</div>
 	</div>
@@ -293,18 +287,18 @@
 				<table class="table" ng-show="addOrder.catalog.list.length > 0">
 					<thead>
 						<tr>
-							<th>Artista</th>
-							<th>Canción</th>
-							<th class="text-center">Link</th>
-							<th>Agregar</th>
+							<th class="text-blue-karamuse">Artista</th>
+							<th class="text-blue-karamuse">Canción</th>
+							<th class="text-center text-blue-karamuse">Link</th>
+							<th class="text-blue-karamuse">Agregar</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="td in addOrder.catalog.list">
-							<td class="text-blue-karamuse text-left">
+							<td class="text-white text-left">
 								{{td.artist}}
 							</td>
-							<td class="text-blue-karamuse text-left">
+							<td class="text-white text-left">
 								{{td.song}}
 							</td>
 							<td class="text-left">
@@ -456,6 +450,6 @@
 	</div>
 	<div class="modal-footer" style="text-align:center">
 		<button class="btn btn-border btn-bright-gray-karamuse pl-20 pr-20" type="button" ng-click="generateCodes.cancel()">Cancelar</button>
-		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Enviar</button>
+		<button class="btn btn-border btn-blue-karamuse pl-20 pr-20" type="button" ng-disabled="form.$invalid || generateCodes.modal.buttons.send.disabled" ng-click="generateCodes.generateCodes()">Generar</button>
 	</div>
 </script>

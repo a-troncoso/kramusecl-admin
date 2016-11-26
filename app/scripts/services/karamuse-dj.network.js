@@ -55,37 +55,34 @@ angular
 	});
 })
 
-.factory('ChileRegions', function($resource) {
+.factory('ChileRegions', function($resource, API_URL_BASE) {
 
-	return $resource('https://apis.modernizacion.cl/dpa/regiones', {}, {
+	return $resource(API_URL_BASE + '/dpa/regiones', {}, {
 		query: {
-			method: 'GET',
-			isArray: true
+			method: 'GET'
 		}
 	});
 })
 
-.factory('ChileProvinces', function($resource) {
+.factory('ChileProvinces', function($resource, API_URL_BASE) {
 
-	return $resource('https://apis.modernizacion.cl/dpa/regiones/:regionId/provincias', {
+	return $resource(API_URL_BASE + '/dpa/regiones/:regionId/provincias', {
 		regionId: '@regionId'
 	}, {
 		query: {
-			method: 'GET',
-			isArray: true
+			method: 'GET'
 		}
 	});
 })
 
-.factory('ChileCommunes', function($resource) {
+.factory('ChileCommunes', function($resource, API_URL_BASE) {
 
-	return $resource('https://apis.modernizacion.cl/dpa/regiones/:regionId/provincias/:provinceId/comunas', {
+	return $resource(API_URL_BASE + '/dpa/regiones/:regionId/provincias/:provinceId/comunas', {
 		regionId: '@regionId',
 		provinceId: '@provinceId'
 	}, {
 		query: {
-			method: 'GET',
-			isArray: true
+			method: 'GET'
 		}
 	});
 })

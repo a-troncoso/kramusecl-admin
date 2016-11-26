@@ -14,7 +14,7 @@ angular.module('karamuseDjApp')
 
     this.modal = {
       title: {
-        text: '¿Cuántos códigos quieres?',
+        text: '¿Cuántos códigos quieres generar?',
         show: true
       },
       subtitle: {
@@ -182,7 +182,7 @@ angular.module('karamuseDjApp')
     };
 
     if (this.modal.form.codes.max > 0) {
-      this.modal.title.text = '¿Cuántos códigos quieres?';
+      this.modal.title.text = '¿Cuántos códigos quieres generar?';
     } else {
       this.modal.title.text = 'No puedes generar más códigos';
       this.modal.subtitle.text = 'Has alcanzado la cantidad máxima de códigos permitidos';

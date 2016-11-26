@@ -12,7 +12,7 @@
       <div ng-show="signup.page.messages.registryResponse.show">
         <h4 class="text-{{signup.page.messages.registryResponse.title.color}}">{{signup.page.messages.registryResponse.title.text}}</h4>
         <h4 class="text-{{signup.page.messages.registryResponse.subtitle.color}}">{{signup.page.messages.registryResponse.subtitle.text}}</h4>
-        <a ng-href="{{signup.page.messages.registryResponse.link.href}}" class="text-{{signup.page.messages.registryResponse.link.color}}">{{signup.page.messages.registryResponse.link.text}}</a>
+        <a ng-href="{{signup.page.messages.registryResponse.link.href}}" class="text-{{signup.page.messages.registryResponse.link.color}} text-lg pointer">{{signup.page.messages.registryResponse.link.text}}</a>
       </div>
 
       <form name="form" class="form-validation mt-20" novalidate>
@@ -38,18 +38,18 @@
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.region.show">
-          <select class="form-control underline-input text-white" ng-options="region.nombre for region in signup.page.regions.list track by region.codigo" ng-model="signup.user.data.region" ng-change="signup.getProvinces(signup.user.data.region.codigo)" title="Selecciona tu región" ng-required="signup.page.formGroups.region.required">
+          <select class="form-control regions-select underline-input text-white" ng-options="region.nombre for region in signup.page.regions.list track by region.codigo" ng-model="signup.user.data.region" ng-change="signup.getProvinces(signup.user.data.region.codigo)" title="Selecciona tu región" ng-required="signup.page.formGroups.region.required">
              <option disabled selected value="" class="text-italic">Seleccione región</option>
           </select>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.province.show">
-        	<select class="form-control underline-input text-white" ng-options="province.nombre for province in signup.page.provinces.list track by province.codigo" ng-model="signup.user.data.province" ng-change="signup.getCommunes(signup.user.data.region.codigo,signup.user.data.province.codigo)" title="Selecciona tu provincia" ng-required="signup.page.formGroups.province.required">7
+        	<select class="form-control regions-select underline-input text-white" ng-options="province.nombre for province in signup.page.provinces.list track by province.codigo" ng-model="signup.user.data.province" ng-change="signup.getCommunes(signup.user.data.region.codigo,signup.user.data.province.codigo)" title="Selecciona tu provincia" ng-required="signup.page.formGroups.province.required">7
             <option disabled selected value="" class="text-italic">Seleccione provincia</option></select>
         </div>
 
         <div class="form-group" ng-show="signup.page.formGroups.commune.show">
-        	<select class="form-control underline-input text-white" ng-options="commune.nombre for commune in signup.page.communes.list track by commune.codigo" ng-model="signup.user.data.commune" title="Selecciona tu comuna" ng-required="signup.page.formGroups.commune.required">7
+        	<select class="form-control regions-select underline-input text-white" ng-options="commune.nombre for commune in signup.page.communes.list track by commune.codigo" ng-model="signup.user.data.commune" title="Selecciona tu comuna" ng-required="signup.page.formGroups.commune.required">7
             <option disabled selected value="" class="text-italic">Seleccione comuna</option></select>
         </div>
 

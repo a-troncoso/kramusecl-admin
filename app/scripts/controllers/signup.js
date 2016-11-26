@@ -142,7 +142,7 @@ angular.module('karamuseDjApp')
 
 		var getRegions = function() {
 			ChileRegions.query({}, function(success) {
-				self.page.regions.list = success;
+				self.page.regions.list = success.data;
 				self.user.data.region = self.page.regions.list[0];
 				self.getProvinces(self.user.data.region.codigo);
 			}, function(error) {
@@ -154,7 +154,7 @@ angular.module('karamuseDjApp')
 			ChileProvinces.query({
 				regionId: regionId
 			}, function(success) {
-				self.page.provinces.list = success;
+				self.page.provinces.list = success.data;
 				self.user.data.province = self.page.provinces.list[0];
 				self.getCommunes(self.user.data.region.codigo, self.user.data.province.codigo);
 			}, function(error) {
@@ -167,7 +167,7 @@ angular.module('karamuseDjApp')
 				regionId: regionId,
 				provinceId: provinceId
 			}, function(success) {
-				self.page.communes.list = success;
+				self.page.communes.list = success.data;
 				self.user.data.commune = self.page.communes.list[0];
 			}, function(error) {
 				$log.error(error);
@@ -318,7 +318,7 @@ angular.module('karamuseDjApp')
 					self.page.messages.registryResponse.link.text = 'ir al login';
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
-					self.page.messages.registryResponse.link.color = 'black';
+					self.page.messages.registryResponse.link.color = 'blue-karamuse';
 					self.page.messages.registryResponse.link.href = '#/';
 					self.page.buttons.send.disabled = true;
 					// Utils.gotoAnyPartOfPage('topPage');
@@ -328,7 +328,8 @@ angular.module('karamuseDjApp')
 					self.page.messages.registryResponse.link.text = 'ir al login';
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
-					self.page.messages.registryResponse.link.color = 'black';
+					self.page.messages.registryResponse.link.color = 'blue-karamuse';
+					self.page.messages.registryResponse.link.href = '#/';
 					self.page.buttons.send.disabled = true;
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 403) {

@@ -3638,6 +3638,10 @@ label.custom-input-file input[type="file"] {
 .filter-show-animate.ng-hide {
   width: 0px; }
 
+.regions-select option {
+  background: #4C4C4C;
+  color: #fff; }
+
 .badge,
 .label {
   font-size: 10px;
