@@ -1,29 +1,36 @@
 <div layout="column" ng-cloak flex layout-fill>
- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">
 			<h2><span>Paso 1</span></h2>
 			<span flex></span>
 			<md-button class="md-icon-button" aria-label="Cerrar">
-				<md-icon md-font-icon="material-icons"  ng-click="results.gotoState('client.search-karaoke');">search</md-icon>
+				<md-icon md-font-icon="material-icons" ng-click="results.gotoState('client.search-karaoke');" style="line-height: 1;">search</md-icon>
 			</md-button>
-			<md-button ng-if="results.ticket.orders.length>0" class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="results.openDialogTicket();">Ver Ticket</md-button>
+			<md-button class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="results.openDialogTicket();">
+				Ver ticket</md-button>
 		</div>
 	</md-toolbar>
 
 	<md-content flex>
-		<md-list>
-			<md-list-item class="md-2-line">
-				<img ng-src="{{results.bar.info.settings.avatar}}" class="md-avatar" alt="avatar_{{results.bar.info.name}}" />
-				<div class="md-list-item-text">
-					<h3>{{results.bar.info.name}}</h3>
-					<p>{{results.bar.info.address}}</p>
-				</div>
-			</md-list-item>
-		</md-list>
 		
-		<md-subheader class="md-accent" ng-show="results.bar.info.settings.text_ad">{{results.catalog.textAd}}</md-subheader>
+		
+		<md-subheader class="md-accent p-0" ng-show="results.bar.info.settings.text_ad">
+				<md-list>
+					<md-list-item class="md-2-line">
+						<img ng-src="{{results.bar.info.settings.avatar}}" class="md-avatar" alt="avatar_{{results.bar.info.name}}" />
+						<div class="md-list-item-text">
+							<h3>{{results.bar.info.name}}</h3>
+							<p>{{results.bar.info.address}}</p>
+							<p md-colors="{color:'accent'}">{{results.catalog.textAd}}</p>
+						</div>
+					</md-list-item>
+				</md-list>
+
+			<!-- <p>{{results.catalog.textAd}}</p> -->
+
+
+		</md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.validateKaraokeUrl(karaoke);">
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
@@ -47,11 +54,13 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<md-button class="md-icon-button" aria-label="Cerrar">
+				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.closeDialog();" style="min-width:auto;"> <md-icon md-font-icon="icon-arrow-left" style="font-size: 14px;" /></md-button>
+				<!-- <md-button class="md-icon-button" aria-label="Cerrar">
 					<md-icon md-font-icon="material-icons" ng-click="karaokeDetails.closeDialog();">close</md-icon>
-				</md-button>
-				<h2><span>Vista previa</span></h2>
+				</md-button> -->
+				<!-- <h2><span>Vista previa</span></h2> -->
 				<span flex></span>
+				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">siguiente <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /></md-button>
 			</div>
 		</md-toolbar>
 
@@ -61,9 +70,9 @@
 					<youtube-video video-url="karaokeDetails.elements.karaoke.url"></youtube-video>
 				</div>
 
-				<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
+				<!-- <md-dialog-actions layout="column" layout-align="center" flex layout-padding>
 					<md-button class="md-primary md-raised text-md" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
-				</md-dialog-actions>
+				</md-dialog-actions> -->
 			</div>
 		</md-dialog-content>
 	</md-dialog>
@@ -92,11 +101,12 @@
 					</md-input-container>
 
 					<md-input-container class="md-block md-headline" ng-show="nameOrMessage.elements.form.code.show" flex>
-						<label>Código</label>
+						<label>Ingresa tu código</label>
 						<input type="text" name="code" ng-model="nameOrMessage.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" ng-change="nameOrMessage.elements.form.code.error.show=false;nameOrMessage.elements.form.buttons.next.disabled=false" style="text-align: center;"  required>
 						<div ng-messages="orderForm.code.$error">
 							<div ng-show="nameOrMessage.elements.form.code.error.show" style="text-align: center;">{{nameOrMessage.elements.form.code.error.text}}</div>
 						</div>
+						<div class="hint md-body-1 text-gray" aria-hidden="false" md-colors="{color:'accent'}">Obtén tu código en el local</div>
 					</md-input-container>
 
 					<md-dialog-actions layout="column" layout-align="center" flex layout-padding>

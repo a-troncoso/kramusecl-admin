@@ -307,7 +307,7 @@ angular.module('karamuseDjApp')
 				self.page.messages.registryResponse.show = true;
 				if (success.status === 200) {
 					self.page.messages.registryResponse.title.text = '¡Muchas gracias!';
-					self.page.messages.registryResponse.subtitle.text = 'Pronto nos pondremos en contacto contigo';
+					self.page.messages.registryResponse.subtitle.text = 'Hemos enviado un email a ' + data.email + ' para que actives tu cuenta';
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
 					self.page.buttons.send.disabled = true;
