@@ -255,7 +255,7 @@ angular.module('karamuseDjApp')
 					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
-					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una región';
+					self.page.messages.registryResponse.title.text = 'Debes seleccionar una región';
 					return;
 				}
 
@@ -263,7 +263,7 @@ angular.module('karamuseDjApp')
 					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
-					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una provincia';
+					self.page.messages.registryResponse.title.text = 'Debes seleccionar una provincia';
 					return;
 				}
 
@@ -271,7 +271,7 @@ angular.module('karamuseDjApp')
 					Utils.gotoAnyPartOfPage('topPage');
 					self.page.messages.registryResponse.show = true;
 					self.page.messages.registryResponse.title.color = 'danger';
-					self.page.messages.registryResponse.title.text = 'Debes seeleccionar una comuna';
+					self.page.messages.registryResponse.title.text = 'Debes seleccionar una comuna';
 					return;
 				}
 
@@ -323,8 +323,8 @@ angular.module('karamuseDjApp')
 					self.page.buttons.send.disabled = true;
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 202) {
-					self.page.messages.registryResponse.title.text = 'No se ha completado el registro :(';
-					self.page.messages.registryResponse.subtitle.text = 'El bar ya está registrado';
+					self.page.messages.registryResponse.title.text = 'No se ha completado el registro';
+					self.page.messages.registryResponse.subtitle.text = 'Tu bar ya está registrado en Karamuse';
 					self.page.messages.registryResponse.link.text = 'ir al login';
 					self.page.messages.registryResponse.title.color = 'white';
 					self.page.messages.registryResponse.subtitle.color = 'white';
@@ -333,14 +333,14 @@ angular.module('karamuseDjApp')
 					self.page.buttons.send.disabled = true;
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else if (success.status === 403) {
-					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
-					self.page.messages.registryResponse.subtitle.text = 'Tu email ya está registrado';
+					self.page.messages.registryResponse.title.text = 'No podido completar el registro';
+					self.page.messages.registryResponse.subtitle.text = 'Por favor rellena todos los datos para registrarte';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';
 					self.page.buttons.send.disabled = false;
 					// Utils.gotoAnyPartOfPage('topPage');
 				} else {
-					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error :(';
+					self.page.messages.registryResponse.title.text = 'Ha ocurrido un error al registrate';
 					self.page.messages.registryResponse.subtitle.text = 'Por favor contáctanos a: karamuseDjApp@gmail.com';
 					self.page.messages.registryResponse.title.color = 'danger';
 					self.page.messages.registryResponse.subtitle.color = 'danger';

@@ -74,19 +74,19 @@
 			<h1 class="text-light text-white">Pedidos</h1>
 				<div class="btn-group mb-10" ng-class="{'pull-left':home.orders.show}">
 					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md" ng-click="getOrders()" uib-tooltip="Recargar pedidos">
-						<i class="icon-refresh"></i>
+						<i style="font-size: 20px;" class="icon-refresh"></i>
 					</button>
 					<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.openModalAddOrder()" ng-disabled="home.bar.info.ordersLimit=='0'" uib-tooltip="Pedir un karaoke">
-						<i class="icon-microphone"></i>
+						<i style="font-size: 21px;" class="icon-microphone"></i>
 					</button>
 					<button type="button" class="icon icon-default  icon-ef-3 icon-ef-3a hover-color text-md center-block" ng-click="home.lockUnlockOrders();" uib-tooltip="{{home.orders.btnGroup.buttons.lockUnlock.tooltip}}">
-						<i class="icon-{{home.orders.btnGroup.buttons.lockUnlock.icon}}"></i>
+						<i style="font-size: 20px;" class="icon-{{home.orders.btnGroup.buttons.lockUnlock.icon}}"></i>
 					</button>
 				</div>
 				<div class="btn-group mb-10 pull-right" ng-show="home.orders.show">
 					<input type="text" class="form-control inline underline-input filter-show-animate text-white" placeholder="Título" ng-blur="home.orders.search.show=false;" ng-model="home.orders.search.title.text" ng-hide="!home.orders.search.show" focus="home.orders.search.focus">
 					<button type="button" class="icon icon-default icon-ef-3 icon-ef-3a hover-color text-md" ng-click="home.orders.search.show=true;home.orders.search.focus=true;" uib-tooltip="Filtrar pedidos">
-						<i class="icon-search"></i>
+						<i style="font-size: 19px;" class="icon-search"></i>
 					</button>
 				</div>
 		</div>

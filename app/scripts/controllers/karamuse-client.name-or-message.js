@@ -100,7 +100,7 @@ angular.module('karamuseDjApp')
 					openDialogTicket(); // abre modal ticket
 				}, function() {
 					$rootScope.clientGlobalLoader.show = false;
-					self.elements.form.code.error.text = 'Código no válido';
+					self.elements.form.code.error.text = 'Código inválido';
 					self.elements.form.code.error.show = true;
 				});
 			} else {

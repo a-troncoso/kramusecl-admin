@@ -11,11 +11,13 @@
 				Ver ticket</md-button>
 		</div>
 	</md-toolbar>
-
+	<style>
+		.bar-subheader .md-subheader-inner {
+			padding: 0;
+		}
+	</style>
 	<md-content flex>
-		
-		
-		<md-subheader class="md-accent p-0" ng-show="results.bar.info.settings.text_ad">
+		<md-subheader class="md-accent bar-subheader" ng-show="results.bar.info.settings.text_ad">
 				<md-list>
 					<md-list-item class="md-2-line">
 						<img ng-src="{{results.bar.info.settings.avatar}}" class="md-avatar" alt="avatar_{{results.bar.info.name}}" />
@@ -26,11 +28,8 @@
 						</div>
 					</md-list-item>
 				</md-list>
-
-			<!-- <p>{{results.catalog.textAd}}</p> -->
-
-
 		</md-subheader>
+
 		<md-list>
 			<md-list-item class="md-2-line" ng-repeat="karaoke in results.catalog.list" ng-click="results.validateKaraokeUrl(karaoke);">
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
@@ -38,7 +37,9 @@
 					<h3>{{karaoke.song}}</h3>
 					<p>{{karaoke.artist}}</p>
 				</div>
+			<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
+
 		</md-list>
 
 		<div layout="row" layout-align="space-between">
@@ -144,6 +145,7 @@
 					<p>{{order.artist}}</p>
 					<p>{{order.message}}</p>
 				</div>
+				<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
 		</md-dialog-content>
 
@@ -235,6 +237,7 @@
 						<p>{{ticket.message}}</p>
 						<p ng-if="ticket.result.show" md-colors="{color: ticket.result.color}">{{ticket.result.message}}</p>
 					</div>
+					<md-divider md-inset ng-if="!$last"></md-divider>
 				</md-list-item>
 				<p ng-if="orderResults.orders.notSent==0">Todos tus pedidos fueron enviados</p>
 			</div>
