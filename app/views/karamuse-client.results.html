@@ -2,7 +2,7 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">
-			<h2><span>Paso 1</span></h2>
+			<!-- <h2><span>Paso 1</span></h2> -->
 			<span flex></span>
 			<md-button class="md-icon-button" aria-label="Cerrar">
 				<md-icon md-font-icon="material-icons" ng-click="results.gotoState('client.search-karaoke');" style="line-height: 1;">search</md-icon>
@@ -65,7 +65,7 @@
 				</md-button>
 				<!-- <h2><span>Vista previa</span></h2> -->
 				<span flex></span>
-				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">siguiente <!-- <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /> -->
+				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">Pedir <!-- <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /> -->
 					<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
 				</md-button>
 			</div>
@@ -93,7 +93,7 @@
 			<md-button class="md-icon-button" aria-label="Cerrar">
 				<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">close</md-icon>
 			</md-button>
-				<h2><span>Paso 2</span></h2>
+				<h2><span>Paso 1</span></h2>
 				<span flex></span>
 			</div>
 		</md-toolbar>
@@ -135,7 +135,7 @@
 				<md-button class="md-icon-button" aria-label="Cerrar">
 					<md-icon md-font-icon="material-icons" ng-click="ticket.closeDialog();">close</md-icon>
 				</md-button>
-				<h2><span>Paso 3</span></h2>
+				<h2><span>Paso 2</span></h2>
 				<span flex></span>
 				<md-button class="md-primary md-hue-1" aria-label="Agregar otra" ng-click="ticket.addAnotherOrder();">Agregar <md-icon md-font-icon="material-icons">exposure_plus_1</md-icon>
 				</md-button>

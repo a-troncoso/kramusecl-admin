@@ -8,7 +8,7 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('TicketCtrl', function($auth, $q, $state, $mdDialog, $log, deviceDetector, Orders, Utils, orderWarnings) {
+	.controller('TicketCtrl', function($rootScope, $auth, $q, $state, $mdDialog, $log, deviceDetector, Orders, Utils, orderWarnings) {
 
 		var self = this,
 			i = 0,
@@ -48,6 +48,24 @@ angular.module('karamuseClientApp')
 				.then(function() {}, function() {});
 		};
 
+		this.openDialogCustomAlert = function(data) {
+			$mdDialog.show({
+					controller: 'CustomAlertCtrl',
+					controllerAs: 'customAlert',
+					templateUrl: 'karamuse-client.custom-alert.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: false, // Only for -xs, -sm breakpoints.
+					locals: {
+						data: data
+					}
+				})
+				.finally(function() {
+					$log.log('finally');
+					self.openDialogTicket();
+				});
+		};
+
 		this.openDialogOrderResults = function() {
 			$mdDialog.show({
 					controller: 'OrderResultsCtrl',
@@ -68,7 +86,7 @@ angular.module('karamuseClientApp')
 		};
 
 		this.order = function() {
-
+			$rootScope.clientGlobalLoader.show = true;
 			var validateCode = self.validateCode();
 			validateCode.then(function() {
 
@@ -89,6 +107,7 @@ angular.module('karamuseClientApp')
 					order: order
 				}, function(success) {
 					// $log.log(success);
+					$rootScope.clientGlobalLoader.show = false;
 					if (success.status === 200) {
 						for (i = 0; i < success.data.length; i++) {
 							for (j = 0; j < ticket.orders.length; j++) {
@@ -110,26 +129,35 @@ angular.module('karamuseClientApp')
 						$mdDialog.hide();
 						self.openDialogOrderResults();
 					} else if (success.status === 403) {
-						$log.error('codigo no válido');
+						$log.error('codigo inválido');
 						openDialogCode({
 							error: {
-								text: 'Código no válido',
+								text: 'Código inválido',
 								show: true
 							}
 						});
 					} else if (success.status === 404) {
 						$log.error('puede ser que el arreglo del pedido está vacío o es invalido');
 					} else if (success.status === 406) {
-						// $log.error('Cupos limitados');
-						self.openDialogTicket(success);
+						$log.error('Cupos limitados');
+						// self.openDialogTicket(success);
+						self.openDialogCustomAlert({
+							title: '¡Cupos limitados!',
+							subtitle: '',
+							body: {
+								paragraph1: 'Sólo hay espacio para ' + success.capacity + ' karaoke(s). Por favor inténtalo nuevamente'
+							}
+						});
 					} else {
 						$log.error(success);
 					}
 				}, function(error) {
+					$rootScope.clientGlobalLoader.show = false;
 					$log.error(error);
 				});
 			}, function() {
 				// abre modal que solicita codigo
+				$rootScope.clientGlobalLoader.show = false;
 				openDialogCode({
 					error: {
 						text: 'Código inválido',
