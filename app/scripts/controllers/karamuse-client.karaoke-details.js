@@ -78,7 +78,7 @@ angular.module('karamuseClientApp')
 						templateUrl: 'karamuse-client.nameOrMessage.tmpl.html',
 						parent: angular.element(document.querySelector('#dialogContainer')),
 						clickOutsideToClose: true,
-						fullscreen: true, // Only for -xs, -sm breakpoints.
+						fullscreen: false, // Only for -xs, -sm breakpoints.
 						locals: {
 							order: order
 						}
@@ -94,7 +94,7 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						orderWarnings: null
 					}

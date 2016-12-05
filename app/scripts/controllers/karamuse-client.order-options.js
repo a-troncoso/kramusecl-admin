@@ -24,7 +24,7 @@ angular.module('karamuseDjApp')
 					templateUrl: 'karamuse-client.karaoke-details.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						karaokeSelected: karaokeSelected
 					}
@@ -52,7 +52,7 @@ angular.module('karamuseDjApp')
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						orderWarnings: null
 					}
@@ -69,7 +69,7 @@ angular.module('karamuseDjApp')
 					templateUrl: 'karamuse-client.karaoke-details.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						karaokeSelected: karaokeSelected
 					}
