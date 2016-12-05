@@ -213,6 +213,19 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
+			console.log("length: " + this.ticket.orders.length);
+			console.log("data: " + JSON.stringify(this.ticket.orders));
+			if (this.ticket.orders.length === 0) {
+				this.openDialogCustomAlert({
+					title: '¡Hey!',
+					subtitle: '',
+					body: {
+						paragraph1: 'No tienes Karaokes agregados por el momento.'
+					}
+				});
+				return;
+			}
+
 			$mdDialog.show({
 					controller: 'TicketCtrl',
 					controllerAs: 'ticket',
@@ -225,6 +238,7 @@ angular.module('karamuseClientApp')
 					}
 				})
 				.then(function() {}, function() {});
+			
 		};
 
 		this.gotoState = function(state) {

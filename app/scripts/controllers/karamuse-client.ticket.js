@@ -132,7 +132,7 @@ angular.module('karamuseClientApp')
 				// abre modal que solicita codigo
 				openDialogCode({
 					error: {
-						text: 'Código no válido',
+						text: 'Código inválido',
 						show: true
 					}
 				});

@@ -8,7 +8,8 @@
 				<md-icon md-font-icon="material-icons" ng-click="results.gotoState('client.search-karaoke');" style="line-height: 1;">search</md-icon>
 			</md-button>
 			<md-button class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="results.openDialogTicket();">
-				Ver ticket</md-button>
+				Ver ticket <md-icon md-font-icon="material-icons">arrow_forward</md-icon>
+				</md-button>
 		</div>
 	</md-toolbar>
 	<style>
@@ -38,7 +39,7 @@
 				<div class="md-list-item-text">
 					<p>{{karaoke.song}}</p>
 					<p md-colors="{color:'grey'}">{{karaoke.artist}}</p>
-					<md-button md-colors="{color:'blue'}" class="md-secondary" ng-click="results.validateKaraokeUrl(karaoke);">Cantar</md-button>
+					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="results.validateKaraokeUrl(karaoke);">Cantar</md-button>
 				</div>
 			<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
@@ -58,13 +59,15 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.closeDialog();" style="min-width:auto;"> <md-icon md-font-icon="icon-arrow-left" style="font-size: 14px;" /></md-button>
-				<!-- <md-button class="md-icon-button" aria-label="Cerrar">
+				<!-- <md-button aria-label="Ver resultados" ng-click="karaokeDetails.closeDialog();" style="min-width:auto;"> <md-icon md-font-icon="icon-arrow-left" style="font-size: 14px;" /></md-button> -->
+				<md-button class="md-icon-button" aria-label="Cerrar">
 					<md-icon md-font-icon="material-icons" ng-click="karaokeDetails.closeDialog();">close</md-icon>
-				</md-button> -->
+				</md-button>
 				<!-- <h2><span>Vista previa</span></h2> -->
 				<span flex></span>
-				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">siguiente <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /></md-button>
+				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">siguiente <!-- <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /> -->
+					<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
+				</md-button>
 			</div>
 		</md-toolbar>
 
@@ -147,13 +150,15 @@
 					<p>{{order.song}}</p>
 					<p md-colors="{color:'grey'}">{{order.artist}}</p>
 					<p md-colors="{color:'blue'}">{{order.message}}</p>
+					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="">Eliminar</md-button>
 				</div>
 				<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
 		</md-dialog-content>
 
 		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir</md-button>
+			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">send</md-icon>
+			</md-button>
 		</md-dialog-actions>
 	</md-dialog>
 </script>
@@ -241,7 +246,13 @@
 					</div>
 					<md-divider md-inset ng-if="!$last"></md-divider>
 				</md-list-item>
-				<p ng-if="orderResults.orders.notSent==0">¡Gracias! el DJ ha recibido tu pedido.</p>
+				<div ng-if="orderResults.orders.notSent==0" layout="column" layout-align="center center">
+					<md-button class="md-icon-button md-raised md-primary" aria-label="Cerrar">
+						<!-- <md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">cloud_done</md-icon> -->
+						<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">thumb_up</md-icon>
+					</md-button>
+					<p style="margin-top: 25px" md-colors="{color:'blue'}">¡Gracias! el DJ ha recibido tu pedido.</p>
+				</div>
 			</div>
 		</md-dialog-content>
 
