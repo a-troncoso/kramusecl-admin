@@ -151,7 +151,7 @@ angular.module('karamuseClientApp')
 						templateUrl: 'karamuse-client.nameOrMessage.tmpl.html',
 						parent: angular.element(document.querySelector('#dialogContainer')),
 						clickOutsideToClose: true,
-						fullscreen: true, // Only for -xs, -sm breakpoints.
+						fullscreen: false, // Only for -xs, -sm breakpoints.
 						locals: {
 							order: order
 						}
@@ -177,7 +177,7 @@ angular.module('karamuseClientApp')
 						templateUrl: 'karamuse-client.nameOrMessage.tmpl.html',
 						parent: angular.element(document.querySelector('#dialogContainer')),
 						clickOutsideToClose: true,
-						fullscreen: true, // Only for -xs, -sm breakpoints.
+						fullscreen: false, // Only for -xs, -sm breakpoints.
 						locals: {
 							order: order
 						}
@@ -195,7 +195,7 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.karaoke-details.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						karaokeSelected: karaokeSelected
 					}
@@ -213,18 +213,32 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
+			console.log("length: " + this.ticket.orders.length);
+			console.log("data: " + JSON.stringify(this.ticket.orders));
+			if (this.ticket.orders.length === 0) {
+				this.openDialogCustomAlert({
+					title: '¡Hey!',
+					subtitle: '',
+					body: {
+						paragraph1: 'No tienes Karaokes agregados por el momento.'
+					}
+				});
+				return;
+			}
+
 			$mdDialog.show({
 					controller: 'TicketCtrl',
 					controllerAs: 'ticket',
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						orderWarnings: null
 					}
 				})
 				.then(function() {}, function() {});
+			
 		};
 
 		this.gotoState = function(state) {

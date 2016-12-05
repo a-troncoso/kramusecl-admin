@@ -40,7 +40,7 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.code.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: false,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						data: data
 					}
@@ -55,7 +55,7 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.order-results.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 				})
 				.then(function() {}, function() {});
 		};
@@ -132,7 +132,7 @@ angular.module('karamuseClientApp')
 				// abre modal que solicita codigo
 				openDialogCode({
 					error: {
-						text: 'Código no válido',
+						text: 'Código inválido',
 						show: true
 					}
 				});
@@ -151,7 +151,7 @@ angular.module('karamuseClientApp')
 					templateUrl: 'karamuse-client.ticket.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
 					clickOutsideToClose: true,
-					fullscreen: true, // Only for -xs, -sm breakpoints.
+					fullscreen: false, // Only for -xs, -sm breakpoints.
 					locals: {
 						orderWarnings: null
 					}

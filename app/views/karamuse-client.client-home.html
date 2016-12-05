@@ -1,14 +1,22 @@
+<style type="text/css">
+	.logo {
+		padding: 30px
+	}
+</style>
 <div layout="column" ng-cloak flex layout-fill>
 
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools" layout="row" layout-align="center center">
-			<h2 class="md-title"><span>¡Bienvenido a Karamuse!</span></h2>
+			<h2 class="md-title"><span>¿Dónde estás?</span></h2>
 		</div>
 	</md-toolbar>
 
 	<md-content flex>
-		<md-subheader layout="row" layout-align="center"><span class="md-subhead">¿Dónde te encuentras?</span></md-subheader>
-		<md-list>
+		
+	<div layout="row" layout-align="center center" class="logo">
+		  <img ng-src="images/karamuse-logo-new-blue.png" width="80%"/>
+		</div>
+		<md-list> 
 			<md-list-item class="md-2-line" ng-repeat="bar in clientHome.bars.list" ng-click="bar.disabled=true;clientHome.gotoSearchKaraoke(bar);" ng-disabled="bar.disabled">
 				<img ng-src="{{bar.settings.avatar}}" class="md-avatar" alt="avatar_{{clientHome.name}}" />
 				<div class="md-list-item-text">
