@@ -4,7 +4,7 @@
 	}
 </style>
 <div layout="column" ng-cloak flex layout-fill>
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools" layout="row" layout-align="center center">
 			<h2 class="md-title"><span>¿Dónde estás?</span></h2>
@@ -28,3 +28,20 @@
 	</md-content>
 
 </div>
+
+<script type="text/ng-template" id="karamuse-client.banner.tmpl.html">
+	<md-dialog aria-label="banner">
+		<md-toolbar md-scroll-shrink>
+			<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" aria-label="Cerrar">
+					<md-icon md-font-icon="material-icons" ng-click="banner.closeDialog();">close</md-icon>
+				</md-button>
+			</div>
+			<md-dialog-content>
+				<md-content flex>
+					<img ng-src="{{banner.elements.banner.url}}" class="img-responsive" alt="banner"/>
+				</md-content>
+			</md-dialog-content>
+		</md-toolbar>
+	</md-dialog>
+</script>
