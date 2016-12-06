@@ -8,11 +8,26 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('ClientHomeCtrl', function($rootScope, $log, $auth, $q, Bars, Utils, Token, deviceDetector) {
+	.controller('ClientHomeCtrl', function($mdDialog, $rootScope, $log, $auth, $q, Bars, Utils, Token, deviceDetector) {
 
 		var self = this,
 			deferred = null,
 			i = 0;
+
+		/* OPEN BANNER HERE */
+
+		this.openBanner = function() {
+			$mdDialog.show({
+				controller: 'BannerCtrl',
+				controllerAs: 'banner',
+				templateUrl: 'karamuse-client.banner.tmpl.html',
+				parent: angular.element(document.querySelector('#dialogContainer')),
+				clickOutsideToClose: true,
+				fullscreen: false, // Only for -xs, -sm breakpoints.
+				locals: {}
+			})
+			.then(function() {}, function() {});
+		}	
 
 		this.bars = {
 			list: [
@@ -78,16 +93,18 @@ angular.module('karamuseClientApp')
 		};
 
 		this.gotoSearchKaraoke = function(item) {
-			// $log.log(item);
+			$log.log(item);
 
 			var createToken = self.createToken(item);
 			createToken.then(function() {
 				Utils.setInStorage('bar', item);
-				if (Utils.getInStorage('bar').settings.banner_ad === '' || !Utils.getInStorage('bar').settings.banner_ad) {
-					Utils.gotoState('client.search-karaoke');
-				} else {
-					Utils.gotoState('client.banner');
-				}
+				// if (Utils.getInStorage('bar').settings.banner_ad === '' || !Utils.getInStorage('bar').settings.banner_ad) {
+				// 	Utils.gotoState('client.search-karaoke');
+				// } else {
+				// 	Utils.gotoState('client.banner');
+				// }
+				self.openBanner();
+				Utils.gotoState('client.search-karaoke');
 			}, function(error) {
 				$log.error(error);
 			});
