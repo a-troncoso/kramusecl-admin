@@ -21,7 +21,6 @@ angular.module('karamuseClientApp')
 			info: Utils.getInStorage('bar')
 		};
 
-
 		this.catalog = $rootScope.catalog;
 
 		this.elements = {
@@ -31,8 +30,27 @@ angular.module('karamuseClientApp')
 				},
 				next: {
 					disabled: true
+				},
+				search: {
+					state: 1
+				}
+			},
+			inputs: {
+				search: {
+					show: false,
+					value: ''
 				}
 			}
+		};
+
+		this.pagination = {
+			totalPages: 0,
+			sizePage: 100,
+			currentPage: 1
+		};
+
+		this.results = {
+			list: []
 		};
 
 		this.ticket = Utils.getInStorage('ticket') || {
@@ -50,15 +68,29 @@ angular.module('karamuseClientApp')
 			this.elements.buttons.next.disabled = true;
 		}
 
+		// 1: estado escondido; 2: estado visible
+		this.switchSearch = function(state) {
+			if (state === 1) {
+				self.elements.inputs.search.show = true;
+				self.elements.buttons.search.state = 2;
+			} else if (state === 2) {
+				$log.log(self.elements.inputs.search.value);
+				$log.log(self.pagination.sizePage);
+				$log.log(self.pagination.currentPage);
+				self.getKaraokes(self.elements.inputs.search.value, self.pagination.sizePage, self.pagination.currentPage);
+			}
+		};
+
 		this.getKaraokes = function(keyword, sizePage, numPage, mode) {
 			$rootScope.clientGlobalLoader.show = true;
 
-			// si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
-			if (numPage + 1 < self.catalog.pagination.totalPages) {
-				self.elements.buttons.next.disabled = false;
-			} else { // si es mayor se desactiva el boton siguiente
-				self.elements.buttons.next.disabled = true;
-			}
+			// // si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
+			// if (numPage + 1 < self.catalog.pagination.totalPages) {
+			// 	self.elements.buttons.next.disabled = false;
+			// } else {
+			// 	// si es mayor se desactiva el boton siguiente
+			// 	self.elements.buttons.next.disabled = true;
+			// }
 
 			// si el modo es back, se resta el numero pag
 			if (mode === 'back') {
@@ -72,8 +104,8 @@ angular.module('karamuseClientApp')
 				self.elements.buttons.back.disabled = false; // si voy a siguiente, se desactiva el boton atrás
 			}
 
-			self.catalog.pagination.currentPage = numPage;
-			self.catalog.list = [];
+			// self.catalog.pagination.currentPage = numPage;
+			self.results.list = [];
 
 			Catalog.query({
 				keyword: keyword,
@@ -83,13 +115,13 @@ angular.module('karamuseClientApp')
 			}, function(success) {
 				$rootScope.clientGlobalLoader.show = false;
 				if (success.status === 200) { // 200 = hay resultados
-					self.catalog.pagination.totalPages = success.totalPages;
-					self.catalog.pagination.totalResults = success.totalResults;
-					self.catalog.pagination.show = true;
+					// self.catalog.pagination.totalPages = success.totalPages;
+					// self.catalog.pagination.totalResults = success.totalResults;
+					// self.catalog.pagination.show = true;
 
 					for (i = 0; i < success.data.length; i++) {
 						if (success.data[i].active === '1') {
-							self.catalog.list.push({
+							self.results.list.push({
 								id: success.data[i].id,
 								artist: success.data[i].artist,
 								song: success.data[i].song,
@@ -238,7 +270,7 @@ angular.module('karamuseClientApp')
 					}
 				})
 				.then(function() {}, function() {});
-			
+
 		};
 
 		this.gotoState = function(state) {
