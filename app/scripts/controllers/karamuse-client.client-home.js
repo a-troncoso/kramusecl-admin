@@ -98,13 +98,12 @@ angular.module('karamuseClientApp')
 			var createToken = self.createToken(item);
 			createToken.then(function() {
 				Utils.setInStorage('bar', item);
-				// if (Utils.getInStorage('bar').settings.banner_ad === '' || !Utils.getInStorage('bar').settings.banner_ad) {
-				// 	Utils.gotoState('client.search-karaoke');
-				// } else {
-				// 	Utils.gotoState('client.banner');
-				// }
-				self.openBanner();
-				Utils.gotoState('client.search-karaoke');
+				
+				if (Utils.getInStorage('bar').settings.banner_ad !== '' || Utils.getInStorage('bar').settings.banner_ad) {
+					self.openBanner();	
+				}
+				
+				Utils.gotoState('client.results');
 			}, function(error) {
 				$log.error(error);
 			});

@@ -140,12 +140,17 @@ angular.module('karamuseClientApp')
 						$log.error('puede ser que el arreglo del pedido está vacío o es invalido');
 					} else if (success.status === 406) {
 						$log.error('Cupos limitados');
-						// self.openDialogTicket(success);
+						var message = "";
+						if (success.capacity === 0) {
+							message = "No hay más espacio para cantar. Por favor intenta más tarde.";
+						} else {
+							message = 'Sólo hay espacio para ' + success.capacity + ' karaoke(s). Por favor intenta nuevamente';
+						}
 						self.openDialogCustomAlert({
 							title: '¡Cupos limitados!',
 							subtitle: '',
 							body: {
-								paragraph1: 'Sólo hay espacio para ' + success.capacity + ' karaoke(s). Por favor inténtalo nuevamente'
+								paragraph1: message
 							}
 						});
 					} else {
