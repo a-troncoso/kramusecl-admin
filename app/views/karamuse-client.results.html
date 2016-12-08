@@ -2,16 +2,17 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools" >
+			<!-- <span flex></span> -->
 			<md-input-container class="md-block" flex ng-show="results.elements.inputs.search.show" >
-				<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Artista o canción...</label>
+				<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca tu karaoke</label>
 				<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);">
 			</md-input-container>
-			<md-button class="md-icon-button" aria-label="Cerrar">
-				<md-icon md-font-icon="material-icons" ng-click="results.switchSearch(results.elements.buttons.search.state)" style="line-height: 1;">search</md-icon>
+			<md-button class="md-icon-button" aria-label="Buscar" ng-click="results.switchSearch(results.elements.buttons.search.state)">
+				<md-icon md-font-icon="material-icons">search</md-icon>
 			</md-button>
-			<md-button class="md-primary md-hue-1" aria-label="Ver ticket" ng-click="results.openDialogTicket();">
-				Ver ticket <md-icon md-font-icon="material-icons">arrow_forward</md-icon>
-				</md-button>
+			<md-button class="md-primary md-hue-1" aria-label="Ticket" ng-click="results.openDialogTicket();">
+				Ticket<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
+			</md-button>
 		</div>
 	</md-toolbar>
 	<style>
@@ -39,7 +40,7 @@
 				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
 				
 				<div class="md-list-item-text">
-					<p>{{karaoke.song}}</p>
+					<p style="color:#212121">{{karaoke.song}}</p>
 					<p md-colors="{color:'grey'}">{{karaoke.artist}}</p>
 					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="results.validateKaraokeUrl(karaoke);">Cantar</md-button>
 				</div>

@@ -277,4 +277,6 @@ angular.module('karamuseClientApp')
 			Utils.gotoState(state);
 		};
 
+		self.switchSearch(1);
+
 	});

@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('BannerCtrl', function($log, Utils) {
+	.controller('BannerCtrl', function($mdDialog, $log, Utils) {
 
 		this.elements = {
 			banner: {
@@ -18,6 +18,10 @@ angular.module('karamuseDjApp')
 
 		this.gotoState = function(state) {
 			Utils.gotoState(state);
+		};
+
+		this.closeDialog = function() {
+			$mdDialog.cancel();
 		};
 
 	});
