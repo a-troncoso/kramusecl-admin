@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseClientApp')
-	.controller('ResultsCtrl', function($rootScope, $auth, $log, $mdDialog, Utils, Catalog) {
+	.controller('ResultsCtrl', function($rootScope, $auth, $log, $mdDialog, Utils, Catalog, ClientUtils) {
 
 		var self = this,
 			i = 0,
@@ -151,7 +151,7 @@ angular.module('karamuseClientApp')
 			return isInTicket;
 		};
 
-		this.openDialogCustomAlert = function(data) {
+		this.openCustomDialog = function(data) {
 			$mdDialog.show({
 					controller: 'CustomAlertCtrl',
 					controllerAs: 'customAlert',
@@ -169,7 +169,7 @@ angular.module('karamuseClientApp')
 		this.openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
-				self.openDialogCustomAlert({
+				self.openCustomDialog({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -195,7 +195,7 @@ angular.module('karamuseClientApp')
 		var openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
-				self.openDialogCustomAlert({
+				self.openCustomDialog({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -245,10 +245,9 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
-			console.log("length: " + this.ticket.orders.length);
-			console.log("data: " + JSON.stringify(this.ticket.orders));
-			if (this.ticket.orders.length === 0) {
-				this.openDialogCustomAlert({
+
+			if (Utils.getInStorage('ticket').orders.length === 0) {
+				self.openCustomDialog({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -273,10 +272,21 @@ angular.module('karamuseClientApp')
 
 		};
 
+		this.validateTicket = function() {
+			if (!Utils.getInStorage('ticket')) {
+				ClientUtils.setEmptyTicket();
+			}
+		};
+
 		this.gotoState = function(state) {
 			Utils.gotoState(state);
 		};
 
-		self.switchSearch(1);
+		this.init = function() {
+			self.switchSearch(1);
+			self.validateTicket();
+		};
+
+		self.init();
 
 	});

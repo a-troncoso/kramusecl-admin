@@ -8,7 +8,7 @@
  * Controller of the karamuseClientApp
  */
 angular.module('karamuseClientApp')
-	.controller('ClientHomeCtrl', function($mdDialog, $rootScope, $log, $auth, $q, Bars, Utils, Token, deviceDetector) {
+	.controller('ClientHomeCtrl', function($mdDialog, $rootScope, $log, $auth, $q, Bars, Utils, Token, deviceDetector, ClientUtils) {
 
 		var self = this,
 			deferred = null,
@@ -18,16 +18,16 @@ angular.module('karamuseClientApp')
 
 		this.openBanner = function() {
 			$mdDialog.show({
-				controller: 'BannerCtrl',
-				controllerAs: 'banner',
-				templateUrl: 'karamuse-client.banner.tmpl.html',
-				parent: angular.element(document.querySelector('#dialogContainer')),
-				clickOutsideToClose: true,
-				fullscreen: false, // Only for -xs, -sm breakpoints.
-				locals: {}
-			})
-			.then(function() {}, function() {});
-		}	
+					controller: 'BannerCtrl',
+					controllerAs: 'banner',
+					templateUrl: 'karamuse-client.banner.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: false, // Only for -xs, -sm breakpoints.
+					locals: {}
+				})
+				.then(function() {}, function() {});
+		}
 
 		this.bars = {
 			list: [
@@ -93,22 +93,25 @@ angular.module('karamuseClientApp')
 		};
 
 		this.gotoSearchKaraoke = function(item) {
-			$log.log(item);
+			// $log.log(item);
 
 			var createToken = self.createToken(item);
 			createToken.then(function() {
 				Utils.setInStorage('bar', item);
-				
+
 				if (Utils.getInStorage('bar').settings.banner_ad !== '' || Utils.getInStorage('bar').settings.banner_ad) {
-					self.openBanner();	
+					self.openBanner();
 				}
-				
+
+				ClientUtils.setEmptyTicket();
 				Utils.gotoState('client.results');
 			}, function(error) {
 				$log.error(error);
 			});
 
 		};
+
+
 
 		this.createToken = function(data) {
 			deferred = $q.defer();
