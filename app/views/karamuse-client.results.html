@@ -5,7 +5,7 @@
 			<!-- <span flex></span> -->
 			<md-input-container class="md-block" flex ng-show="results.elements.inputs.search.show" >
 				<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca tu karaoke</label>
-				<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);">
+				<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" md-select-on-focus>
 			</md-input-container>
 			<md-button class="md-icon-button" aria-label="Buscar" ng-click="results.switchSearch(results.elements.buttons.search.state)">
 				<md-icon md-font-icon="material-icons">search</md-icon>
@@ -34,26 +34,36 @@
 				</md-list>
 		</md-subheader>
 
-		<md-list>
-			<md-list-item class="md-2-line" ng-repeat="karaoke in results.results.list">
+		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="height: 50%">
+			<md-button class="md-primary" aria-label="Buscar">
+				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">search</md-icon>
+			</md-button>
+			<p md-colors="{color:'grey'}" style="margin-top: 10px">¡Busca tus karaokes!</p>
+		</div>
 
-				<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
-				
-				<div class="md-list-item-text">
-					<p style="color:#212121">{{karaoke.song}}</p>
-					<p md-colors="{color:'grey'}">{{karaoke.artist}}</p>
-					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="results.validateKaraokeUrl(karaoke);">Cantar</md-button>
-				</div>
-			<md-divider md-inset ng-if="!$last"></md-divider>
-			</md-list-item>
+		<div id="content_results" ng-show="results.elements.content.fill.show">
+			<md-list>
+				<md-list-item class="md-2-line" ng-repeat="karaoke in results.results.list">
 
-		</md-list>
+					<img ng-src="{{karaoke.avatar}}" class="md-avatar" alt="avatar_{{results.name}}" />
+					
+					<div class="md-list-item-text">
+						<p style="color:#212121">{{karaoke.song}}</p>
+						<p md-colors="{color:'grey'}">{{karaoke.artist}}</p>
+						<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="results.validateKaraokeUrl(karaoke);">Cantar</md-button>
+					</div>
+				<md-divider md-inset ng-if="!$last"></md-divider>
+				</md-list-item>
 
-		<div layout="row" layout-align="space-between">
-			<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
-			<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
-		</md-content>
-	</div>
+			</md-list>
+
+			<div layout="row" layout-align="space-between">
+				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
+				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
+			</div>
+		</div>
+	</md-content>
+	
 
 </div>
 

@@ -40,6 +40,14 @@ angular.module('karamuseClientApp')
 					show: false,
 					value: ''
 				}
+			},
+			content: {
+				fill: {
+					show: false
+				},
+				empty: {
+					show: true
+				}
 			}
 		};
 
@@ -71,9 +79,13 @@ angular.module('karamuseClientApp')
 		// 1: estado escondido; 2: estado visible
 		this.switchSearch = function(state) {
 			if (state === 1) {
+				self.elements.content.fill.show = false;
+				self.elements.content.empty.show = true;
 				self.elements.inputs.search.show = true;
 				self.elements.buttons.search.state = 2;
 			} else if (state === 2) {
+				self.elements.content.fill.show = true;
+				self.elements.content.empty.show = false;
 				$log.log(self.elements.inputs.search.value);
 				$log.log(self.pagination.sizePage);
 				$log.log(self.pagination.currentPage);
