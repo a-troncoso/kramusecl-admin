@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseClientApp')
-	.controller('ResultsCtrl', function($rootScope, $auth, $log, $mdDialog, Utils, Catalog, ClientUtils) {
+	.controller('ResultsCtrl', function($rootScope, $auth, $log, $mdDialog, Utils, Catalog) {
 
 		var self = this,
 			i = 0,
@@ -39,6 +39,14 @@ angular.module('karamuseClientApp')
 				search: {
 					show: false,
 					value: ''
+				}
+			},
+			content: {
+				fill: {
+					show: false
+				},
+				empty: {
+					show: true
 				}
 			}
 		};
@@ -71,9 +79,13 @@ angular.module('karamuseClientApp')
 		// 1: estado escondido; 2: estado visible
 		this.switchSearch = function(state) {
 			if (state === 1) {
+				self.elements.content.fill.show = false;
+				self.elements.content.empty.show = true;
 				self.elements.inputs.search.show = true;
 				self.elements.buttons.search.state = 2;
 			} else if (state === 2) {
+				self.elements.content.fill.show = true;
+				self.elements.content.empty.show = false;
 				$log.log(self.elements.inputs.search.value);
 				$log.log(self.pagination.sizePage);
 				$log.log(self.pagination.currentPage);
@@ -151,7 +163,7 @@ angular.module('karamuseClientApp')
 			return isInTicket;
 		};
 
-		this.openCustomDialog = function(data) {
+		this.openDialogCustomAlert = function(data) {
 			$mdDialog.show({
 					controller: 'CustomAlertCtrl',
 					controllerAs: 'customAlert',
@@ -169,7 +181,7 @@ angular.module('karamuseClientApp')
 		this.openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
-				self.openCustomDialog({
+				self.openDialogCustomAlert({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -195,7 +207,7 @@ angular.module('karamuseClientApp')
 		var openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
-				self.openCustomDialog({
+				self.openDialogCustomAlert({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -245,9 +257,10 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
-
-			if (Utils.getInStorage('ticket').orders.length === 0) {
-				self.openCustomDialog({
+			console.log("length: " + this.ticket.orders.length);
+			console.log("data: " + JSON.stringify(this.ticket.orders));
+			if (this.ticket.orders.length === 0) {
+				this.openDialogCustomAlert({
 					title: '¡Hey!',
 					subtitle: '',
 					body: {
@@ -272,21 +285,10 @@ angular.module('karamuseClientApp')
 
 		};
 
-		this.validateTicket = function() {
-			if (!Utils.getInStorage('ticket')) {
-				ClientUtils.setEmptyTicket();
-			}
-		};
-
 		this.gotoState = function(state) {
 			Utils.gotoState(state);
 		};
 
-		this.init = function() {
-			self.switchSearch(1);
-			self.validateTicket();
-		};
-
-		self.init();
+		self.switchSearch(1);
 
 	});
