@@ -20,7 +20,6 @@ angular.module('karamuseClientApp')
 		this.bar = {
 			info: Utils.getInStorage('bar')
 		};
-
 		this.catalog = $rootScope.catalog;
 
 		this.elements = {
@@ -130,6 +129,7 @@ angular.module('karamuseClientApp')
 					// self.catalog.pagination.totalPages = success.totalPages;
 					// self.catalog.pagination.totalResults = success.totalResults;
 					// self.catalog.pagination.show = true;
+					self.textAd = success.text_ad;
 
 					for (i = 0; i < success.data.length; i++) {
 						if (success.data[i].active === '1') {
@@ -204,6 +204,8 @@ angular.module('karamuseClientApp')
 			}
 		};
 
+		/* QUE ES ESTO??? PORQUE ESTA 2 VECES EL METODO openDialogNameOrMessage????*/
+
 		var openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
@@ -257,9 +259,8 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
-			console.log("length: " + this.ticket.orders.length);
-			console.log("data: " + JSON.stringify(this.ticket.orders));
-			if (this.ticket.orders.length === 0) {
+			$log.log("ticket.orders: " + JSON.stringify(this.ticket.orders));
+			if (Utils.getInStorage('ticket').orders.length === 0) {
 				this.openDialogCustomAlert({
 					title: '¡Hey!',
 					subtitle: '',

@@ -28,7 +28,7 @@
 						<div class="md-list-item-text">
 							<h3 md-colors="{color:'blue'}">{{results.bar.info.name}}</h3>
 							<p>{{results.bar.info.address}}</p>
-							<p md-colors="{color:'accent'}">{{results.catalog.textAd}}</p>
+							<p md-colors="{color:'accent'}">{{results.textAd}}</p>
 						</div>
 					</md-list-item>
 				</md-list>
@@ -149,7 +149,7 @@
 				</md-button>
 				<h2><span>Paso 2</span></h2>
 				<span flex></span>
-				<md-button class="md-primary md-hue-1" aria-label="Agregar otra" ng-click="ticket.addAnotherOrder();">Agregar <md-icon md-font-icon="material-icons">exposure_plus_1</md-icon>
+				<md-button class="md-primary md-hue-1" aria-label="Agregar otra" ng-click="ticket.closeDialog();">Agregar <md-icon md-font-icon="material-icons">exposure_plus_1</md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
@@ -157,13 +157,13 @@
 		<md-subheader class="md-warn" ng-show="ticket.elements.errors.show">{{ticket.elements.errors.message}}</md-subheader>
 		
 		<md-dialog-content>
-			<md-list-item class="md-2-line" ng-repeat="order in ticket.ticket.orders" ng-click="ticket.openDialogOrderOptions(order);">
+			<md-list-item class="md-2-line" ng-repeat="order in ticket.ticket.orders">
 				<img ng-src="{{order.avatar}}" class="md-avatar" alt="avatar" />
 				<div class="md-list-item-text">
 					<p>{{order.song}}</p>
 					<p md-colors="{color:'grey'}">{{order.artist}}</p>
 					<p md-colors="{color:'blue'}">{{order.message}}</p>
-					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="">Eliminar</md-button>
+					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="ticket.openDialogOrderOptions(order);">Eliminar</md-button>
 				</div>
 				<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
@@ -190,8 +190,9 @@
 
 		<md-dialog-content ng-cloak>
 			<div class="md-dialog-content" layout="column">
-				<md-button ng-click="orderOptions.openDialogKaraokeDetails(orderOptions.order);" ng-show="orderOptions.order.url">Ver karaoke</md-button>
-				<md-button class="md-warn" ng-click="orderOptions.delete();orderOptions.openDialogTicket($event);">Eliminar</md-button>
+				<!-- <md-button ng-click="orderOptions.openDialogKaraokeDetails(orderOptions.order);" ng-show="orderOptions.order.url">Ver karaoke</md-button> -->
+				<p md-colors="{color:'blue'}">¿Vas a eliminar este karaoke del Ticket?</p>
+				<md-button md-colors="{color:'orange'}" ng-click="orderOptions.delete();orderOptions.openDialogTicket($event);">Eliminar</md-button>
 			</div>
 		</md-dialog-content>
 
@@ -270,7 +271,7 @@
 		</md-dialog-content>
 
 		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-			<md-button class="md-primary md-raised text-md" ng-click="orderResults.removeStorageItem('ticket');orderResults.gotoState('client.search-karaoke');orderResults.closeDialog();">Cerrar</md-button>
+			<md-button class="md-primary md-raised text-md" ng-click="orderResults.removeStorageItem('ticket');orderResults.closeDialog();">Cerrar</md-button>
 		</md-dialog-actions>
 
 	</md-dialog>
@@ -282,10 +283,13 @@
 		<md-dialog-content ng-cloak>
 			<div class="md-dialog-content">
 
-				<h2 class="md-title">{{customAlert.elements.title}}</h2>
+				<h2 class="md-title" md-colors="{color:'blue'}">{{customAlert.elements.title}}</h2>
 				<h3  class="md-title">{{customAlert.elements.subtitle}}</h3>
+				<div layout="row" layout-align="center center">
+					<i class="material-icons" md-colors="{color:'orange'}" style="font-size: 48px">error_outline</i>
+				</div>
 				<div-md-dialog class="content-body">
-					<p>{{customAlert.elements.body.paragraph1}}</p>
+					<p style="margin-top: 20px" md-colors="{color:'grey'}">{{customAlert.elements.body.paragraph1}}</p>
 				</div-md-dialog>
 			</div>
 		</md-dialog-content>

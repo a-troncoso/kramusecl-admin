@@ -21,7 +21,7 @@ angular.module('karamuseDjApp')
 			form: {
 				code: {
 					text: ticket.code,
-					show: ticket.code ? false : true,
+					show: true,
 					error: {
 						show: false,
 						text: ''
@@ -83,27 +83,8 @@ angular.module('karamuseDjApp')
 			$rootScope.clientGlobalLoader.show = true;
 
 			// aqui valida el código
-			if (!ticket.code) {
-				var validateCode = self.validateCode();
-				validateCode.then(function() {
-					order.message = message; // al obj order agrega el attr message
-					order.result = {
-						added: false,
-						show: false,
-						color: '',
-						message: ''
-					};
-					ticket.orders.push(order);
-					ticket.code = self.elements.form.code.text;
-					Utils.setInStorage('ticket', ticket);
-					$rootScope.clientGlobalLoader.show = false;
-					openDialogTicket(); // abre modal ticket
-				}, function() {
-					$rootScope.clientGlobalLoader.show = false;
-					self.elements.form.code.error.text = 'Código inválido';
-					self.elements.form.code.error.show = true;
-				});
-			} else {
+			var validateCode = self.validateCode();
+			validateCode.then(function() {
 				order.message = message; // al obj order agrega el attr message
 				order.result = {
 					added: false,
@@ -112,10 +93,48 @@ angular.module('karamuseDjApp')
 					message: ''
 				};
 				ticket.orders.push(order);
-				$rootScope.clientGlobalLoader.show = false;
+				ticket.code = self.elements.form.code.text;
 				Utils.setInStorage('ticket', ticket);
+				$rootScope.clientGlobalLoader.show = false;
 				openDialogTicket(); // abre modal ticket
-			}
+			}, function() {
+				$rootScope.clientGlobalLoader.show = false;
+				self.elements.form.code.error.text = 'Código inválido';
+				self.elements.form.code.error.show = true;
+			});
+			// if (!ticket.code) {
+			// 	var validateCode = self.validateCode();
+			// 	validateCode.then(function() {
+			// 		order.message = message; // al obj order agrega el attr message
+			// 		order.result = {
+			// 			added: false,
+			// 			show: false,
+			// 			color: '',
+			// 			message: ''
+			// 		};
+			// 		ticket.orders.push(order);
+			// 		ticket.code = self.elements.form.code.text;
+			// 		Utils.setInStorage('ticket', ticket);
+			// 		$rootScope.clientGlobalLoader.show = false;
+			// 		openDialogTicket(); // abre modal ticket
+			// 	}, function() {
+			// 		$rootScope.clientGlobalLoader.show = false;
+			// 		self.elements.form.code.error.text = 'Código inválido';
+			// 		self.elements.form.code.error.show = true;
+			// 	});
+			// } else {
+			// 	order.message = message; // al obj order agrega el attr message
+			// 	order.result = {
+			// 		added: false,
+			// 		show: false,
+			// 		color: '',
+			// 		message: ''
+			// 	};
+			// 	ticket.orders.push(order);
+			// 	$rootScope.clientGlobalLoader.show = false;
+			// 	Utils.setInStorage('ticket', ticket);
+			// 	openDialogTicket(); // abre modal ticket
+			// }
 		};
 
 		this.skip = function() {
