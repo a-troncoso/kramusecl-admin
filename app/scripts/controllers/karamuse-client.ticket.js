@@ -9,7 +9,7 @@
  */
 angular.module('karamuseClientApp')
 	.controller('TicketCtrl', function($rootScope, $auth, $q, $state, $mdDialog, $log, deviceDetector, Orders, Utils, orderWarnings) {
-
+		$log.log('Orders: ' + JSON.stringify(Utils.getInStorage('ticket')));
 		var self = this,
 			i = 0,
 			j = 0;
@@ -22,7 +22,7 @@ angular.module('karamuseClientApp')
 			form: {
 				buttons: {
 					next: {
-						disabled: false
+						disabled: Utils.getInStorage('ticket').orders.length > 0 ? false : true
 					}
 				}
 			}

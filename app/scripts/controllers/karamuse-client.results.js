@@ -20,7 +20,6 @@ angular.module('karamuseClientApp')
 		this.bar = {
 			info: Utils.getInStorage('bar')
 		};
-
 		this.catalog = $rootScope.catalog;
 
 		this.elements = {
@@ -39,6 +38,14 @@ angular.module('karamuseClientApp')
 				search: {
 					show: false,
 					value: ''
+				}
+			},
+			content: {
+				fill: {
+					show: false
+				},
+				empty: {
+					show: true
 				}
 			}
 		};
@@ -71,9 +78,13 @@ angular.module('karamuseClientApp')
 		// 1: estado escondido; 2: estado visible
 		this.switchSearch = function(state) {
 			if (state === 1) {
+				self.elements.content.fill.show = false;
+				self.elements.content.empty.show = true;
 				self.elements.inputs.search.show = true;
 				self.elements.buttons.search.state = 2;
 			} else if (state === 2) {
+				self.elements.content.fill.show = true;
+				self.elements.content.empty.show = false;
 				$log.log(self.elements.inputs.search.value);
 				$log.log(self.pagination.sizePage);
 				$log.log(self.pagination.currentPage);
@@ -118,6 +129,7 @@ angular.module('karamuseClientApp')
 					// self.catalog.pagination.totalPages = success.totalPages;
 					// self.catalog.pagination.totalResults = success.totalResults;
 					// self.catalog.pagination.show = true;
+					self.textAd = success.text_ad;
 
 					for (i = 0; i < success.data.length; i++) {
 						if (success.data[i].active === '1') {
@@ -192,6 +204,8 @@ angular.module('karamuseClientApp')
 			}
 		};
 
+		/* QUE ES ESTO??? PORQUE ESTA 2 VECES EL METODO openDialogNameOrMessage????*/
+
 		var openDialogNameOrMessage = function(order) {
 
 			if (self.validateOrderInTicket(order)) {
@@ -245,9 +259,8 @@ angular.module('karamuseClientApp')
 		};
 
 		this.openDialogTicket = function() {
-			console.log("length: " + this.ticket.orders.length);
-			console.log("data: " + JSON.stringify(this.ticket.orders));
-			if (this.ticket.orders.length === 0) {
+			$log.log("ticket.orders: " + JSON.stringify(this.ticket.orders));
+			if (Utils.getInStorage('ticket').orders.length === 0) {
 				this.openDialogCustomAlert({
 					title: '¡Hey!',
 					subtitle: '',
