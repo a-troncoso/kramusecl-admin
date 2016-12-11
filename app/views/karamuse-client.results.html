@@ -3,8 +3,8 @@
 	<md-toolbar md-scroll-shrink>
 		<div layout="row">
 			<!-- <span flex></span> -->
-			<form class="md-toolbar-tools" autocomplete="off" ng-submit="results.switchSearch(results.elements.buttons.search.state)">
-				<md-input-container class="md-block" flex ng-show="results.elements.inputs.search.show" >
+			<form class="md-toolbar-tools" autocomplete="off" ng-submit="results.getKaraokes(results.elements.inputs.search.value, results.pagination.sizePage, results.pagination.currentPage)">
+				<md-input-container class="md-block" flex ng-show="true" >
 					<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca artistas, canciones...</label>
 					<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" ng-blur="results.onBlur($event)">
 				</md-input-container>
@@ -36,9 +36,9 @@
 				</md-list>
 		</md-subheader>
 
-		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="height: 50%">
+		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="margin-top: 30%">
 			<md-button class="md-primary" aria-label="Buscar">
-				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">search</md-icon>
+				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">library_music</md-icon>
 			</md-button>
 			<p md-colors="{color:'grey'}" style="margin-top: 10px">¡Busca tus karaokes!</p>
 		</div>
@@ -172,7 +172,7 @@
 		</md-dialog-content>
 
 		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">send</md-icon>
+			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">mic</md-icon>
 			</md-button>
 		</md-dialog-actions>
 	</md-dialog>

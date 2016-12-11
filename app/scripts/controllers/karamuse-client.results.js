@@ -66,35 +66,37 @@ angular.module('karamuseClientApp')
 			code: null
 		};
 
-		if (self.catalog) {
-			if (this.catalog.pagination.totalPages === 1) {
-				this.elements.buttons.next.disabled = true;
-			} else {
-				this.elements.buttons.next.disabled = false;
-			}
-		} else {
-			this.elements.buttons.next.disabled = true;
-		}
+		// if (self.catalog) {
+		// 	if (this.catalog.pagination.totalPages === 1) {
+		// 		this.elements.buttons.next.disabled = true;
+		// 	} else {
+		// 		this.elements.buttons.next.disabled = false;
+		// 	}
+		// } else {
+		// 	this.elements.buttons.next.disabled = true;
+		// }
+
+		this.elements.buttons.next.disabled = true;
 
 		// 1: estado escondido; 2: estado visible
-		this.switchSearch = function(state) {
-			if (state === 1) {
-				self.elements.content.fill.show = false;
-				self.elements.content.empty.show = true;
-				self.elements.inputs.search.show = true;
-				self.elements.buttons.search.state = 2;
-			} else if (state === 2) {
-				self.elements.content.fill.show = true;
-				self.elements.content.empty.show = false;
-				$log.log(self.elements.inputs.search.value);
-				$log.log(self.pagination.sizePage);
-				$log.log(self.pagination.currentPage);
-				self.getKaraokes(self.elements.inputs.search.value, self.pagination.sizePage, self.pagination.currentPage);
-			}
-		};
+		// this.switchSearch = function(state) {
+		// 	if (state === 1) {	
+		// 		self.elements.inputs.search.show = true;
+		// 		self.elements.buttons.search.state = 2;
+		// 	} else if (state === 2) {				
+		// 		$log.log(self.elements.inputs.search.value);
+		// 		$log.log(self.pagination.sizePage);
+		// 		$log.log(self.pagination.currentPage);
+		// 		self.getKaraokes(self.elements.inputs.search.value, self.pagination.sizePage, self.pagination.currentPage);
+		// 	}
+		// };
 
 		this.getKaraokes = function(keyword, sizePage, numPage, mode) {
-			self.elements.inputs.blur = true;
+			
+			if (keyword === '') {
+				return;
+			}
+
 			$rootScope.clientGlobalLoader.show = true;
 
 			// // si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
@@ -106,16 +108,16 @@ angular.module('karamuseClientApp')
 			// }
 
 			// si el modo es back, se resta el numero pag
-			if (mode === 'back') {
-				numPage--;
-				// si el numero de pagina es 1, se bloquea el botón atrás
-				if (numPage === 1) {
-					self.elements.buttons.back.disabled = true;
-				}
-			} else if (mode === 'next') {
-				numPage++;
-				self.elements.buttons.back.disabled = false; // si voy a siguiente, se desactiva el boton atrás
-			}
+			// if (mode === 'back') {
+			// 	numPage--;
+			// 	// si el numero de pagina es 1, se bloquea el botón atrás
+			// 	if (numPage === 1) {
+			// 		self.elements.buttons.back.disabled = true;
+			// 	}
+			// } else if (mode === 'next') {
+			// 	numPage++;
+			// 	self.elements.buttons.back.disabled = false; // si voy a siguiente, se desactiva el boton atrás
+			// }
 
 			// self.catalog.pagination.currentPage = numPage;
 			self.results.list = [];
@@ -128,9 +130,17 @@ angular.module('karamuseClientApp')
 			}, function(success) {
 				$rootScope.clientGlobalLoader.show = false;
 				if (success.status === 200) { // 200 = hay resultados
-					// self.catalog.pagination.totalPages = success.totalPages;
-					// self.catalog.pagination.totalResults = success.totalResults;
-					// self.catalog.pagination.show = true;
+					
+					// self.pagination.totalPages = success.totalPages;
+					// self.pagination.totalResults = success.totalResults;
+					// self.pagination.show = true;
+
+					if (success.totalResults > sizePage) {
+						self.elements.buttons.next.disabled = false;
+					}
+
+					self.elements.content.empty.show = false;
+					self.elements.content.fill.show = true;
 					self.textAd = success.text_ad;
 
 					for (i = 0; i < success.data.length; i++) {
@@ -296,6 +306,6 @@ angular.module('karamuseClientApp')
 	        $log.log($event);
 	    }
 
-		self.switchSearch(1);
+		// self.switchSearch(1);
 
 	});
