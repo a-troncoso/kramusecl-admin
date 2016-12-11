@@ -38,7 +38,8 @@ angular.module('karamuseClientApp')
 				search: {
 					show: false,
 					value: ''
-				}
+				},
+				blur: false
 			},
 			content: {
 				fill: {
@@ -93,6 +94,7 @@ angular.module('karamuseClientApp')
 		};
 
 		this.getKaraokes = function(keyword, sizePage, numPage, mode) {
+			self.elements.inputs.blur = true;
 			$rootScope.clientGlobalLoader.show = true;
 
 			// // si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
@@ -289,6 +291,10 @@ angular.module('karamuseClientApp')
 		this.gotoState = function(state) {
 			Utils.gotoState(state);
 		};
+
+		this.onBlur = function($event) {
+	        $log.log($event);
+	    }
 
 		self.switchSearch(1);
 
