@@ -94,10 +94,15 @@ angular.module('karamuseClientApp')
 
 		this.gotoSearchKaraoke = function(item) {
 			$log.log(item);
-
 			var createToken = self.createToken(item);
 			createToken.then(function() {
 				Utils.setInStorage('bar', item);
+
+				//reiniciar ticket
+				Utils.setInStorage('ticket', {
+					orders: [],
+					code: null
+				});
 				
 				if (Utils.getInStorage('bar').settings.banner_ad !== '' || Utils.getInStorage('bar').settings.banner_ad) {
 					self.openBanner();	
