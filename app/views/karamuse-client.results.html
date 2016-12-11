@@ -1,15 +1,17 @@
 <div layout="column" ng-cloak flex layout-fill>
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
-		<div class="md-toolbar-tools" >
+		<div layout="row">
 			<!-- <span flex></span> -->
-			<md-input-container class="md-block" flex ng-show="results.elements.inputs.search.show" >
-				<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca tu karaoke</label>
-				<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" md-select-on-focus>
-			</md-input-container>
-			<md-button class="md-icon-button" aria-label="Buscar" ng-click="results.switchSearch(results.elements.buttons.search.state)">
+			<form class="md-toolbar-tools" autocomplete="off" ng-submit="results.getKaraokes(results.elements.inputs.search.value, results.pagination.sizePage, results.pagination.currentPage)">
+				<md-input-container class="md-block" flex ng-show="true" >
+					<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca artistas, canciones...</label>
+					<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" ng-blur="results.onBlur($event)">
+				</md-input-container>
+			</form>
+			<!-- <md-button class="md-icon-button" aria-label="Buscar" ng-click="results.switchSearch(results.elements.buttons.search.state)">
 				<md-icon md-font-icon="material-icons">search</md-icon>
-			</md-button>
+			</md-button> -->
 			<md-button class="md-primary md-hue-1" aria-label="Ticket" ng-click="results.openDialogTicket();">
 				Ticket<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
 			</md-button>
@@ -34,9 +36,9 @@
 				</md-list>
 		</md-subheader>
 
-		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="height: 50%">
+		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="margin-top: 30%">
 			<md-button class="md-primary" aria-label="Buscar">
-				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">search</md-icon>
+				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">library_music</md-icon>
 			</md-button>
 			<p md-colors="{color:'grey'}" style="margin-top: 10px">¡Busca tus karaokes!</p>
 		</div>
@@ -163,14 +165,15 @@
 					<p>{{order.song}}</p>
 					<p md-colors="{color:'grey'}">{{order.artist}}</p>
 					<p md-colors="{color:'blue'}">{{order.message}}</p>
-					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="ticket.openDialogOrderOptions(order);">Eliminar</md-button>
+					<!-- <md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="ticket.openDialogOrderOptions(order);"><md-icon md-font-icon="material-icons">delete_forever</md-icon></md-button> -->
+					<md-icon class="md-raised md-secondary" md-font-icon="material-icons" ng-click="ticket.openDialogOrderOptions(order);">delete_forever</md-icon>
 				</div>
 				<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
 		</md-dialog-content>
 
 		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">send</md-icon>
+			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">mic</md-icon>
 			</md-button>
 		</md-dialog-actions>
 	</md-dialog>
