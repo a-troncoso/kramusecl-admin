@@ -103,6 +103,8 @@ angular.module('karamuseClientApp')
 					orders: [],
 					code: null
 				});
+
+				$log.log(Utils.getInStorage('ticket'));
 				
 				if (Utils.getInStorage('bar').settings.banner_ad !== '' || Utils.getInStorage('bar').settings.banner_ad) {
 					self.openBanner();	
