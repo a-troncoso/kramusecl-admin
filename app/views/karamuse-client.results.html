@@ -165,7 +165,8 @@
 					<p>{{order.song}}</p>
 					<p md-colors="{color:'grey'}">{{order.artist}}</p>
 					<p md-colors="{color:'blue'}">{{order.message}}</p>
-					<md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="ticket.openDialogOrderOptions(order);">Eliminar</md-button>
+					<!-- <md-button md-colors="{color:'blue'}" class="md-raised md-secondary" ng-click="ticket.openDialogOrderOptions(order);"><md-icon md-font-icon="material-icons">delete_forever</md-icon></md-button> -->
+					<md-icon class="md-raised md-secondary" md-font-icon="material-icons" ng-click="ticket.openDialogOrderOptions(order);">delete_forever</md-icon>
 				</div>
 				<md-divider md-inset ng-if="!$last"></md-divider>
 			</md-list-item>
