@@ -1,4 +1,4 @@
-<div layout="column" ng-cloak flex layout-fill>
+<div id="mainContainer" layout="column" ng-cloak flex layout-fill>
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div layout="row">
@@ -21,6 +21,20 @@
 		.bar-subheader .md-subheader-inner {
 			padding: 0;
 		}
+
+		html, body {
+		    height: 100%;
+		    overflow: hidden;
+		}
+
+		.mainContainer {
+		    position: absolute;
+		    top: 0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+		    overflow: auto;
+		}
 	</style>
 	<md-content flex>
 		<md-subheader class="md-accent bar-subheader" ng-show="results.bar.info.settings.text_ad">
@@ -37,13 +51,11 @@
 		</md-subheader>
 
 		<div id="content_empty" layout="column" layout-align="center center" ng-show="results.elements.content.empty.show" style="margin-top: 30%">
-			<md-button class="md-primary" aria-label="Buscar">
-				<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">library_music</md-icon>
-			</md-button>
-			<p md-colors="{color:'grey'}" style="margin-top: 10px">¡Busca tus karaokes!</p>
+			<md-icon md-font-icon="material-icons" md-colors="{color:'grey'}" style="font-size: 48px">{{results.elements.content.empty.icon}}</md-icon>
+			<p md-colors="{color:'grey'}" style="margin: 30px; text-align: center;">{{results.elements.content.empty.message}}<br><b>{{results.elements.content.empty.keyword}}</b></p>
 		</div>
 
-		<div id="content_results" ng-show="results.elements.content.fill.show">
+		<div id="content_results" style="top: 100px" ng-show="results.elements.content.fill.show">
 			<md-list>
 				<md-list-item class="md-2-line" ng-repeat="karaoke in results.results.list">
 
@@ -56,9 +68,7 @@
 					</div>
 				<md-divider md-inset ng-if="!$last"></md-divider>
 				</md-list-item>
-
 			</md-list>
-
 			<div layout="row" layout-align="space-between">
 				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
 				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
@@ -123,7 +133,7 @@
 
 					<md-input-container class="md-block md-headline" ng-show="nameOrMessage.elements.form.code.show" flex>
 						<label>Ingresa tu código</label>
-						<input type="text" name="code" ng-model="nameOrMessage.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" ng-change="nameOrMessage.elements.form.code.error.show=false;nameOrMessage.elements.form.buttons.next.disabled=false" style="text-align: center;"  required>
+						<input type="tel" name="code" ng-model="nameOrMessage.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" ng-change="nameOrMessage.elements.form.code.error.show=false;nameOrMessage.elements.form.buttons.next.disabled=false" style="text-align: center;"  required>
 						<div ng-messages="orderForm.code.$error">
 							<div ng-show="nameOrMessage.elements.form.code.error.show" style="text-align: center;">{{nameOrMessage.elements.form.code.error.text}}</div>
 						</div>
@@ -158,7 +168,7 @@
 		<md-subheader class="md-accent text-md">TICKET</md-subheader>
 		<md-subheader class="md-warn" ng-show="ticket.elements.errors.show">{{ticket.elements.errors.message}}</md-subheader>
 		
-		<md-dialog-content>
+		<md-dialog-content style="min-height: 100px">
 			<md-list-item class="md-2-line" ng-repeat="order in ticket.ticket.orders">
 				<img ng-src="{{order.avatar}}" class="md-avatar" alt="avatar" />
 				<div class="md-list-item-text">
@@ -172,8 +182,8 @@
 			</md-list-item>
 		</md-dialog-content>
 
-		<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled">Pedir <md-icon md-font-icon="material-icons">mic</md-icon>
+		<md-dialog-actions layout="column" layout-align="center">
+			<md-button class="md-raised md-primary text-md" ng-click="ticket.elements.form.buttons.next.disabled=true;ticket.order();" ng-disabled="ticket.elements.form.buttons.next.disabled" style="height: 50px">Pedir <md-icon md-font-icon="material-icons">mic</md-icon>
 			</md-button>
 		</md-dialog-actions>
 	</md-dialog>
@@ -220,7 +230,7 @@
 					<div class="md-dialog-content">
 						<md-input-container class="md-block md-headline" flex>
 							<label>Código</label>
-							<input type="text" name="code" ng-model="code.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="code.elements.form.code.focus" ng-change="code.elements.form.code.error.show=false;code.elements.form.buttons.order.disaled=false" style="text-align: center;" required>
+							<input type="tel" name="code" ng-model="code.elements.form.code.text" ng-max="9999"  max-length="4" ng-minlength="4" focus="code.elements.form.code.focus" ng-change="code.elements.form.code.error.show=false;code.elements.form.buttons.order.disaled=false" style="text-align: center;" required>
 							<div ng-messages="orderForm.code.$error">
 								<div ng-show="code.elements.form.code.error.show" style="text-align: center;">{{code.elements.form.code.error.text}}</div>
 							</div>

@@ -46,15 +46,10 @@ angular.module('karamuseClientApp')
 					show: false
 				},
 				empty: {
-					show: true
-				}
-			},
-			content: {
-				fill: {
-					show: false
-				},
-				empty: {
-					show: true
+					show: true,
+					icon: 'library_music',
+					message: '¡Busca tus karaokes!',
+					keyword: ''
 				}
 			}
 		};
@@ -104,6 +99,9 @@ angular.module('karamuseClientApp')
 			if (keyword === '') {
 				return;
 			}
+
+			//Quita foco del imput activo
+			document.activeElement.blur();
 
 			$rootScope.clientGlobalLoader.show = true;
 
@@ -165,6 +163,12 @@ angular.module('karamuseClientApp')
 							});
 						}
 					}
+				} else if (success.status === 404) {
+					self.elements.content.empty.icon = 'thumb_down';
+					self.elements.content.empty.message = 'No se encontraron resultados con la palabra: ';
+					self.elements.content.empty.keyword = keyword;
+					self.elements.content.empty.show = true;
+					self.elements.content.fill.show = false;
 				}
 			}, function(error) {
 				$log.error(error);
