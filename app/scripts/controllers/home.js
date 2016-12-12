@@ -90,7 +90,7 @@ angular.module('karamuseDjApp')
 			Settings.query({
 				token: $auth.getToken()
 			}, function(success) {
-				$log.log(success);
+				// $log.log(success);
 				if (success.status === 200) {
 					self.bar.info.avatar.url = success.data.avatar || 'http://www.hsdtaxlaw.com/wp-content/uploads/2016/05/logo_placeholder.png';
 					self.bar.info.ordersLimit = parseInt(success.data.order_limit);
@@ -98,7 +98,7 @@ angular.module('karamuseDjApp')
 					self.bar.info.textAd = success.data.text_ad;
 					if (self.bar.info.ordersLimit === 0) {
 						self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
-						self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
+						self.orders.btnGroup.buttons.lockUnlock.icon = 'lock';
 					}
 				} else if (success.status === 401) {
 					$log.error(success);
@@ -347,7 +347,7 @@ angular.module('karamuseDjApp')
 				self.bar.info.ordersLimit = data.newOrdersLimit;
 				self.orders.btnGroup.buttons.lockUnlock.text = 'Bloquear';
 				self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Bloquear pedidos';
-				self.orders.btnGroup.buttons.lockUnlock.icon = 'lock';
+				self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
 			}, function() {});
 		};
 
@@ -393,7 +393,7 @@ angular.module('karamuseDjApp')
 						status: 200
 					});
 					self.bar.info.ordersLimit = limit;
-					self.orders.btnGroup.buttons.lockUnlock.icon = 'unlock';
+					self.orders.btnGroup.buttons.lockUnlock.icon = 'lock';
 					self.orders.btnGroup.buttons.lockUnlock.tooltip = 'Desbloquear pedidos';
 				} else {
 					deferred.reject({

@@ -74,60 +74,30 @@ angular.module('karamuseClientApp')
 			code: null
 		};
 
-		// if (self.catalog) {
-		// 	if (this.catalog.pagination.totalPages === 1) {
-		// 		this.elements.buttons.next.disabled = true;
-		// 	} else {
-		// 		this.elements.buttons.next.disabled = false;
-		// 	}
-		// } else {
-		// 	this.elements.buttons.next.disabled = true;
-		// }
-
-		this.elements.buttons.next.disabled = true;
-
-		// 1: estado escondido; 2: estado visible
-		// this.switchSearch = function(state) {
-		// 	if (state === 1) {	
-		// 		self.elements.inputs.search.show = true;
-		// 		self.elements.buttons.search.state = 2;
-		// 	} else if (state === 2) {				
-		// 		$log.log(self.elements.inputs.search.value);
-		// 		$log.log(self.pagination.sizePage);
-		// 		$log.log(self.pagination.currentPage);
-		// 		self.getKaraokes(self.elements.inputs.search.value, self.pagination.sizePage, self.pagination.currentPage);
-		// 	}
-		// };
-
 		this.getKaraokes = function(keyword, sizePage, numPage, mode) {
-			
+
 			if (keyword === '') {
 				return;
 			}
 
 			$rootScope.clientGlobalLoader.show = true;
 
-			// // si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
-			// if (numPage + 1 < self.catalog.pagination.totalPages) {
-			// 	self.elements.buttons.next.disabled = false;
-			// } else {
-			// 	// si es mayor se desactiva el boton siguiente
-			// 	self.elements.buttons.next.disabled = true;
-			// }
+			self.elements.buttons.next.disabled = false;
+			self.elements.buttons.back.disabled = false;
 
 			// si el modo es back, se resta el numero pag
-			// if (mode === 'back') {
-			// 	numPage--;
-			// 	// si el numero de pagina es 1, se bloquea el botón atrás
-			// 	if (numPage === 1) {
-			// 		self.elements.buttons.back.disabled = true;
-			// 	}
-			// } else if (mode === 'next') {
-			// 	numPage++;
-			// 	self.elements.buttons.back.disabled = false; // si voy a siguiente, se desactiva el boton atrás
-			// }
+			if (mode === 'back') {
+				numPage--;
+			} else if (mode === 'next') {
+				numPage++;
+			}
+			// Si se consulta por la pagina 1, se desbloquea el botón atrás
+			if (numPage <= 1) {
+				self.elements.buttons.back.disabled = true;
+			}
 
-			// self.catalog.pagination.currentPage = numPage;
+			self.pagination.currentPage = numPage;
+
 			self.results.list = [];
 
 			Catalog.query({
@@ -137,14 +107,14 @@ angular.module('karamuseClientApp')
 				token: $auth.getToken()
 			}, function(success) {
 				$rootScope.clientGlobalLoader.show = false;
-				if (success.status === 200) { // 200 = hay resultados
-					
-					// self.pagination.totalPages = success.totalPages;
-					// self.pagination.totalResults = success.totalResults;
-					// self.pagination.show = true;
+				// 200: hay resultados
+				if (success.status === 200) {
 
-					if (success.totalResults > sizePage) {
-						self.elements.buttons.next.disabled = false;
+					self.pagination.totalPages = success.totalPages;
+
+					// si el numero de página siguiente es menor a la cantidad total de paginas, se desbloquea el boton sgte
+					if (numPage >= self.pagination.totalPages) {
+						self.elements.buttons.next.disabled = true;
 					}
 
 					self.elements.content.empty.show = false;
@@ -167,6 +137,7 @@ angular.module('karamuseClientApp')
 					}
 				}
 			}, function(error) {
+				$rootScope.clientGlobalLoader.show = false;
 				$log.error(error);
 			});
 		};
@@ -312,8 +283,8 @@ angular.module('karamuseClientApp')
 		};
 
 		this.onBlur = function($event) {
-	        $log.log($event);
-	    }
+			// $log.log($event);
+		}
 
 		// self.switchSearch(1);
 

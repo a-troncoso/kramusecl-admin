@@ -9,7 +9,7 @@
  */
 angular.module('karamuseDjApp')
 	.controller('OrdersLimitModalInstanceCtrl', function($log, $q, $interval, $timeout, $uibModalInstance, $auth, data, Settings) {
-		
+
 		var self = this,
 			deferred = null;
 
@@ -65,11 +65,10 @@ angular.module('karamuseDjApp')
 			} else if (action === 'inc') {
 				timer = $interval(function() {
 					if (!isNaN(self.modal.form.ordersLimit.value)) {
-						if (self.modal.form.ordersLimit.value < self.modal.form.ordersLimit.max) {
-							self.modal.form.ordersLimit.value++;
-						} else {
-							$interval.cancel(timer);
-						}
+						self.modal.form.ordersLimit.value++;
+						// if (self.modal.form.ordersLimit.value < self.modal.form.ordersLimit.max) {} else {
+						// 	$interval.cancel(timer);
+						// }
 					}
 				}, 60);
 			}

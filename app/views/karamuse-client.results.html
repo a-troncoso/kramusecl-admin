@@ -2,16 +2,12 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<md-toolbar md-scroll-shrink>
 		<div layout="row">
-			<!-- <span flex></span> -->
 			<form class="md-toolbar-tools" autocomplete="off" ng-submit="results.getKaraokes(results.elements.inputs.search.value, results.pagination.sizePage, results.pagination.currentPage)">
 				<md-input-container class="md-block" flex ng-show="true" >
 					<label class="m-0 md-body-1" md-colors="{color:'primary-hue-1'}">Busca artistas, canciones...</label>
-					<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" ng-blur="results.onBlur($event)">
+					<input md-colors="{color:'primary-hue-1'}" ng-model="results.elements.inputs.search.value" style="position: absolute;border-color: rgb(227, 242, 253);" ng-blur="results.onBlur($event)" ng-change="results.pagination.currentPage=1;">
 				</md-input-container>
 			</form>
-			<!-- <md-button class="md-icon-button" aria-label="Buscar" ng-click="results.switchSearch(results.elements.buttons.search.state)">
-				<md-icon md-font-icon="material-icons">search</md-icon>
-			</md-button> -->
 			<md-button class="md-primary md-hue-1" aria-label="Ticket" ng-click="results.openDialogTicket();">
 				Ticket<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
 			</md-button>
@@ -60,8 +56,8 @@
 			</md-list>
 
 			<div layout="row" layout-align="space-between">
-				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
-				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.catalog.criterion.text,catalog.pagination.sizePage,catalog.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
+				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.elements.inputs.search.value,results.pagination.sizePage,results.pagination.currentPage,'back');" ng-disabled="results.elements.buttons.back.disabled"><</md-button>
+				<md-button class="md-raised md-primary" ng-click="results.getKaraokes(results.elements.inputs.search.value,results.pagination.sizePage,results.pagination.currentPage,'next');" ng-disabled="results.elements.buttons.next.disabled">></md-button>
 			</div>
 		</div>
 	</md-content>

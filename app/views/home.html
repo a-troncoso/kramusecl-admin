@@ -330,7 +330,7 @@
 		<form class="form-inline" name="form">
 			<div class="form-group">
 				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 mr-10" value="-" ng-mousedown="ordersLimit.keyDown('dec',ordersLimit.modal.form.ordersLimit.value)" ng-mouseup="ordersLimit.keyUp()" >
-				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.ordersLimit.value" ng-min="ordersLimit.modal.form.ordersLimit.current" ng-max="ordersLimit.modal.form.ordersLimit.max" ng-step="ordersLimit.modal.form.ordersLimit.step" required disabled>
+				<input class="inline-block form-control br-0 b-0 text-gray-karamuse text-center w-60" type="number" ng-model="ordersLimit.modal.form.ordersLimit.value" ng-min="ordersLimit.modal.form.ordersLimit.current" ng-step="ordersLimit.modal.form.ordersLimit.step" required disabled>
 				<input type="button" class="btn btn-border btn-blue-karamuse text-light text-md pl-20 pr-20 ml-10" value="+" ng-mousedown="ordersLimit.keyDown('inc',ordersLimit.modal.form.ordersLimit.value)" ng-mouseup="ordersLimit.keyUp()" >
 			</div>
 			<div ng-switch="ordersLimit.modal.form.ordersLimit.min">
@@ -383,7 +383,7 @@
 			<div class="form-group">
 				<label for="totalOrders" class="col-sm-3 control-label">Límite de pedidos</label>
 				<div class="col-sm-8">
-					<input type="number" class="form-control underline-input text-white" id="totalOrders" placeholder="{{editData.bar.data.totalOrders.min}}" ng-model="editData.bar.data.totalOrders.value" ng-min="editData.bar.data.totalOrders.min" ng-max="editData.bar.data.totalOrders.max" required>
+					<input type="number" class="form-control underline-input text-white" id="totalOrders" placeholder="{{editData.bar.data.totalOrders.min}}" ng-model="editData.bar.data.totalOrders.value" ng-min="editData.bar.data.totalOrders.min" required>
 					<!-- <div ng-switch="editData.bar.data.totalOrders.min">
 						<p class="help-block text-left" ng-switch-when="0"></p>
 						<p class="help-block text-left" ng-switch-when="1">Tienes 1 pedido</p>
