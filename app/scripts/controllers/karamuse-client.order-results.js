@@ -22,10 +22,6 @@ angular.module('karamuseDjApp')
 			code: null
 		};
 
-		this.removeStorageItem = function(item) {
-			Utils.removeStorageItem(item);
-		};
-
 		this.gotoState = function(state) {
 			Utils.gotoState(state);
 		};

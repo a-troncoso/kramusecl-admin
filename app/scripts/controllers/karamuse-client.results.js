@@ -139,6 +139,8 @@ angular.module('karamuseClientApp')
 					self.elements.content.empty.keyword = keyword;
 					self.elements.content.empty.show = true;
 					self.elements.content.fill.show = false;
+				} else if (success.status === 401) {
+					window.location.replace("http://www.karamuse.cl/");
 				}
 			}, function(error) {
 				$rootScope.clientGlobalLoader.show = false;

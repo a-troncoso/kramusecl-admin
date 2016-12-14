@@ -125,7 +125,12 @@ angular.module('karamuseClientApp')
 								}
 							}
 						}
-						Utils.setInStorage('ticket', ticket);
+
+						Utils.setInStorage('ticket', {
+							orders: [],
+							code: ticket.code
+						});
+
 						$mdDialog.hide();
 						self.openDialogOrderResults();
 					} else if (success.status === 403) {
@@ -153,7 +158,9 @@ angular.module('karamuseClientApp')
 								paragraph1: message
 							}
 						});
-					} else {
+					} else if (success.status === 401) {
+						window.location.replace("http://www.karamuse.cl/");
+					} else {						
 						$log.error(success);
 					}
 				}, function(error) {
