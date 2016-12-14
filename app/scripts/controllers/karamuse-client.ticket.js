@@ -72,7 +72,7 @@ angular.module('karamuseClientApp')
 					controllerAs: 'orderResults',
 					templateUrl: 'karamuse-client.order-results.tmpl.html',
 					parent: angular.element(document.querySelector('#dialogContainer')),
-					clickOutsideToClose: true,
+					clickOutsideToClose: false,
 					fullscreen: false, // Only for -xs, -sm breakpoints.
 				})
 				.then(function() {}, function() {});
