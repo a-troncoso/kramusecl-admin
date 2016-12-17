@@ -80,13 +80,12 @@
 		
 		<md-toolbar md-scroll-shrink>
 			<div class="md-toolbar-tools">
-				<!-- <md-button aria-label="Ver resultados" ng-click="karaokeDetails.closeDialog();" style="min-width:auto;"> <md-icon md-font-icon="icon-arrow-left" style="font-size: 14px;" /></md-button> -->
 				<md-button class="md-icon-button" aria-label="Cerrar">
 					<md-icon md-font-icon="material-icons" ng-click="karaokeDetails.closeDialog();">close</md-icon>
 				</md-button>
 				<!-- <h2><span>Vista previa</span></h2> -->
 				<span flex></span>
-				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">Pedir <!-- <md-icon md-font-icon="icon-arrow-right" style="font-size: 14px;line-height: 1;" /> -->
+				<md-button aria-label="Ver resultados" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show" style="min-width:auto;">Pedir
 					<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
 				</md-button>
 			</div>
@@ -97,9 +96,6 @@
 				<div layout="column" layout-align="center center">
 					<youtube-video video-url="karaokeDetails.elements.karaoke.url"></youtube-video>
 				</div>
-				<!-- <md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-					<md-button class="md-primary md-raised text-md" ng-click="karaokeDetails.elements.buttons.add.disabled=true;karaokeDetails.openDialogNameOrMessage(karaokeDetails.elements.karaoke);" ng-disabled="karaokeDetails.elements.buttons.add.disabled" ng-show="karaokeDetails.elements.buttons.add.show">Siguiente</md-button>
-				</md-dialog-actions> -->
 			</div>
 		</md-dialog-content>
 	</md-dialog>
@@ -113,8 +109,11 @@
 			<md-button class="md-icon-button" aria-label="Cerrar">
 				<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">close</md-icon>
 			</md-button>
-				<h2><span>Paso 1</span></h2>
+				<!-- <h2><span>Paso 1</span></h2> -->
 				<span flex></span>
+				<md-button class="md-primary md-hue-1" aria-label="Siguiente" ng-click="nameOrMessage.elements.form.buttons.next.disabled=true;nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);">
+					Siguiente<md-icon md-font-icon="material-icons">arrow_forward</md-icon>
+				</md-button>
 			</div>
 		</md-toolbar>
 
@@ -136,10 +135,9 @@
 						<div class="hint md-body-1 text-gray" aria-hidden="false" md-colors="{color:'accent'}">Obtén tu código en el local</div>
 					</md-input-container>
 
-					<md-dialog-actions layout="column" layout-align="center" flex layout-padding>
-						<!-- <md-button ng-click="nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessage.elements.form.buttons.skip.disabled">Saltar</md-button> -->
+					<!-- <md-dialog-actions layout="column" layout-align="center" flex layout-padding>			
 						<md-button class="md-raised md-primary text-md" ng-click="nameOrMessage.elements.form.buttons.next.disabled=true;nameOrMessage.addNameOrMessage(nameOrMessage.elements.form.nameOrMessage.text);" ng-disabled="nameOrMessageForm.$invalid || nameOrMessage.elements.form.buttons.next.disabled">Siguiente</md-button>
-					</md-dialog-actions>
+					</md-dialog-actions> -->
 				</form>
 			</div>
 		</md-dialog-content>
@@ -155,7 +153,7 @@
 				<md-button class="md-icon-button" aria-label="Cerrar">
 					<md-icon md-font-icon="material-icons" ng-click="ticket.closeDialog();">close</md-icon>
 				</md-button>
-				<h2><span>Paso 2</span></h2>
+				<!-- <h2><span>Paso 2</span></h2> -->
 				<span flex></span>
 				<md-button class="md-primary md-hue-1" aria-label="Agregar otra" ng-click="ticket.closeDialog();">Agregar <md-icon md-font-icon="material-icons">exposure_plus_1</md-icon>
 				</md-button>
@@ -270,11 +268,8 @@
 					<md-divider md-inset ng-if="!$last"></md-divider>
 				</md-list-item>
 				<div ng-if="orderResults.orders.notSent==0" layout="column" layout-align="center center">
-					<md-button class="md-icon-button md-raised md-primary" aria-label="Cerrar">
-						<!-- <md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">cloud_done</md-icon> -->
-						<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();">thumb_up</md-icon>
-					</md-button>
-					<p style="margin-top: 25px" md-colors="{color:'blue'}">¡Gracias! el DJ ha recibido tu pedido.</p>
+					<md-icon md-font-icon="material-icons" ng-click="nameOrMessage.closeDialog();" md-colors="{color:'grey'}" style="font-size: 48px">thumb_up</md-icon>
+					<p style="margin-top: 25px" md-colors="{color:'grey'}">¡Gracias! el DJ ha recibido tu pedido.</p>
 				</div>
 			</div>
 		</md-dialog-content>
