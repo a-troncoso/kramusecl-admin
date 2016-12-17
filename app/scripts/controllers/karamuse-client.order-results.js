@@ -26,13 +26,19 @@ angular.module('karamuseDjApp')
 			Utils.gotoState(state);
 		};
 
-		this.closeDialog = function() {
+		this.closeDialog = function(code) {
+			var code = Utils.getInStorage('ticket').code;
+			Utils.setInStorage('ticket', {
+				orders: [],
+				code: code
+			});
 			$mdDialog.cancel();
 		};
 
 		this.calculateOrdersSent = function() {
 			var ordersSent = 0,
 				ordersNotSent = 0;
+				console.log('ticket.orders: ' + JSON.stringify(self.ticket.orders));
 			for (var i = 0; i < self.ticket.orders.length; i++) {
 				if (self.ticket.orders[i].result.added) {
 					ordersSent++;

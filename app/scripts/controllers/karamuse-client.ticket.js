@@ -107,6 +107,7 @@ angular.module('karamuseClientApp')
 					order: order
 				}, function(success) {
 					// $log.log(success);
+					var tempOrderAttribute = [];
 					$rootScope.clientGlobalLoader.show = false;
 					if (success.status === 200) {
 						for (i = 0; i < success.data.length; i++) {
@@ -116,23 +117,25 @@ angular.module('karamuseClientApp')
 									if (success.data[i].add_order) {
 										ticket.orders[j].result.added = true;
 										ticket.orders[j].result.color = 'primary-hue-3';
-										ticket.orders[j].result.message = 'Enviado correctamente';
+										ticket.orders[j].result.message = 'Enviado correctamente';										
 									} else {
 										ticket.orders[j].result.added = false;
 										ticket.orders[j].result.color = 'warn';
 										ticket.orders[j].result.message = 'Otro usuario ya lo había pedido';
 									}
+
+									tempOrderAttribute.push(ticket.orders[j]);
 								}
 							}
 						}
 
-						Utils.setInStorage('ticket', {
-							orders: [],
-							code: ticket.code
-						});
-
 						$mdDialog.hide();
 						self.openDialogOrderResults();
+
+						Utils.setInStorage('ticket', {
+							orders: tempOrderAttribute,
+							code: ticket.code
+						});
 					} else if (success.status === 403) {
 						$log.error('codigo inválido');
 						openDialogCode({
