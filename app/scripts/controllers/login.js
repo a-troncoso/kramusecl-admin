@@ -39,8 +39,8 @@ angular.module('karamuseDjApp')
 
 		this.user = {
 			data: {
-				email: 'nicolascanto1@gmail.com',
-				password: '123',
+				email: '',
+				password: '',
 				origin: deviceDetector.os + '/' + deviceDetector.browser + '/' + deviceDetector.browser_version
 			}
 		};
