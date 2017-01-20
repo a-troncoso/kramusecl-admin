@@ -49,7 +49,7 @@
   </div>
   <div class="modal-body text-center" id="modal-body">
     <p class="text-lg">Tienes una sesión abierta</p>
-    <p class="text-md">Del día {{activeSession.modal.session.data.createdAt | date:"MM/dd/yyyy ' a las ' HH:mm a"}}</p>
+    <p class="text-md">Del día {{activeSession.modal.session.data.createdAt.date}} a las {{activeSession.modal.session.data.createdAt.time}}</p>
     <p class="text-md text-blue-karamuse">¿Quieres seguir en esta o crear una nueva?</p>
   </div>
   <div class="modal-footer" style="text-align:center">

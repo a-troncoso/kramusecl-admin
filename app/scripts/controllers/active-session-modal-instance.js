@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, VerifyCodes, Utils) {
+	.controller('ActiveSessionModalInstanceCtrl', function($rootScope, $log, $q, $uibModalInstance, $uibModal, $state, $auth, success, deviceDetector, Session, VerifyCodes, Utils, moment) {
 
 		var self = this,
 			deferred = null;
@@ -16,7 +16,10 @@ angular.module('karamuseDjApp')
 		this.modal = {
 			session: {
 				data: {
-					createdAt: new Date(success.data.data.session.created_at)
+					createdAt: {
+						date: moment.utc(success.data.data.session.created_at, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY'),
+						time: moment.utc(success.data.data.session.created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+					}
 				}
 			},
 			buttons: {
