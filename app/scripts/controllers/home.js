@@ -8,7 +8,7 @@
  * Controller of the karamuseDjApp
  */
 angular.module('karamuseDjApp')
-	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $timeout, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, CodesDj, VerifyCodes, Catalog, Session) {
+	.controller('HomeCtrl', function($rootScope, $q, $auth, $state, $timeout, $log, $uibModal, Utils, Orders, OrdersLimit, Settings, CodesDj, VerifyCodes, Catalog, Session, moment) {
 		var self = this,
 			i = 0,
 			deferred = null;
@@ -158,7 +158,7 @@ angular.module('karamuseDjApp')
 							ticket: success.data[i].ticket,
 							artist: success.data[i].artist,
 							song: success.data[i].song,
-							createdAt: new Date(success.data[i].created_at),
+							createdAt: moment.utc(success.data[i].created_at, 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
 							state: success.data[i].state,
 							origin: success.data[i].origin,
 							codeClient: success.data[i].code_client,

@@ -25,6 +25,7 @@ angular
     'ui.footable',
     'picardy.fontawesome',
     'ngclipboard',
+    'angularMoment'
   ]);
 
 angular
