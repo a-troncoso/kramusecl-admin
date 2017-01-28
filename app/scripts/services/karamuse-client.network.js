@@ -7,7 +7,13 @@ angular
 
 	return $resource(API_URL_BASE + '/client/bars', {}, {
 		query: {
-			method: 'GET'
+			method: 'GET',
+			isArray: true,
+			headers: {
+				'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+				Accept:'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+			},
+			cache: false
 		}
 	});
 })
@@ -16,8 +22,12 @@ angular
 
 	return $resource(API_URL_BASE + '/client/access_token', {}, {
 		save: {
-			method: 'POST'
-		}
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
+		},
+
 	});
 })
 
@@ -32,10 +42,14 @@ angular
 				sizePage: '@sizePage',
 				numPage: '@numPage',
 				token: '@token'
-			}
+			},
+			isArray: true
 		},
 		save: {
-			method: 'POST'
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
 		}
 	});
 })
@@ -49,13 +63,20 @@ angular
 			method: 'GET',
 			params: {
 				token: '@token'
-			}
+			},
+			isArray: true
 		},
 		update: {
-			method: 'PUT'
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
 		},
 		save: {
-			method: 'POST'
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
 		}
 	});
 })

@@ -18,61 +18,19 @@ angular.module('karamuseClientApp')
 
 		this.openBanner = function() {
 			$mdDialog.show({
-				controller: 'BannerCtrl',
-				controllerAs: 'banner',
-				templateUrl: 'karamuse-client.banner.tmpl.html',
-				parent: angular.element(document.querySelector('#dialogContainer')),
-				clickOutsideToClose: true,
-				fullscreen: false, // Only for -xs, -sm breakpoints.
-				locals: {}
-			})
-			.then(function() {}, function() {});
-		}	
+					controller: 'BannerCtrl',
+					controllerAs: 'banner',
+					templateUrl: 'karamuse-client.banner.tmpl.html',
+					parent: angular.element(document.querySelector('#dialogContainer')),
+					clickOutsideToClose: true,
+					fullscreen: false, // Only for -xs, -sm breakpoints.
+					locals: {}
+				})
+				.then(function() {}, function() {});
+		}
 
 		this.bars = {
-			list: [
-				// {
-				// 	id: 1,
-				// 	name: 'Bar 1',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo 686'
-				// }, {
-				// 	id: 2,
-				// 	name: 'Bar 2',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo 696'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }, {
-				// 	id: 3,
-				// 	name: 'Bar 3',
-				// 	avatar: "http://2.bp.blogspot.com/_SFvBL--Odio/SrRKLPSf33I/AAAAAAAABJA/eFX0tTM2H5Q/s400/simones201.jpg",
-				// 	address: 'San Camilo con 10 de julio'
-				// }
-			]
+			list: []
 		};
 
 		this.getBars = function() {
@@ -105,11 +63,11 @@ angular.module('karamuseClientApp')
 				});
 
 				$log.log(Utils.getInStorage('ticket'));
-				
+
 				if (Utils.getInStorage('bar').settings.banner_ad !== '' || Utils.getInStorage('bar').settings.banner_ad) {
-					self.openBanner();	
+					self.openBanner();
 				}
-				
+
 				Utils.gotoState('client.results');
 			}, function(error) {
 				$log.error(error);
