@@ -35,19 +35,33 @@ angular.module('karamuseClientApp')
 
 		this.getBars = function() {
 			$rootScope.clientGlobalLoader.show = true;
-			Bars.query({}, function(success) {
-				// $log.log(success);
-				if (success.status === 200) {
-					self.bars.list = success.data;
-					for (i = 0; i < self.bars.list.length; i++) {
-						self.bars.list[i].disabled = false;
-					}
-					$rootScope.clientGlobalLoader.show = false;
-				}
-			}, function(error) {
-				$log.error(error);
-				$rootScope.clientGlobalLoader.show = false;
-			});
+
+			try {
+				Bars.getBars()
+					.then(function(bars) {
+						$rootScope.clientGlobalLoader.show = false;
+						$log.info(bars);
+					})
+					.catch(function(error) {
+						throw error;
+					})
+
+			} catch (error) {
+				console.log(error);
+			}
+			// Bars.query({}, function(success) {
+			// 	// $log.log(success);
+			// 	if (success.status === 200) {
+			// 		self.bars.list = success.data;
+			// 		for (i = 0; i < self.bars.list.length; i++) {
+			// 			self.bars.list[i].disabled = false;
+			// 		}
+			// 		$rootScope.clientGlobalLoader.show = false;
+			// 	}
+			// }, function(error) {
+			// 	$log.error(error);
+			// 	$rootScope.clientGlobalLoader.show = false;
+			// });
 		};
 
 		this.gotoSearchKaraoke = function(item) {

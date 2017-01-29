@@ -3,19 +3,31 @@
 angular
 	.module('karamuseClientApp')
 
-.factory('Bars', function($resource, API_URL_BASE) {
+.service('Bars', function($resource, API_URL_BASE, $q, $http) {
 
-	return $resource(API_URL_BASE + '/client/bars', {}, {
-		query: {
-			method: 'GET',
-			isArray: true,
-			headers: {
-				'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-				Accept:'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-			},
-			cache: false
-		}
-	});
+	this.getBars = _getBars;
+
+	function _getBars() {
+
+		var deferred = $q.defer();
+
+		$http({
+				method: 'get',
+				url: API_URL_BASE + '/client/bars',
+				headers: {
+					'Content-Type': "application/json"
+				}
+			})
+			.then(function(success) {
+				deferred.resolve(success);
+			})
+			.catch(function(error) {
+				deferred.reject(error);
+			});
+
+		return deferred.promise
+
+	};
 })
 
 .factory('Token', function($resource, API_URL_BASE) {
